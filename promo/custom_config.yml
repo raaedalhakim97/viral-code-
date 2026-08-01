@@ -1,0 +1,9 @@
+camera:
+  resolution: (1440, 2560)
+  background_color: "#000000"
+  fps: 60
+file_writer:
+  video_codec: "libx264"
+  pixel_format: "yuv420p"
+text:
+  font: "DejaVu Sans"

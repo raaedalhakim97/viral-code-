@@ -1,0 +1,4 @@
+# manimgl render output — regenerate with `manimgl share_promo.py SharePromo -w`
+videos/
+images/
+__pycache__/
