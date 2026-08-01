@@ -96,6 +96,17 @@ every scene and swallowed every gold text accent.
 hard-errors on anything it does not recognise, so `--bpm` and `--safe` are
 environment variables: `BPM=150 SAFE=1 manimgl ...`.
 
+**Never pass a raw `n * B` as `run_time` in a beat-locked scene.** Manim builds
+its frame list with `arange(0, run_time, 1/fps)`, and `1.5 * (60/150)` evaluates
+to `0.6000000000000001` — that trailing bit buys an extra step, 37 frames where
+the beat wants 36. Snap it: `round(beats * B * FPS) / FPS`. `beat_dance` escapes
+this only because 120 BPM gives an exactly-representable `B = 0.5`.
+
+**`ShowCreation(make_thing())` leaves an orphan in the scene.** `play()` adds
+that freshly-built object and nothing removes it, so it outlives every teardown
+that only clears the `always_redraw` version. Draw the static one, `self.remove`
+it, then `self.add` the live one.
+
 ---
 
 ## 5. Voice
