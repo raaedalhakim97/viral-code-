@@ -164,8 +164,11 @@ Listed so they are not mistaken for settled:
 - **Follower and engagement figures are unverified.** They come from an uploaded
   report, not from the TikTok API. The "engagement rate" row in that report is
   mislabelled — it is likes-per-follower, not engagement rate.
-- **The live handle is unconfirmed.** `@observer.collapse` is baked into three
-  renders; `@observercollaps` was also given. These disagree.
+- ~~The live handle is unconfirmed.~~ **Resolved: `@observercollaps`.** The
+  uploaded report said `@observer.collapse`; the account owner says
+  `@observercollaps`. All three scenes were corrected and re-rendered. Treat
+  figures and details in that report with matching suspicion — it already had
+  one mislabelled metric and now one wrong handle.
 - **Repo split is unresolved.** Scenes and pipeline are in `viral-code-`;
   `cineengine` and the score are in OIS. Until this is settled, no piece can
   have music.

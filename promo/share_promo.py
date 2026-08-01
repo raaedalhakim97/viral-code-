@@ -8,7 +8,7 @@ import numpy as np
 #
 # Two asks, in order:
 #   SHARE   "You understood this. Someone you know should too."  (over the glass)
-#   FOLLOW  "Follow for more AI math" + @observer.collapse       (last ~2s)
+#   FOLLOW  "Follow for more AI math" + @observercollaps       (last ~2s)
 # The follow ask is the one that matters right now - the page converts views
 # into likes far better than it converts them into followers, so the ending
 # has to ask for the follow, not just sign off on the brand mark.
@@ -37,6 +37,19 @@ import numpy as np
 #   - Circle() hardcodes stroke_color=RED, so it needs stroke_color=, not color=
 #   - Dot() hardcodes fill_color=WHITE, so it needs fill_color=, not color=
 # Passing color= to either silently renders the default instead.
+
+# ---------------------------------------------------------------------------
+# TikTok safe zone. The UI is not decoration - it covers the frame:
+# bottom ~22% is caption/handle/music ticker, top ~12% is the search bar.
+# This scene originally put its captions at y=-3.0 and the CTA at y=-2.9, both
+# UNDER the caption block - legible in the render, invisible on the phone. The
+# same band is also where the grade's vignette falls off hardest, so the text
+# was being dimmed as well as covered.
+# ---------------------------------------------------------------------------
+FRAME_H  = 9.0
+SAFE_TOP = FRAME_H / 2 - 0.12 * FRAME_H      #  +3.42
+SAFE_BOT = -FRAME_H / 2 + 0.22 * FRAME_H     #  -2.52
+LINE_Y   = -1.95                             # caption line, comfortably inside
 
 # glass geometry (world units)
 TOP_HW = 1.15
@@ -125,7 +138,7 @@ class SharePromo(Scene):
         cap_g = VGroup(cap, cap2).arrange(DOWN, buff=0.14)
         if cap_g.get_width() > 4.4:
             cap_g.set_width(4.4)
-        cap_g.move_to(np.array([0, -3.0, 0])).fix_in_frame()
+        cap_g.move_to(np.array([0, LINE_Y, 0])).fix_in_frame()
 
         # ============================================================
         # BUILD: glass draws, water added, caption in
@@ -228,13 +241,13 @@ class SharePromo(Scene):
         )
 
         eye = observer_eye(white)
-        eye.move_to(np.array([0, 0.7, 0])).scale(0.9)
+        eye.move_to(np.array([0, 1.3, 0])).scale(0.8)
         self.play(ShowCreation(eye), run_time=1.8)
         words_end = VGroup(
             Text("PAUSE", color=white, font_size=22, weight=BOLD),
             Text("OBSERVE", color=white, font_size=22, weight=BOLD),
             Text("LEARN", color=white, font_size=22, weight=BOLD),
-        ).arrange(RIGHT, buff=0.5).move_to(np.array([0, -1.6, 0]))
+        ).arrange(RIGHT, buff=0.45).move_to(np.array([0, -0.6, 0]))
         for w in words_end:
             self.play(FadeIn(w, shift=0.1 * UP), run_time=0.55)
         self.wait(0.5)
@@ -247,11 +260,11 @@ class SharePromo(Scene):
         # ------------------------------------------------------------
         cta = Text("Follow for more AI math",
                    color=white, font_size=30, weight=BOLD)
-        handle = Text("@observer.collapse", color=grey, font_size=24)
+        handle = Text("@observercollaps", color=grey, font_size=24)
         cta_g = VGroup(cta, handle).arrange(DOWN, buff=0.22)
         if cta_g.get_width() > 4.4:
             cta_g.set_width(4.4)
-        cta_g.move_to(np.array([0, -2.9, 0]))
+        cta_g.move_to(np.array([0, LINE_Y, 0]))
 
         self.play(FadeIn(cta_g, shift=0.12 * UP), run_time=0.6)
         self.wait(1.4)

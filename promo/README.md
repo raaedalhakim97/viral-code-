@@ -14,7 +14,7 @@ The video makes two asks, in this order:
 | When | Ask | Copy |
 | --- | --- | --- |
 | Over the glass | Share | "You understood this. Someone you know should too." |
-| Final ~2s | Follow | "Follow for more AI math" + `@observer.collapse` |
+| Final ~2s | Follow | "Follow for more AI math" + `@observercollaps` |
 
 The follow ask is the one carrying weight right now. The page converts views
 into likes far better than into follows, so reach is not the bottleneck —
