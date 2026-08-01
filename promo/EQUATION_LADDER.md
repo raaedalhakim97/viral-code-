@@ -32,31 +32,40 @@ ffmpeg -i videos/EquationLadder.mp4 -i click.wav -c:v copy -shortest check.mp4
 
 ---
 
-## Picking the sound
+## The sound: MONTAGEM ALQUIMIA
 
-From the reference sound list, the montagem options were:
+Chosen and locked. The render stays silent and the track is attached in the
+TikTok editor — audio baked into an upload cannot be attributed to the sound's
+page, and that page is where a trending sound's reach comes from.
 
-| Sound | Posts | Length |
-| --- | --- | --- |
-| YOSHO HAI MONTAGEM | 327.9K | 1:00 |
-| MONTAGEM PEGADORA | 194.3K | 3:25 |
-| MONTAGEM ALQUIMIA | 334 | 0:18 |
+**It is 0:18 long.** This piece is 16.0s at 150 BPM, so it fits with ~2s spare.
+Do not lengthen the scene past 18s or the audio runs out mid-video, which reads
+worse than a short video. If the piece ever needs to grow, raise the BPM rather
+than adding beats.
 
-**Post count is not the same as opportunity.** A sound with 327K posts is
-saturated — its sound page is a firehose and a 101-follower account lands
-nowhere near the top of it. A sound with a few hundred posts is either rising,
-which is the best possible position, or dead. The way to tell them apart is to
-check the count again a day later: climbing fast means rising.
+### Confirming the tempo
 
-The reach research is consistent on this — trending sounds peak in 5–14 days,
-and posting inside the first 24 hours of a rise is worth roughly 3× posting
-after peak. Big numbers mean you already missed it.
+150 BPM is the genre default, not a measurement of this specific track — and if
+ALQUIMIA is a slowed edit it will be lower. `bpm_probe.wav` plays 8 seconds of
+click at 130, 140, 150 and 160 in sequence; play it against the sound and use
+whichever locks. Then:
 
-**Length constrains the edit.** At 16.0s this piece fits every sound above,
-including the 18s one. Do not lengthen it past the shortest sound you might
-want to use — audio running out mid-video is worse than a short video.
+```bash
+BPM=<measured> manimgl equation_ladder.py EquationLadder -w
+```
 
----
+Everything in the scene is a whole or half multiple of `B = 60/BPM`, so the
+piece rescales and stays locked. Length at each candidate:
+
+| BPM | Length |
+| --- | --- |
+| 130 | 18.5s — **too long for an 18s sound** |
+| 140 | 17.1s |
+| 150 | 16.0s |
+| 160 | 15.0s |
+
+At 130 the piece overruns the track. If the measurement comes back at 130, drop
+a rung from `LADDER` (4 beats) to bring it to 16.6s.
 
 ## The ladder
 
