@@ -76,8 +76,25 @@ The UI covers the frame. Anything that must be *read* lives inside these bounds:
 | Right ~15% | like / comment / share rail | keep text centred |
 
 The first promo put captions at y = -2.9 — under the caption block *and* in the
-vignette falloff. Legible in the render, gone on the phone. `--safe` draws the
+vignette falloff. Legible in the render, gone on the phone. `SAFE=1` draws the
 guides; use it.
+
+### manimgl traps that fail silently
+
+The render succeeds and comes out wrong. All three cost a re-render to find:
+
+| Pattern | What happens | Use |
+| --- | --- | --- |
+| `Text(color=X)` | `StringMobject` hardcodes `fill_color=WHITE`; `color=` and `base_color=` are both ignored | `Text(fill_color=X)` |
+| `Circle(color=X)` | hardcodes `stroke_color=RED` | `Circle(stroke_color=X)` |
+| `Dot(color=X)` | hardcodes `fill_color=WHITE` | `Dot(fill_color=X)` |
+
+The `Text` one had collapsed the whole white/grey hierarchy to flat white across
+every scene and swallowed every gold text accent.
+
+**Custom CLI flags do not work at all.** `manimgl` parses `sys.argv` itself and
+hard-errors on anything it does not recognise, so `--bpm` and `--safe` are
+environment variables: `BPM=150 SAFE=1 manimgl ...`.
 
 ---
 

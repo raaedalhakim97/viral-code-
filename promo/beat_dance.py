@@ -36,6 +36,8 @@ if "--click" in sys.argv:
     print(f"{_out}  {_bpm:g} bpm  {_dur:g}s")
     sys.exit(0)
 
+import os
+
 from manimlib import *
 import numpy as np
 
@@ -54,16 +56,18 @@ import numpy as np
 # multiple of B = 60/BPM. Nothing is allowed to be 0.37s "because it looked
 # right" - one off-grid animation and the whole piece drifts against the track.
 #
-# Set BPM to the track's tempo before rendering:
-#   manimgl beat_dance.py BeatDance -w --bpm 128
-#   xvfb-run -a -s "-screen 0 1600x1200x24" manimgl beat_dance.py BeatDance -w
+# Set BPM to the track's tempo before rendering. It is an ENVIRONMENT VARIABLE,
+# not a flag - manimgl parses sys.argv itself and hard-errors on any argument it
+# does not recognise, so a scene file cannot add one:
+#   BPM=128 manimgl beat_dance.py BeatDance -w
+#   BPM=128 xvfb-run -a -s "-screen 0 1600x1200x24" manimgl beat_dance.py BeatDance -w
 #
 # Check the sync before you trust it - this writes a click at the same BPM:
 #   python3 beat_dance.py --click 128 click.wav
 #   ffmpeg -i videos/BeatDance.mp4 -i click.wav -c:v copy -shortest check.mp4
 # If the line's kick drifts off the click, the tempo is wrong, not the scene.
 
-BPM = 120.0          # overridden by --bpm
+BPM = float(os.environ.get("BPM", 120.0))
 
 # Beat budget - 64 beats = 16 bars, so the piece ends ON a bar line and loops
 # clean. Change a section length and you must rebalance another to keep the
@@ -83,20 +87,12 @@ SAFE_BOT = -FRAME_H / 2 + 0.22 * FRAME_H
 LINE_Y   = -2.0
 
 
-def _argval(flag, cast, default):
-    if flag in sys.argv:
-        i = sys.argv.index(flag)
-        if i + 1 < len(sys.argv):
-            return cast(sys.argv[i + 1])
-    return default
-
-
 class BeatDance(Scene):
     def construct(self):
         self.camera.background_rgba = list(color_to_rgba(BLACK, 1.0))
         self.camera.frame.set_height(FRAME_H)
 
-        self.bpm = _argval("--bpm", float, BPM)
+        self.bpm = BPM
         self.B = 60.0 / self.bpm
 
         # One clock for the whole piece. The kick, the spin and the breathing
@@ -203,7 +199,7 @@ class BeatDance(Scene):
                   rate_func=rush_from)
         self.wait(B * 1.5)
 
-        tag = Text("sin(at) , sin(bt)", color=GREY, font_size=22)
+        tag = Text("sin(at) , sin(bt)", fill_color=GREY, font_size=22)
         tag.move_to(np.array([0, 2.6, 0]))
         self.play(FadeIn(tag), run_time=B / 2)
         self.tag = tag
@@ -218,7 +214,7 @@ class BeatDance(Scene):
                   (4, 5), (5, 6), (3, 5), (5, 3), (2, 5), (1, 1)]
         label = None
         for (p, q) in ratios:
-            new = Text(f"{p} : {q}", color=GREY, font_size=26, weight=BOLD)
+            new = Text(f"{p} : {q}", fill_color=GREY, font_size=26, weight=BOLD)
             new.move_to(np.array([0, 2.6, 0]))
             anims = [self.a.animate.set_value(p), self.b.animate.set_value(q)]
             if label is None:
@@ -235,21 +231,21 @@ class BeatDance(Scene):
     # ------------------------------------------------------------------
     def section_build(self):
         B = self.B
-        head = Text("one harmonic per beat", color=GREY, font_size=23)
+        head = Text("one harmonic per beat", fill_color=GREY, font_size=23)
         head.move_to(np.array([0, 2.6, 0]))
         self.play(FadeOut(self.label), FadeIn(head),
                   self.mode.animate.set_value(1.0), run_time=2 * B,
                   rate_func=smooth)
 
         for h in (3, 5, 7, 9, 11, 15, 21, 31):
-            n = Text(f"{h} harmonics", color=WHITE_, font_size=25, weight=BOLD)
+            n = Text(f"{h} harmonics", fill_color=WHITE_, font_size=25, weight=BOLD)
             n.move_to(np.array([0, LINE_Y, 0]))
             self.play(self.harm.animate.set_value(h),
                       FadeIn(n, shift=0.08 * UP),
                       run_time=B, rate_func=rush_from)
             self.play(FadeOut(n), run_time=B / 2)
 
-        sq = Text("a square wave", color=GOLD, font_size=30, weight=BOLD)
+        sq = Text("a square wave", fill_color=GOLD, font_size=30, weight=BOLD)
         sq.move_to(np.array([0, LINE_Y, 0]))
         self.play(FadeIn(sq), run_time=B)
         self.play(FadeOut(head), FadeOut(sq), run_time=B)
@@ -269,16 +265,16 @@ class BeatDance(Scene):
         self.play(ShowCreation(eye), run_time=3 * B)
 
         words = VGroup(
-            Text("PAUSE", color=WHITE_, font_size=21, weight=BOLD),
-            Text("OBSERVE", color=WHITE_, font_size=21, weight=BOLD),
-            Text("LEARN", color=WHITE_, font_size=21, weight=BOLD),
+            Text("PAUSE", fill_color=WHITE_, font_size=21, weight=BOLD),
+            Text("OBSERVE", fill_color=WHITE_, font_size=21, weight=BOLD),
+            Text("LEARN", fill_color=WHITE_, font_size=21, weight=BOLD),
         ).arrange(RIGHT, buff=0.45).move_to(np.array([0, -0.6, 0]))
         for w in words:
             self.play(FadeIn(w, shift=0.08 * UP), run_time=B)
 
         cta = Text("Follow for the math behind AI",
-                   color=WHITE_, font_size=28, weight=BOLD)
-        handle = Text("@observer.collapse", color=GREY, font_size=22)
+                   fill_color=WHITE_, font_size=28, weight=BOLD)
+        handle = Text("@observer.collapse", fill_color=GREY, font_size=22)
         cg = VGroup(cta, handle).arrange(DOWN, buff=0.2)
         if cg.get_width() > 4.3:
             cg.set_width(4.3)

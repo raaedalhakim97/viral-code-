@@ -133,8 +133,8 @@ class SharePromo(Scene):
         brim.stretch_to_fit_height(0.30).move_to(np.array([0, BRIM_Y, 0]))
 
         # caption
-        cap = Text("You understood this.", color=white, font_size=25, weight=BOLD)
-        cap2 = Text("Someone you know should too.", color=white, font_size=25, weight=BOLD)
+        cap = Text("You understood this.", fill_color=white, font_size=25, weight=BOLD)
+        cap2 = Text("Someone you know should too.", fill_color=white, font_size=25, weight=BOLD)
         cap_g = VGroup(cap, cap2).arrange(DOWN, buff=0.14)
         if cap_g.get_width() > 4.4:
             cap_g.set_width(4.4)
@@ -244,9 +244,9 @@ class SharePromo(Scene):
         eye.move_to(np.array([0, 1.3, 0])).scale(0.8)
         self.play(ShowCreation(eye), run_time=1.8)
         words_end = VGroup(
-            Text("PAUSE", color=white, font_size=22, weight=BOLD),
-            Text("OBSERVE", color=white, font_size=22, weight=BOLD),
-            Text("LEARN", color=white, font_size=22, weight=BOLD),
+            Text("PAUSE", fill_color=white, font_size=22, weight=BOLD),
+            Text("OBSERVE", fill_color=white, font_size=22, weight=BOLD),
+            Text("LEARN", fill_color=white, font_size=22, weight=BOLD),
         ).arrange(RIGHT, buff=0.45).move_to(np.array([0, -0.6, 0]))
         for w in words_end:
             self.play(FadeIn(w, shift=0.1 * UP), run_time=0.55)
@@ -259,8 +259,8 @@ class SharePromo(Scene):
         # the piece and that rule is what makes the accent land.
         # ------------------------------------------------------------
         cta = Text("Follow for more AI math",
-                   color=white, font_size=30, weight=BOLD)
-        handle = Text("@observer.collapse", color=grey, font_size=24)
+                   fill_color=white, font_size=30, weight=BOLD)
+        handle = Text("@observer.collapse", fill_color=grey, font_size=24)
         cta_g = VGroup(cta, handle).arrange(DOWN, buff=0.22)
         if cta_g.get_width() > 4.4:
             cta_g.set_width(4.4)

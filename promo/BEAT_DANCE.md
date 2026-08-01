@@ -32,8 +32,12 @@ So: render silent, pick the sound the day you post, set the BPM to match.
 Find the track's BPM (any BPM-detection tool, or tap it out), then:
 
 ```bash
-manimgl beat_dance.py BeatDance -w --bpm 128
+BPM=128 manimgl beat_dance.py BeatDance -w
 ```
+
+Tempo is an **environment variable, not a flag**. `manimgl` parses `sys.argv`
+itself and hard-errors on any argument it doesn't recognise, so a scene file
+cannot add `--bpm`. An env var sidesteps argv entirely.
 
 Every animation in the scene is a whole or half multiple of `B = 60/BPM`, so
 changing BPM rescales the entire piece and it stays locked. Length follows:
@@ -95,7 +99,7 @@ matter how many harmonics you add — is visible in the render. That is real.
 
 ```bash
 cd promo
-xvfb-run -a -s "-screen 0 1600x1200x24" manimgl beat_dance.py BeatDance -w --bpm 128
+BPM=128 xvfb-run -a -s "-screen 0 1600x1200x24" manimgl beat_dance.py BeatDance -w
 python3 cinegrade.py videos/BeatDance.mp4 beat_dance_graded.mp4
 ```
 

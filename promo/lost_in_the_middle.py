@@ -1,3 +1,5 @@
+import os
+
 from manimlib import *
 import numpy as np
 
@@ -20,7 +22,10 @@ import numpy as np
 # Render (config comes from custom_config.yml in this dir):
 #   xvfb-run -a -s "-screen 0 1600x1200x24" manimgl lost_in_the_middle.py LostInTheMiddle -w
 #   manimgl lost_in_the_middle.py LostInTheMiddle -w -r 360x640     # preview
-#   manimgl lost_in_the_middle.py LostInTheMiddle -w -r 360x640 --safe   # + safe-zone guides
+#   SAFE=1 manimgl lost_in_the_middle.py LostInTheMiddle -w -r 360x640  # + guides
+#
+# SAFE is an environment variable, not a flag: manimgl parses sys.argv itself
+# and hard-errors on arguments it does not recognise.
 #
 # Then grade it:  python3 cinegrade.py videos/LostInTheMiddle.mp4 out.mp4
 #
@@ -58,7 +63,7 @@ def safe_guides():
 
 
 def caption(txt, size=27, color=WHITE_):
-    t = Text(txt, color=color, font_size=size, weight=BOLD)
+    t = Text(txt, fill_color=color, font_size=size, weight=BOLD)
     if t.get_width() > 4.3:
         t.set_width(4.3)
     return t
@@ -69,7 +74,7 @@ class LostInTheMiddle(Scene):
         self.camera.background_rgba = list(color_to_rgba(BLACK, 1.0))
         self.camera.frame.set_height(FRAME_H)
 
-        if "--safe" in sys.argv:
+        if os.environ.get("SAFE"):
             self.add(safe_guides())
 
         self.beat_hook()
@@ -83,7 +88,7 @@ class LostInTheMiddle(Scene):
     # 0-3s   HOOK. Motion inside the first 12 frames or the scroll wins.
     # ------------------------------------------------------------------
     def beat_hook(self):
-        big = Text("1,000,000", color=WHITE_, font_size=76, weight=BOLD)
+        big = Text("1,000,000", fill_color=WHITE_, font_size=76, weight=BOLD)
         big.move_to(np.array([0, 0.9, 0]))
         sub = caption("words your AI says it can read", size=26, color=GREY)
         sub.next_to(big, DOWN, buff=0.42)
@@ -144,8 +149,8 @@ class LostInTheMiddle(Scene):
         ]
         prev = None
         for k, (left, right) in enumerate(rows):
-            a = Text(left, color=GREY, font_size=30, weight=BOLD)
-            b = Text(right, color=WHITE_ if k < 2 else GOLD,
+            a = Text(left, fill_color=GREY, font_size=30, weight=BOLD)
+            b = Text(right, fill_color=WHITE_ if k < 2 else GOLD,
                      font_size=40 if k < 2 else 46, weight=BOLD)
             grp = VGroup(a, b).arrange(DOWN, buff=0.26)
             if grp.get_width() > 4.4:
@@ -332,16 +337,16 @@ class LostInTheMiddle(Scene):
         self.play(ShowCreation(eye), run_time=1.2)
 
         words = VGroup(
-            Text("PAUSE", color=WHITE_, font_size=21, weight=BOLD),
-            Text("OBSERVE", color=WHITE_, font_size=21, weight=BOLD),
-            Text("LEARN", color=WHITE_, font_size=21, weight=BOLD),
+            Text("PAUSE", fill_color=WHITE_, font_size=21, weight=BOLD),
+            Text("OBSERVE", fill_color=WHITE_, font_size=21, weight=BOLD),
+            Text("LEARN", fill_color=WHITE_, font_size=21, weight=BOLD),
         ).arrange(RIGHT, buff=0.45).move_to(np.array([0, -0.55, 0]))
         for w in words:
             self.play(FadeIn(w, shift=0.08 * UP), run_time=0.32)
 
         cta = Text("Follow for the math behind AI",
-                   color=WHITE_, font_size=28, weight=BOLD)
-        handle = Text("@observer.collapse", color=GREY, font_size=22)
+                   fill_color=WHITE_, font_size=28, weight=BOLD)
+        handle = Text("@observer.collapse", fill_color=GREY, font_size=22)
         cg = VGroup(cta, handle).arrange(DOWN, buff=0.2)
         if cg.get_width() > 4.3:
             cg.set_width(4.3)
