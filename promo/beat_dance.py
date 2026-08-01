@@ -278,7 +278,7 @@ class BeatDance(Scene):
 
         cta = Text("Follow for the math behind AI",
                    color=WHITE_, font_size=28, weight=BOLD)
-        handle = Text("@observercollaps", color=GREY, font_size=22)
+        handle = Text("@observer.collapse", color=GREY, font_size=22)
         cg = VGroup(cta, handle).arrange(DOWN, buff=0.2)
         if cg.get_width() > 4.3:
             cg.set_width(4.3)

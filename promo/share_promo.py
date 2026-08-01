@@ -8,7 +8,7 @@ import numpy as np
 #
 # Two asks, in order:
 #   SHARE   "You understood this. Someone you know should too."  (over the glass)
-#   FOLLOW  "Follow for more AI math" + @observercollaps       (last ~2s)
+#   FOLLOW  "Follow for more AI math" + @observer.collapse       (last ~2s)
 # The follow ask is the one that matters right now - the page converts views
 # into likes far better than it converts them into followers, so the ending
 # has to ask for the follow, not just sign off on the brand mark.
@@ -260,7 +260,7 @@ class SharePromo(Scene):
         # ------------------------------------------------------------
         cta = Text("Follow for more AI math",
                    color=white, font_size=30, weight=BOLD)
-        handle = Text("@observercollaps", color=grey, font_size=24)
+        handle = Text("@observer.collapse", color=grey, font_size=24)
         cta_g = VGroup(cta, handle).arrange(DOWN, buff=0.22)
         if cta_g.get_width() > 4.4:
             cta_g.set_width(4.4)

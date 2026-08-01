@@ -157,18 +157,38 @@ Vignette is **0.22**, not the 0.42 the trailers use — that value was tuned on
 
 ---
 
-## 9. Known unknowns
+## 9. Verified account state
 
-Listed so they are not mistaken for settled:
+Confirmed from a profile screenshot, not from the API — but from the account
+itself, so these are real numbers rather than reported ones.
 
-- **Follower and engagement figures are unverified.** They come from an uploaded
-  report, not from the TikTok API. The "engagement rate" row in that report is
-  mislabelled — it is likes-per-follower, not engagement rate.
-- ~~The live handle is unconfirmed.~~ **Resolved: `@observercollaps`.** The
-  uploaded report said `@observer.collapse`; the account owner says
-  `@observercollaps`. All three scenes were corrected and re-rendered. Treat
-  figures and details in that report with matching suspicion — it already had
-  one mislabelled metric and now one wrong handle.
-- **Repo split is unresolved.** Scenes and pipeline are in `viral-code-`;
-  `cineengine` and the score are in OIS. Until this is settled, no piece can
-  have music.
+| | |
+| --- | --- |
+| **Handle** | `@observer.collapse` |
+| Display name | Observer Collapse |
+| Followers | 101 |
+| Likes | 2,645 |
+| Following | 12 |
+| Pinned | 3 of 3 slots used |
+
+**The handle has a dot and the full word.** The logo art reads "OBSERVER
+COLLAPS" without either, which is what caused a wrong correction to be made
+and three renders to be rebuilt for nothing. The logo is not the handle.
+
+**Bio (live):**
+> Exploring the mathematics behind AI. One cinematic animation at a time.
+> Pause. Observe. Learn.
+
+**The uploaded analysis report checks out on the facts.** Its handle was right,
+its follower count was right, and its likes figure (2,640) matches within a
+handful. The one genuine defect stands: the row labelled "Engagement Rate" is
+likes-per-follower, which is not an engagement rate. Trust its numbers; do not
+trust its labels.
+
+### Still open
+
+- **Repo split.** Scenes and pipeline are in `viral-code-`; `cineengine` and the
+  score are in OIS. Until this is settled, no piece can have music.
+- **Pinned slots are full.** All three are used, so anything new that deserves
+  pinning has to displace something. The profile-visit → follow decision happens
+  on those three, which makes them the highest-leverage real estate on the page.
