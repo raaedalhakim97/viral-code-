@@ -12,8 +12,10 @@ character's. So it is processed to sit back in the room: rumble trimmed, a
 watcher's distance of reverb, never a cathedral.
 
     python3 narrate_scene.py videos/LostInTheMiddle.mp4 out.mp4
-    python3 narrate_scene.py videos/LostInTheMiddle.mp4 out.mp4 --stem alan.wav
-    python3 narrate_scene.py --check          # timing report, synthesizes nothing
+    SCRIPT=not_calculating python3 narrate_scene.py graded.mp4 out.mp4 --stem alan.wav
+    SCRIPT=not_calculating python3 narrate_scene.py --check   # timing only
+
+SCRIPT selects a read from SCRIPTS below; it defaults to lost_in_the_middle.
 
 A line that will not fit before the next one starts is spoken slightly faster
 rather than clipped, down to a floor of length_scale 0.80. Below that the tool
@@ -42,27 +44,44 @@ MODEL_URL = ("https://github.com/rhasspy/piper/releases/download/v0.0.2/"
 CACHE = os.path.join(os.path.expanduser("~"), ".cache", "observer-voice")
 
 # ---------------------------------------------------------------------------
-# The read. (start_seconds, text) — timed against LostInTheMiddle, 31.77s.
+# The reads. SCRIPT picks one:  SCRIPT=not_calculating python3 narrate_scene.py ...
 #
-# SPARSE ON PURPOSE. The first draft of this narrated every cut and it does not
-# fit: the escalation rows sit ~1.2s apart and a spoken line needs 2-3s, so
+# SPARSE ON PURPOSE. The first draft of the first one narrated every cut and it
+# does not fit: cuts land ~1.2s apart and a spoken line needs 2-3s, so
 # wall-to-wall VO either clips or forces the animation to crawl. That is the
 # same conclusion OIS narrate.py reached — a few spoken lines carrying the
 # searchable phrasing, not a documentary track. The on-screen text says the
 # numbers; Alan says the meaning; the silence between them is the pacing.
 #
-# Keep the searchable words spoken aloud — "context window", "attention",
-# "RULER", "long context" — those are what the transcriber indexes.
+# Keep the searchable words spoken aloud — the transcriber indexes them.
 # ---------------------------------------------------------------------------
-LINES = [
-    (0.30, "Every model claims it reads a million words of context."),
-    (10.75, "Nobody computes a trillion. So they don't."),
-    (14.35, "A benchmark called RULER tested seventeen long context models."),
-    (18.80, "All seventeen degraded."),
-    (20.60, "And the damage is not spread evenly."),
-    (23.00, "The beginning is remembered. So is the end."),
-    (25.80, "Put what matters at the start, or at the end. Never the middle."),
-]
+SCRIPTS = {
+    "lost_in_the_middle": [
+        (0.30, "Every model claims it reads a million words of context."),
+        (10.75, "Nobody computes a trillion. So they don't."),
+        (14.35, "A benchmark called RULER tested seventeen long context models."),
+        (18.80, "All seventeen degraded."),
+        (20.60, "And the damage is not spread evenly."),
+        (23.00, "The beginning is remembered. So is the end."),
+        (25.80, "Put what matters at the start, or at the end. Never the middle."),
+    ],
+    "not_calculating": [
+        (0.40, "No model gets this wrong."),
+        (2.70, "What it does get wrong is stranger."),
+        (5.20, "Ask GPT-4 for three digit multiplication. "
+               "It is right about fifty nine percent of the time."),
+        (11.20, "Add one digit. Four percent."),
+        (14.00, "Nothing about the arithmetic got harder."),
+        (17.00, "It never sees the number. A tokenizer splits it where language "
+                "is common, not where place value is."),
+        (23.50, "And it cannot carry. You repeat a step until you are done. "
+                "A transformer runs the same fixed stack every time."),
+        (32.60, "So it is not computing the answer. "
+                "It is predicting what an answer looks like."),
+    ],
+}
+
+LINES = SCRIPTS[os.environ.get("SCRIPT", "lost_in_the_middle")]
 
 
 # ---------------------------------------------------------------------------
