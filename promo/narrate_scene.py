@@ -79,6 +79,28 @@ SCRIPTS = {
         (32.60, "So it is not computing the answer. "
                 "It is predicting what an answer looks like."),
     ],
+    "illusion_of_logic": [
+        (0.40, "No model gets this wrong."),
+        (3.20, "But ask it to multiply two four digit numbers, "
+               "and it fails ninety six percent of the time."),
+        (10.60, "Ask GPT-4 for three digit multiplication. "
+                "It is right about fifty nine percent of the time."),
+        (17.00, "Add one digit. Four percent."),
+        (21.50, "You have an algorithm. Carry, shift, carry, shift. "
+                "Bigger number, more steps."),
+        (32.50, "It never sees the number. A tokenizer splits it where "
+                "language is common, not where place value is."),
+        (43.50, "What it learned instead is a neighbourhood. Words that appear "
+                "in the same places sit close together."),
+        (52.00, "That works beautifully for language. Numbers have no "
+                "neighbours."),
+        (58.00, "And it cannot think for longer. Two plus two gets the same "
+                "stack of layers as four thousand times six thousand."),
+        (68.00, "So it ranks what an answer would look like, and picks the top "
+                "one. It never multiplied anything."),
+        (81.00, "Our intelligence looks for truth by following rules. "
+                "Its intelligence looks for what usually comes next."),
+    ],
 }
 
 LINES = SCRIPTS[os.environ.get("SCRIPT", "lost_in_the_middle")]
