@@ -1,17 +1,30 @@
 # The long-form test
 
 `illusion_of_logic.py` exists to answer one question: **does this audience watch
-long-form at all?** Everything else on the page is 13–38 seconds. This is 91.
+long-form at all?** Everything else on the page is 13–38 seconds. This is 89.6.
+
+**It is silent.** The first cut carried a TTS read and sounded like one. Every
+Piper tier reachable from the render container is flat, and the good British
+voice lives on HuggingFace, which the egress policy blocks. So the argument is
+carried by construction instead — line geometry, and equations that pulse on
+the beat. Add a track in the TikTok editor; the piece is beat-locked at 150 BPM
+(224 beats, 56 bars) so any tempo fits after a re-render.
+
+**What silence costs:** TikTok indexes the audio transcript, and there now
+isn't one. Two things compensate, and both are done — every searchable term
+appears on screen as text (*tokenizer*, *place value*, *transformer*,
+*probability*), and the caption below carries the rest. It does mean the
+caption is doing more work here than on a narrated video.
 
 The video is the instrument. This file is the experiment.
 
 ---
 
-## Why 91 seconds and not five minutes
+## Why 89 seconds and not five minutes
 
 The submitted script was written at 5:00. The honest reason it is not:
 
-**If people leave at 0:45, a five-minute cut tells you exactly what a 91-second
+**If people leave at 0:45, a five-minute cut tells you exactly what an 89-second
 cut tells you — for four times the render.** The question is whether they stay
 past a minute. Answer that first, then extend.
 
@@ -45,7 +58,7 @@ watch time, not the percentage.
 | | Length | Completion | Average watch |
 | --- | --- | --- | --- |
 | A series part | 12.8s | 90% | **11.5s** |
-| This video | 91s | 40% | **36.4s** |
+| This video | 89.6s | 40% | **35.8s** |
 
 The long video loses badly on completion and wins by 3× on watch time. If that
 is what the numbers say, long-form works for this audience regardless of how
@@ -66,18 +79,22 @@ So the decision rule is:
 
 ## What is built in to fight abandonment
 
-Five minutes of white line art on black is where boredom lives. Four devices,
-all deliberate:
+Ninety seconds of white line art on black is where boredom lives. Five
+devices, all deliberate:
 
-1. **A segmented progress bar and chapter number, always on screen.** A viewer
+1. **The equations dance.** One clock drives a scale pulse on every equation and
+   a breath on the geometry, so the frame is never static even while someone is
+   reading it. That is the difference between cinematic and a slideshow, and it
+   matters more without a voice to carry the time.
+2. **A segmented progress bar and chapter number, always on screen.** A viewer
    who can see how much is left stays longer than one who is guessing. It also
    makes the retention curve diagnosable after the fact.
-2. **An open loop at 0:15** — *"it fails 96% of the time. Why?"* — not closed
+3. **An open loop at 0:15** — *"it fails 96% of the time. Why?"* — not closed
    until the last chapter.
-3. **The strongest visual placed early.** The 59% → 4% cliff is at 0:20, not
+4. **The strongest visual placed early.** The 59% → 4% cliff is at 0:20, not
    saved for the end. Nothing is gained by holding your best card until after
    people have left.
-4. **The same cut discipline as the shorts.** Nothing holds past ~2s.
+5. **The same cut discipline as the shorts.** Nothing holds past ~2s.
 
 ---
 
