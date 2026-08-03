@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-narrate_scene — lay Alan over a manim render.
+narrate_scene — lay a voice track over a manim render.
 
 Why this exists at all: TikTok transcribes video audio and indexes the transcript.
 A silent video forfeits the platform's strongest text signal. Every one of these
@@ -9,7 +9,8 @@ This is the same argument, and the same voice chain, as OIS tools/narrate.py.
 
 The voice is the OBSERVER's — the one who watches and names things — not a
 character's. So it is processed to sit back in the room: rumble trimmed, a
-watcher's distance of reverb, never a cathedral.
+watcher's distance of reverb, never a cathedral. The processing is unchanged
+from OIS narrate.py; only the model and the pacing differ.
 
     python3 narrate_scene.py videos/LostInTheMiddle.mp4 out.mp4
     SCRIPT=not_calculating python3 narrate_scene.py graded.mp4 out.mp4 --stem alan.wav
@@ -21,8 +22,10 @@ A line that will not fit before the next one starts is spoken slightly faster
 rather than clipped, down to a floor of length_scale 0.80. Below that the tool
 tells you instead of quietly mangling the read — fix the script, not the speed.
 
-Model: piper en-gb-alan-low. Fetched from the GitHub release mirror, because
-HuggingFace is blocked by the render container's egress policy.
+    VOICE=en-gb-alan-low SCRIPT=... python3 narrate_scene.py in.mp4 out.mp4
+
+Models come from the GitHub release mirror because HuggingFace is blocked by
+the render container's egress policy — see MODELS below for what that costs.
 """
 import argparse
 import os
@@ -36,12 +39,35 @@ import wave
 import numpy as np
 
 SR = 44100                       # matches the OIS score bus
-PIPER_SR = 16000                 # what en-gb-alan-low emits
-LENGTH_SCALE = 1.18              # Alan's house pace, from narrate.py
-MODEL = "en-gb-alan-low.onnx"
-MODEL_URL = ("https://github.com/rhasspy/piper/releases/download/v0.0.2/"
-             "voice-en-gb-alan-low.tar.gz")
 CACHE = os.path.join(os.path.expanduser("~"), ".cache", "observer-voice")
+
+# VOICE picks the model. en-us-ryan-medium is the default: it is 22kHz against
+# alan-low's 16k, and the difference is audible in the consonants.
+#
+# The reason it is not Alan: only alan-LOW exists on the GitHub release mirror,
+# and "low" is the quality tier, not a description. en_GB-alan-medium lives on
+# HuggingFace, which the render container's egress policy blocks. On a machine
+# with HuggingFace reachable, point MODELS at
+#   .../rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/...
+# and the British voice comes back several tiers better than the original.
+MODELS = {
+    "en-us-ryan-medium":  ("voice-en-us-ryan-medium",  22050),
+    "en-us-ryan-high":    ("voice-en-us-ryan-high",    22050),
+    "en-us-libritts-high": ("voice-en-us-libritts-high", 22050),
+    "en-us-lessac-medium": ("voice-en-us-lessac-medium", 16000),
+    "en-gb-alan-low":     ("voice-en-gb-alan-low",     16000),
+}
+VOICE = os.environ.get("VOICE", "en-us-ryan-medium")
+MODEL = f"{VOICE}.onnx"
+MODEL_URL = ("https://github.com/rhasspy/piper/releases/download/v0.0.2/"
+             f"{MODELS[VOICE][0]}.tar.gz")
+PIPER_SR = MODELS[VOICE][1]
+
+# 1.18 was Alan's pace, inherited from OIS narrate.py where it is right for a
+# watcher inside a story. For an explainer it just sounds tired — the first cut
+# of this took 22.4s to say what now takes 15.8s, and a third of the runtime was
+# dead air. 1.00 plus per-line variation is the fix.
+LENGTH_SCALE = float(os.environ.get("PACE", 1.00))
 
 # ---------------------------------------------------------------------------
 # The reads. SCRIPT picks one:  SCRIPT=not_calculating python3 narrate_scene.py ...
@@ -56,50 +82,53 @@ CACHE = os.path.join(os.path.expanduser("~"), ".cache", "observer-voice")
 # Keep the searchable words spoken aloud — the transcriber indexes them.
 # ---------------------------------------------------------------------------
 SCRIPTS = {
+    # (start_seconds, text, pace).  pace < 1 punches, > 1 gives weight.
+    # A single flat pace across every line is what makes a read sound bored,
+    # and it is a bigger problem than the model.
     "lost_in_the_middle": [
-        (0.30, "Every model claims it reads a million words of context."),
-        (10.75, "Nobody computes a trillion. So they don't."),
-        (14.35, "A benchmark called RULER tested seventeen long context models."),
-        (18.80, "All seventeen degraded."),
-        (20.60, "And the damage is not spread evenly."),
-        (23.00, "The beginning is remembered. So is the end."),
-        (25.80, "Put what matters at the start, or at the end. Never the middle."),
+        (0.30, "Every model claims it reads a million words of context.", 1.00),
+        (10.75, "Nobody computes a trillion. So they don't.", 0.90),
+        (14.35, "A benchmark called RULER tested seventeen long context models.", 1.02),
+        (18.80, "All seventeen degraded.", 0.86),
+        (20.60, "And the damage is not spread evenly.", 0.94),
+        (23.00, "The beginning is remembered. So is the end.", 1.00),
+        (25.80, "Put what matters at the start, or at the end. Never the middle.", 1.06),
     ],
     "not_calculating": [
-        (0.40, "No model gets this wrong."),
-        (2.70, "What it does get wrong is stranger."),
+        (0.40, "No model gets this wrong.", 0.88),
+        (2.70, "What it does get wrong is stranger.", 0.96),
         (5.20, "Ask GPT-4 for three digit multiplication. "
-               "It is right about fifty nine percent of the time."),
-        (11.20, "Add one digit. Four percent."),
-        (14.00, "Nothing about the arithmetic got harder."),
+               "It is right about fifty nine percent of the time.", 1.02),
+        (11.20, "Add one digit. Four percent.", 0.86),
+        (14.00, "Nothing about the arithmetic got harder.", 0.94),
         (17.00, "It never sees the number. A tokenizer splits it where language "
-                "is common, not where place value is."),
+                "is common, not where place value is.", 1.02),
         (23.50, "And it cannot carry. You repeat a step until you are done. "
-                "A transformer runs the same fixed stack every time."),
+                "A transformer runs the same fixed stack every time.", 1.02),
         (32.60, "So it is not computing the answer. "
-                "It is predicting what an answer looks like."),
+                "It is predicting what an answer looks like.", 1.06),
     ],
     "illusion_of_logic": [
-        (0.40, "No model gets this wrong."),
+        (0.40, "No model gets this wrong.", 0.88),
         (3.20, "But ask it to multiply two four digit numbers, "
-               "and it fails ninety six percent of the time."),
+               "and it fails ninety six percent of the time.", 1.00),
         (10.60, "Ask GPT-4 for three digit multiplication. "
-                "It is right about fifty nine percent of the time."),
-        (17.00, "Add one digit. Four percent."),
+                "It is right about fifty nine percent of the time.", 1.02),
+        (17.00, "Add one digit. Four percent.", 0.86),
         (21.50, "You have an algorithm. Carry, shift, carry, shift. "
-                "Bigger number, more steps."),
+                "Bigger number, more steps.", 0.94),
         (32.50, "It never sees the number. A tokenizer splits it where "
-                "language is common, not where place value is."),
+                "language is common, not where place value is.", 1.02),
         (43.50, "What it learned instead is a neighbourhood. Words that appear "
-                "in the same places sit close together."),
+                "in the same places sit close together.", 1.00),
         (52.00, "That works beautifully for language. Numbers have no "
-                "neighbours."),
+                "neighbours.", 0.94),
         (58.00, "And it cannot think for longer. Two plus two gets the same "
-                "stack of layers as four thousand times six thousand."),
+                "stack of layers as four thousand times six thousand.", 1.02),
         (68.00, "So it ranks what an answer would look like, and picks the top "
-                "one. It never multiplied anything."),
+                "one. It never multiplied anything.", 0.98),
         (81.00, "Our intelligence looks for truth by following rules. "
-                "Its intelligence looks for what usually comes next."),
+                "Its intelligence looks for what usually comes next.", 1.06),
     ],
 }
 
@@ -193,13 +222,16 @@ def build(total, verbose=True):
     """Render the full voice track, silent everywhere Alan is not speaking."""
     track = np.zeros(int(total * SR) + SR, np.float32)
     report = []
-    for i, (at, text) in enumerate(LINES):
+    for i, line in enumerate(LINES):
+        at, text = line[0], line[1]
+        pace = line[2] if len(line) > 2 else 1.0
         nxt = LINES[i + 1][0] if i + 1 < len(LINES) else total
         room = nxt - at
-        sig = speak(text)
-        scale = LENGTH_SCALE
+        base = LENGTH_SCALE * pace
+        sig = speak(text, length_scale=base)
+        scale = base
         if len(sig) / SR > room:                   # too long: say it a little quicker
-            want = max(0.80, LENGTH_SCALE * room / (len(sig) / SR))
+            want = max(0.80, base * room / (len(sig) / SR))
             sig = speak(text, length_scale=want)
             scale = want
         over = len(sig) / SR - room
@@ -233,10 +265,13 @@ def main():
 
     if a.check:
         end = LINES[-1][0]
-        print(f"{'at':>6}  gap   line")
-        for i, (at, text) in enumerate(LINES):
+        print(f"voice = {VOICE}   base pace = {LENGTH_SCALE}")
+        print(f"{'at':>6}  gap  pace  line")
+        for i, line in enumerate(LINES):
+            at, text = line[0], line[1]
+            pace = line[2] if len(line) > 2 else 1.0
             nxt = LINES[i + 1][0] if i + 1 < len(LINES) else end + 3
-            print(f"{at:6.2f} {nxt - at:5.2f}  {text}")
+            print(f"{at:6.2f} {nxt - at:5.2f} {pace:5.2f}  {text[:52]}")
         return
 
     if not a.src or not a.dst:
