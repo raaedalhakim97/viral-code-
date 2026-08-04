@@ -79,10 +79,14 @@ These bit this scene and are worth knowing before editing it:
 | `Scene.set_background_color(BLACK)` | method does not exist in 1.7.2 | `self.camera.background_rgba = list(color_to_rgba(BLACK, 1.0))` |
 | `Circle(color=white)` | `Circle.__init__` hardcodes `stroke_color=RED`, which wins over `color=` | `Circle(stroke_color=white)` |
 | `Dot(color=gold)` | `Dot.__init__` hardcodes `fill_color=WHITE`, which wins over `color=` | `Dot(fill_color=gold)` |
+| `Text(color=grey)` | `StringMobject` hardcodes `fill_color=WHITE` / `base_color=WHITE`; both `color=` and `base_color=` come out `#FFFFFF` | `Text(fill_color=grey)` |
 | `--fps 60` on the CLI | 1.7.2 passes the flag through as a string and then divides by it — `TypeError` | set `fps` in `custom_config.yml` |
 
-The `Circle`/`Dot` ones fail silently: the shape renders in the default colour
-instead of the one asked for, so the scene "works" but comes out wrong.
+All of these fail silently: the mobject renders in the default colour instead of
+the one asked for, so the scene "works" but comes out wrong. The `Text` one is
+the expensive one — it collapses every grey/white hierarchy in a scene to flat
+white, which looks deliberate rather than broken and can survive several
+renders before anyone notices.
 
 ## Encoding
 
