@@ -3,31 +3,56 @@
 Companion to `ai_puzzles.py`. Seven classic puzzles, and the actual algorithm a
 machine uses on each one.
 
-- **Output:** 1080×1920, 60fps, **12.800000s** each — 32 beats = 8 bars at 150 BPM
+- **Output:** 1080×1920, 60fps, **28.800000s** each — 72 beats = 18 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor.
 
 ---
 
-## What changed from every earlier video on this page
+## Length, revised twice
 
-Three things, all driven by the analytics review rather than taste.
+**48s → 12.8s → 28.8s.** Worth recording why, because both wrong answers were
+wrong for different reasons.
 
-**Length: 12.8s, down from 48s.** The account sits in a 100–200 view band and
-average watch time is still unknown. Until that number exists, short is the
-safer bet — a 13-second video that gets finished and looped beats a 48-second
-one that gets abandoned at five.
+The 48-second cut held a frozen frame for a third of its length: every part
+finished animating around beat 15–22 and then sat there until beat 36.
 
-**Frame one is the loudest frame.** The earlier videos opened on near-black with
-a small grey `1 / 6  put it down` progress bar. On a phone at scroll speed that
-is a black rectangle, and it was spending the one second TikTok's test batch
-gives you. These open full-screen on the puzzle name, and the chapter mark only
+Cutting to 12.8s fixed that and broke something more important. **You cannot
+show someone what breadth-first search *is* in nine seconds of animation.** The
+casualty was the step that makes an algorithm feel necessary rather than
+arbitrary: *why the obvious approach fails*. Without it the video shows a
+technique nobody asked for the point of.
+
+28.8s is the version with room for the full shape, which every part now follows:
+
+> state the puzzle → **show the naive way failing** → walk the algorithm in
+> labelled steps → the result → the takeaway → the eye
+
+The maze is the clearest case. At 12.8s it flooded a grid and announced an
+answer. It now walks you into a dead-end corridor first, crosses it out, and
+*then* floods — so the flood reads as a solution to a problem you just watched
+happen.
+
+**Frame one is still the loudest frame**, and that stays. The earlier videos
+opened on near-black with a small grey `1 / 6  put it down` progress bar, which
+at scroll speed is a black rectangle, spending the one second TikTok's test
+batch gives you. These open full-screen on the puzzle name; the `1 / 7` mark
 appears at beat 2.
 
-**The hold moved to the end.** The first cut of these ran 48 beats and every
-part finished animating around beat 15–22, then froze until beat 36 — five to
-nine seconds of still image mid-video. The close now begins the instant the
-animation ends, so the only long hold is on the takeaway card, which is where
-the follow ask lives and the one place a hold does work.
+**The logo card is back.** The 12.8s cut dropped the observer eye and shipped
+only a grey handle line — the one piece of the page's identity that appears in
+every other video. All seven now close on the eye, PAUSE / OBSERVE / LEARN, and
+the follow ask, with 10 beats to read it.
+
+## A running commentary line
+
+Every part now carries a line of narration under the diagram, swapped as the
+algorithm proceeds — `guess a direction and commit` → `dead end. start again.`
+→ `so it never picks one` → `it spreads into all of them at once`.
+
+This is the single biggest difference from the short cut, and it is what makes
+the videos teachable rather than decorative. It also gives TikTok and YouTube
+on-screen text to OCR, which matters more than usual here because these are
+silent and there is no transcript to index.
 
 ---
 
