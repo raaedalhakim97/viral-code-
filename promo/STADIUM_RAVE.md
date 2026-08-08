@@ -52,44 +52,70 @@ Sources for 125: [SongBPM](https://songbpm.com/@spongebob-squarepants/stadium-ra
 
 ---
 
+## No figure — 18 lines in a ring
+
+The subject is **18 straight lines standing in a circle in 3D**. Nothing is a
+body. The dance is applied to the lines directly:
+
+| | |
+| --- | --- |
+| `bounce = \|sin(πb)\|` | one hard hit per beat, on **Y** |
+| `sway = sin(πb)` | reverses every beat, so the rock spans **two** beats |
+| `lean` | radial, driven by sway — moves **X and Z together** |
+| `stretch` | each line grows on the beat and settles between |
+| phase `2i/N` | the same motion delayed around the ring, so a **wave travels** through the formation instead of all 18 moving as one block |
+
+The two rhythms are the point. One alone is a metronome; bouncing on the beat
+while rocking across two is what makes it read as dancing rather than blinking.
+
+### What the motion is and is not based on
+
+The source is the **Jellyfish Jam** rave — SpongeBob S1E7b, 1999 — where the
+track is "Stadium Rave" by Mark Govener, APM stock techno from *Clubmix*, in the
+same lane as 2 Unlimited's "Get Ready For This".
+
+**No frame-by-frame choreography for that scene exists in text, and this build
+could not watch the footage.** So what is reproduced is the motion *character*
+of four-on-the-floor rave — the hard downbeat, the two-beat rock, a crowd of
+uprights leaning in waves — not a transcription of specific moves. Worth being
+straight about, because "studied the dance" would overstate it.
+
+### Depth is computed, not faked
+
+The projection is done in the file rather than with manimgl's 3D camera: a
+rotation about the vertical axis, a pitch, a perspective divide, then per-line
+stroke width and opacity taken from the resulting depth. Near lines are thick
+and bright, far lines thin and dim, and the ring orbits about one turn across
+the video.
+
+**The pitch sign matters and I got it wrong first.** With `yr = y·cos φ − z·sin φ`
+the near side of the ring projects *higher* than the far side, which is what you
+see looking up from underneath — the formation reads inside-out. It has to be
+`+ z·sin φ` to look down on the ring.
+
+---
+
 ## What happens
 
 | Beats | |
 | --- | --- |
-| 0–12 | **The dance.** Nothing else on screen. This is the whole hook. |
-| 12–20 | "every video here is one line" |
-| 20–28 | The figure unfolds into a **sine wave** |
-| 28–36 | It snaps to a **square wave** — *7 harmonics* |
-| 36–44 | Back to dancing. "math you can watch move" |
-| 44–52 | It collapses into the **observer eye** |
+| 0–14 | **The ring dances.** Nothing else on screen. This is the whole hook. |
+| 14–20 | "every video here is one line" |
+| 20–28 | The 18 lines flatten into a **sine wave** |
+| 28–36 | They snap to a **square wave** — *7 harmonics* |
+| 36–44 | Back to the ring. "math you can watch move" |
+| 44–52 | They re-form as the **observer eye** |
 | 52–60 | PAUSE / OBSERVE / LEARN, the follow ask, the handle |
 
-The figure is **six strokes** — head, torso, two arms, two legs — and every
-target shape is also six strokes, so the same six lines fly into the sine wave,
-into the square wave, into the eye. Nothing is added or removed; it is one line
-the whole way through, which is the claim the promo is making.
+Every target shape is also **18 parts** — the sine and square split into 18
+arcs, the eye into 5 + 5 lids, 5 pupil-ring, 1 pupil, 2 chips. So the same
+eighteen lines fly into every shape. Nothing is added or removed, which is the
+claim the promo is making.
 
-**The square wave is real.** It is an odd-harmonic partial sum to 7 terms, so the
+**The square wave is real.** An odd-harmonic partial sum to 7 terms, so the
 overshoot at each edge is genuine Gibbs ringing rather than a drawn squiggle —
 and it is the exact figure from the Fourier video already on the page. The promo
 quotes the catalogue instead of describing it.
-
----
-
-## Getting the dance to read
-
-The first pass used small amplitudes and folded the forearms back across the
-head. It read as a stick figure fidgeting, not dancing. Three things fixed it:
-
-- **Exaggerate past what feels right.** Bounce 0.17 → 0.30, sway 0.10 → 0.20,
-  lean 0.20 → 0.26. On a phone, at speed, subtle is invisible.
-- **Arms up and OUT.** Upper arms at 144° / 36° so the elbows clear the head,
-  with the forearms punching toward vertical on every beat. That is the
-  jellyfish-rave read, and it is why both arms move together rather than
-  alternating like a walk.
-- **Two rhythms, not one.** `bounce = |sin(πb)|` lands once per beat;
-  `sway = sin(πb)` reverses every beat. The figure bounces on the beat while
-  rocking across two — which is what stops it looking like a metronome.
 
 ---
 
@@ -106,13 +132,13 @@ nowhere near the actual cause.
 ## Caption
 
 ```
-Every video on this page is one line. Here it is dancing.
+Eighteen lines, dancing in three dimensions.
 
-Then it unfolds into a sine wave. Then it snaps into a square wave — seven
-harmonics, real ones, which is why the corners ring like that. Then it becomes
+Then they flatten into a sine wave. Then they snap into a square wave — seven
+harmonics, real ones, which is why the corners ring like that. Then they become
 the logo.
 
-Same line the whole time. Nothing added, nothing removed.
+Same eighteen lines the whole time. Nothing added, nothing removed.
 
 One month ago this page didn't exist. Since then: linear algebra, embeddings,
 attention, the maths behind how AI actually thinks — all of it drawn.

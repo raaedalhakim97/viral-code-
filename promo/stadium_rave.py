@@ -1,35 +1,58 @@
 """
-stadium_rave — the line dances. Promo, cut to SpongeBob's "Stadium Rave".
+stadium_rave — lines dancing in x, y, z. Promo, cut to SpongeBob's "Stadium Rave".
 
     BPM=125 manimgl stadium_rave.py StadiumRave -w -r 1080x1920
 
 60 beats = 15 bars = 28.800s at 125 BPM.
 
+NO FIGURE. The subject is 18 straight lines standing in a ring in 3D, and the
+dance is applied to them directly: each line bobs on Y, leans on X and Z, and
+stretches along its own length. Nothing is a body.
+
+WHAT THE MOTION IS BASED ON
+The source is the "Jellyfish Jam" rave (SpongeBob S1E7b, 1999) — the track is
+"Stadium Rave" by Mark Govener, APM stock techno from Clubmix, in the same lane
+as 2 Unlimited's "Get Ready For This". No frame-by-frame choreography for that
+scene exists in text, and this build could not watch the footage, so what is
+reproduced here is the motion CHARACTER of four-on-the-floor rave, not a
+transcription of specific moves:
+
+    bounce  |sin(pi*b)|     one hard hit per beat, on Y
+    sway     sin(pi*b)      reverses every beat, so the rock spans two beats
+    lean    radial, driven by sway, on X and Z together
+    stretch  each line grows on the beat and settles between
+
+    phase offset  2*i/N     the same motion delayed around the ring, so a wave
+                            travels through the formation instead of all 18
+                            lines moving as one block
+
+The two rhythms are the point. One alone is a metronome; bouncing on the beat
+while rocking across two is what makes it read as dancing.
+
+DEPTH IS REAL, NOT FAKED
+The projection is done here rather than with manimgl's 3D camera — a rotation
+about the vertical axis, then a perspective divide, then per-line stroke width
+and opacity from the resulting depth. Near lines are thick and bright, far lines
+thin and dim, and the ring orbits about one turn over the video.
+
 THE TEMPO IS NOT 150 AND THAT MATTERS.
 Every other scene in this repo runs at 150 BPM, where one beat is 0.4s = exactly
-24 frames at 60fps. "Stadium Rave" is 125 BPM: one beat is 0.48s = 28.8 frames,
-which is NOT a whole frame. Rounding each run_time on its own would drift by a
-frame here and there and the loop would not close.
-
-T() therefore snaps the CUMULATIVE position to the frame grid and returns the
-difference, so error can never accumulate:
+24 frames at 60fps. 125 BPM makes a beat 0.48s = 28.8 frames, NOT a whole frame,
+so rounding each run_time on its own drifts and the loop stops closing. T()
+snaps the CUMULATIVE position to the frame grid and returns the difference:
 
     f0 = round(used_before * B * FPS)
     f1 = round(used_after  * B * FPS)
     run_time = (f1 - f0) / FPS
 
-At 125 BPM a whole number of frames needs a multiple of 5 beats, and a whole
-number of bars needs a multiple of 4 — so the total has to be a multiple of 20.
-60 beats satisfies both: 15 bars, 1728 frames, 28.800000s exactly.
+At 125 BPM whole frames need a multiple of 5 beats and whole bars a multiple of
+4, so the total must be a multiple of 20. 60 beats: 15 bars, 1728 frames,
+28.800000s exactly.
 
-VERIFY THE TEMPO BEFORE POSTING. TikTok sounds are frequently sped-up edits, and
-a sped-up "Stadium Rave" will not be 125. Check with:
+VERIFY THE TEMPO BEFORE POSTING. TikTok sounds are frequently sped-up edits.
 
     python3 stadium_rave.py --click 125 click.wav
     ffmpeg -i videos/StadiumRave.mp4 -i click.wav -c:v copy -shortest check.mp4
-
-If the clicks drift against the dance, re-render with the real BPM — nothing in
-this file is hard-coded to 125.
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -78,11 +101,15 @@ GOLD   = "#EBCB8B"
 
 FRAME_H = 9.0
 LINE_Y  = -2.05
-NOTE_Y  = -2.30          # feet reach ~-1.9; TikTok's caption overlay starts
-                         # around -2.52, so -2.72 would have been under it
+NOTE_Y  = -2.30          # above TikTok's caption overlay, which starts ~-2.52
 
-SCALE = 1.55             # figure is ~3.4 units tall, ~38% of frame
-BASE_Y = -0.20           # hips at rest
+N = 18                   # lines in the ring, and parts in every target shape
+CAM_D = 7.0              # eye distance for the perspective divide
+ORBIT = 0.10             # radians of ring rotation per beat (~1 turn / video)
+PITCH = 0.35             # look DOWN on the ring by 20 deg. Without this the
+                         # camera sits level with the ring, it projects to a
+                         # flat band, and the circle is invisible.
+RAD = 1.45               # ring radius; front lines reach x ~2.39 of 2.53
 
 
 def txt(s, size=27, color=WHITE_, bold=True, w=4.3):
@@ -93,100 +120,101 @@ def txt(s, size=27, color=WHITE_, bold=True, w=4.3):
     return t
 
 
-def stroke(pts, color=WHITE_, w=7.5):
+def stroke(pts, color=WHITE_, w=6.0):
     m = VMobject(stroke_color=color, stroke_width=w)
     m.set_points_as_corners(list(pts))
     return m
 
 
-def polar(o, ang, r):
-    return o + np.array([r * np.cos(ang), r * np.sin(ang), 0.0])
+def split_curve(pts, k):
+    """Cut a polyline into k pieces so k lines can fly into it."""
+    pts = list(pts)
+    n = len(pts) - 1
+    out = []
+    for j in range(k):
+        a = int(round(j * n / k))
+        c = max(int(round((j + 1) * n / k)), a + 1)
+        out.append(pts[a:c + 1])
+    return out
 
 
 # --------------------------------------------------------------------------
-def dancer_points(b):
-    """Pose at beat position b. Six point-lists: head, torso, arms, legs.
+def project(p, theta):
+    """Rotate about the vertical axis, then a perspective divide.
 
-    bounce = |sin(pi*b)| hits once per beat; sway = sin(pi*b) reverses each beat,
-    so the figure rocks over two beats while bouncing on one.
-
-    Exaggeration is the whole job here. The first pass used small amplitudes and
-    folded the forearms back across the head, which read as a stick figure
-    fidgeting rather than dancing. Arms now go up and OUT, clear of the head,
-    and the forearms punch toward vertical on every beat.
+    Returns the 2D point and the depth factor k — k > 1 is nearer than the ring
+    centre, k < 1 is further. Stroke width and opacity both come off k, which is
+    what actually sells the three dimensions on a flat phone screen.
     """
-    bounce = abs(np.sin(np.pi * b))
-    sway = np.sin(np.pi * b)
-    S = SCALE
+    x, y, z = p
+    c, s = np.cos(theta), np.sin(theta)
+    xr = x * c + z * s
+    zt = -x * s + z * c
+    cp, sp = np.cos(PITCH), np.sin(PITCH)
+    # + zt here, not -. Looking DOWN puts the near side of the ring LOWER on
+    # screen and the far side higher; the other sign looks up from below and
+    # inverts the whole formation.
+    yr = y * cp + zt * sp
+    zr = y * sp + zt * cp
+    k = CAM_D / (CAM_D + zr)
+    return np.array([xr * k, yr * k, 0.0]), k
 
-    hip = np.array([0.20 * sway * S, (BASE_Y + 0.30 * bounce) * S, 0.0])
-    lean = 0.26 * sway
-    up = np.array([-np.sin(lean), np.cos(lean), 0.0])
 
-    squash = 1.0 - 0.12 * (1.0 - bounce)
-    sh = hip + up * (0.92 * S * squash)
-    head_c = sh + up * (0.47 * S)
+def ring_pose(b):
+    """The dance, as 24 lines. Returns (points, depth) per line."""
+    theta = ORBIT * b
+    out = []
+    for i in range(N):
+        a = 2 * np.pi * i / N
+        r = RAD
+        bi = b - 2.0 * i / N                   # the wave travels round the ring
+        bounce = abs(np.sin(np.pi * bi))
+        sway = np.sin(np.pi * bi)
 
-    # upper arms sit at ~140 deg / 40 deg so the elbows clear the head;
-    # forearms swing from splayed to near-vertical as the beat lands
-    uL = np.pi * 0.80 + 0.12 * sway
-    uR = np.pi * 0.20 + 0.12 * sway
-    fL = np.pi * 0.72 - 0.55 * bounce + 0.12 * sway
-    fR = np.pi * 0.28 + 0.55 * bounce + 0.12 * sway
-    eL, eR = polar(sh, uL, 0.48 * S), polar(sh, uR, 0.48 * S)
-    hL, hR = polar(eL, fL, 0.46 * S), polar(eR, fR, 0.46 * S)
+        foot_y = -1.05 + 0.45 * bounce
+        length = 2.90 + 0.85 * bounce          # stretches on the hit
+        lean = 0.35 * sway                     # radial, so X and Z together
 
-    # one knee drives up on each half of the sway
-    kickL, kickR = 0.75 * max(0.0, sway), 0.75 * max(0.0, -sway)
-    tL = -np.pi / 2 - 0.52 + kickL
-    tR = -np.pi / 2 + 0.52 - kickR
-    kL, kR = polar(hip, tL, 0.52 * S), polar(hip, tR, 0.52 * S)
-    fLo = polar(kL, tL + 0.20 - 0.90 * kickL, 0.50 * S)
-    fRo = polar(kR, tR - 0.20 + 0.90 * kickR, 0.50 * S)
-
-    ring = [head_c + np.array([0.24 * S * np.cos(t), 0.24 * S * np.sin(t), 0.0])
-            for t in np.linspace(0, 2 * np.pi, 26)]
-    return [ring, [hip, sh], [sh, eL, hL], [sh, eR, hR],
-            [hip, kL, fLo], [hip, kR, fRo]]
+        foot = np.array([r * np.cos(a), foot_y, r * np.sin(a)])
+        head = foot + np.array([lean * np.cos(a), length, lean * np.sin(a)])
+        p0, k0 = project(foot, theta)
+        p1, k1 = project(head, theta)
+        out.append(([p0, p1], 0.5 * (k0 + k1)))
+    return out
 
 
 def sine_parts(color=WHITE_, amp=1.05, cycles=1.6, w=6.0):
-    """Six arcs of a sine wave — one per body part, so the dancer unfolds."""
-    g = VGroup()
-    xs = np.linspace(-2.10, 2.10, 6 * 12 + 1)
+    xs = np.linspace(-2.10, 2.10, 241)
     ys = amp * np.sin(cycles * np.pi * xs / 2.10)
-    for k in range(6):
-        seg = [np.array([xs[i], ys[i] + 0.10, 0.0])
-               for i in range(k * 12, k * 12 + 13)]
-        g.add(stroke(seg, color, w))
-    return g
+    pts = [np.array([x, y + 0.10, 0.0]) for x, y in zip(xs, ys)]
+    return VGroup(*[stroke(p, color, w) for p in split_curve(pts, N)])
 
 
 def square_parts(color=WHITE_, harmonics=7, amp=1.05, w=6.0):
-    """The same six arcs, but the curve is a real odd-harmonic partial sum —
-    the square wave from the Fourier video, so the promo quotes the page."""
-    g = VGroup()
-    xs = np.linspace(-2.10, 2.10, 6 * 24 + 1)
+    """A real odd-harmonic partial sum, so the overshoot at each edge is genuine
+    Gibbs ringing — and it is the figure from the Fourier video already posted."""
+    xs = np.linspace(-2.10, 2.10, 481)
     t = np.pi * xs / 1.05
     ys = np.zeros_like(xs)
     for n in range(1, harmonics * 2, 2):
         ys += np.sin(n * t) / n
     ys *= amp * 4 / np.pi / 1.18
-    for k in range(6):
-        seg = [np.array([xs[i], ys[i] + 0.10, 0.0])
-               for i in range(k * 24, k * 24 + 25)]
-        g.add(stroke(seg, color, w))
-    return g
+    pts = [np.array([x, y + 0.10, 0.0]) for x, y in zip(xs, ys)]
+    return VGroup(*[stroke(p, color, w) for p in split_curve(pts, N)])
 
 
 def eye_parts(color=WHITE_, w=5.0):
-    """Six parts again: two lids, pupil ring, pupil, two drifting squares."""
+    """18 pieces: 5 + 5 on the lids, 5 on the pupil ring, 1 pupil, 2 chips."""
     g = VGroup()
     for sign in (1, -1):
-        g.add(stroke([np.array([x, sign * 0.92 * np.sin(np.pi * ((x + 1.7) / 3.4)),
-                                0.0]) for x in np.linspace(-1.7, 1.7, 40)], color, w))
-    g.add(stroke([np.array([0.44 * np.cos(t), 0.44 * np.sin(t), 0.0])
-                  for t in np.linspace(0, 2 * np.pi, 30)], color, w))
+        lid = [np.array([x, sign * 0.92 * np.sin(np.pi * ((x + 1.7) / 3.4)), 0.0])
+               for x in np.linspace(-1.7, 1.7, 81)]
+        for piece in split_curve(lid, 5):
+            g.add(stroke(piece, color, w))
+    ring = [np.array([0.44 * np.cos(t), 0.44 * np.sin(t), 0.0])
+            for t in np.linspace(0, 2 * np.pi, 61)]
+    for piece in split_curve(ring, 5):
+        g.add(stroke(piece, color, w))
     g.add(stroke([np.array([0.13 * np.cos(t), 0.13 * np.sin(t), 0.0])
                   for t in np.linspace(0, 2 * np.pi, 16)], color, w * 1.6))
     for x, y in ((1.95, 0.34), (2.20, -0.30)):
@@ -194,6 +222,7 @@ def eye_parts(color=WHITE_, w=5.0):
         g.add(stroke([np.array([x - s, y - s, 0]), np.array([x + s, y - s, 0]),
                       np.array([x + s, y + s, 0]), np.array([x - s, y + s, 0]),
                       np.array([x - s, y - s, 0])], color, w * 0.6))
+    assert len(g) == N, f"eye has {len(g)} parts, needs {N}"
     return g
 
 
@@ -209,17 +238,17 @@ class StadiumRave(Scene):
         self.clock.add_updater(lambda m, dt: m.increment_value(dt))
         self.add(self.clock)
 
-        self.body = VGroup(*[stroke(p) for p in dancer_points(0.0)])
+        self.lines = VGroup(*[stroke(p) for p, _ in ring_pose(0.0)])
         self.dancing = False
-        self.body.add_updater(self.update_pose)
-        self.add(self.body)
+        self.lines.add_updater(self.update_lines)
+        self.add(self.lines)
 
         self.sequence()
 
     # ------------------------------------------------------------------
     def T(self, beats):
-        """Cumulative frame snap. At 125 BPM a beat is 28.8 frames, so rounding
-        each interval independently would drift; this cannot."""
+        """Cumulative frame snap — at 125 BPM a beat is 28.8 frames, so rounding
+        each interval on its own would drift. This cannot."""
         f0 = round(self.used * self.B * FPS)
         self.used += beats
         f1 = round(self.used * self.B * FPS)
@@ -235,11 +264,13 @@ class StadiumRave(Scene):
     def beat_pos(self):
         return self.clock.get_value() / self.B
 
-    def update_pose(self, mob):
+    def update_lines(self, mob):
         if not self.dancing:
             return
-        for part, pts in zip(mob, dancer_points(self.beat_pos())):
+        for part, (pts, k) in zip(mob, ring_pose(self.beat_pos())):
             part.set_points_as_corners(pts)
+            part.set_stroke(width=4.4 * k ** 2.2,
+                            opacity=float(np.clip(0.45 + 1.05 * (k - 0.80), 0.34, 1.0)))
 
     def say(self, s, beats, color=WHITE_, size=26):
         new = txt(s, size, color, w=4.4)
@@ -253,32 +284,34 @@ class StadiumRave(Scene):
             self.note = new
 
     def morph(self, target, beats):
-        """Freeze the pose, fly the six strokes into the shape."""
+        """Freeze the ring, fly all 24 lines into the shape."""
         self.dancing = False
-        self.play(Transform(self.body, target), run_time=self.T(beats))
+        self.play(Transform(self.lines, target), run_time=self.T(beats))
 
     def resume(self, beats):
-        """Back to the dancer. The updater rewrites the points every frame, so
-        the Transform only has to land near the pose, not on it."""
-        self.play(Transform(self.body,
-                            VGroup(*[stroke(p) for p in
-                                     dancer_points(self.beat_pos())])),
-                  run_time=self.T(beats))
+        """Back to the ring. The updater rewrites every point each frame, so the
+        Transform only has to land near the pose, not on it."""
+        snap = VGroup()
+        for pts, k in ring_pose(self.beat_pos()):
+            s = stroke(pts, WHITE_, 4.4 * k ** 2.2)
+            s.set_stroke(opacity=float(np.clip(0.45 + 1.05 * (k - 0.80), 0.34, 1.0)))
+            snap.add(s)
+        self.play(Transform(self.lines, snap), run_time=self.T(beats))
         self.dancing = True
 
     # ------------------------------------------------------------------
     def sequence(self):
-        # 0–12  the hook: nothing but the dance
+        # 0–14  the hook: 24 lines, nothing else
         self.dancing = True
-        self.wait(self.T(12))
+        self.wait(self.T(14))
 
-        # 12–20  name what it is
-        self.say("every video here is one line", 4, GREY, 25)
-        self.wait(self.T(4))
+        # 14–20  name it
+        self.say("every video here is one line", 3, GREY, 25)
+        self.wait(self.T(3))
 
-        # 20–28  it unfolds into a wave
+        # 20–28  the ring flattens into a wave
         self.morph(sine_parts(), 3)
-        self.say("moving to the beat", 2, WHITE_, 26)
+        self.say("moving on the beat", 2, WHITE_, 26)
         self.wait(self.T(1))
         self.resume(2)
 
@@ -294,7 +327,7 @@ class StadiumRave(Scene):
 
         # 44–52  collapse into the mark
         self.morph(eye_parts(), 4)
-        self.play(self.body.animate.move_to(np.array([0, 0.95, 0])).scale(0.80),
+        self.play(self.lines.animate.move_to(np.array([0, 0.95, 0])).scale(0.80),
                   FadeOut(self.note), run_time=self.T(2))
         self.note = None
         words = VGroup(txt("PAUSE", 21), txt("OBSERVE", 21), txt("LEARN", 21)) \
@@ -311,6 +344,6 @@ class StadiumRave(Scene):
         self.play(FadeIn(cg, shift=0.1 * UP), run_time=self.T(2))
         self.pad_to(TOTAL - 2)
         self.clock.clear_updaters()
-        self.body.clear_updaters()
-        self.play(FadeOut(self.body), FadeOut(words), FadeOut(cg),
+        self.lines.clear_updaters()
+        self.play(FadeOut(self.lines), FadeOut(words), FadeOut(cg),
                   run_time=self.T(2))
