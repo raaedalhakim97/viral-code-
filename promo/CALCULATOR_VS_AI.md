@@ -3,7 +3,7 @@
 Companion to `calculator_vs_ai.py`. Why the cheapest calculator in the world
 beats a frontier model at multiplication.
 
-- **Output:** 1080×1920, 60fps, **28.800000s** — 72 beats = 18 bars at 150 BPM
+- **Output:** 1080×1920, 60fps, **35.200000s** — 88 beats = 22 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor.
 
 ---
@@ -80,17 +80,42 @@ this video makes geometrically.
 
 ---
 
-## Structure
+## Three signposted stages
+
+The first cut ran the calculator, the AI and the comparison together as one
+stream. Every fact in it was true and **nobody could tell which part they were
+in.** That is a structure problem, not a content problem, and no amount of
+better writing inside the sections fixes it.
+
+This cut is three stages, each announced by a **full-screen card**, with a live
+`1 / 3` marker in the header that stays up for the whole section:
 
 | Beats | |
 | --- | --- |
 | 0–4 | Title |
-| 4–23 | **The calculator.** 13 + 11 in binary, the real carry rippling right to left, = 24 |
-| 24–39 | **The leading digit.** 317 × 315 vs 317 × 316 — one digit in, the first digit out flips |
-| 40–49 | **The data.** 59% / 4% / 0%, with the source on screen |
-| 50–56 | Right by construction vs right by resemblance |
-| 56–62 | "One computes the answer. The other predicts it." |
-| 62–72 | The eye |
+| 4–8 | **CARD — 1 · THE CALCULATOR** |
+| 8–28 | 13 + 11 in binary. The real carry rippling right to left. = 24. **Nothing about AI.** |
+| 28–32 | **CARD — 2 · THE AI** |
+| 32–54 | Writes left to right → 317 × 315 vs 317 × 316 → 59% / 4% / 0%. **Nothing about gates.** |
+| 54–58 | **CARD — 3 · SIDE BY SIDE** |
+| 58–72 | The two in a table, one row at a time |
+| 72–78 | "One computes the answer. The other predicts it." |
+| 78–88 | The eye |
+
+The comparison is a real two-column table rather than a paragraph, built one row
+at a time so each contrast lands on its own beat:
+
+| CALCULATOR | AI |
+| --- | --- |
+| smallest digit first | biggest digit first |
+| logic gates | prediction |
+| always exact | 0% at 5 digits |
+| by construction | by resemblance |
+
+**Every section pads to a fixed beat.** `END_CALC`, `END_AI`, `END_CMP` and the
+rest are constants, and each part ends with `pad_to()`, so slack is absorbed at
+the section boundary instead of being hand-counted across a dozen animations.
+That is what makes the stage timings stay put when a line gets rewritten.
 
 Chapter 2's equations are built as **five separate mobjects per row** so the two
 digits that matter can turn gold on cue. The first cut used a single marker line
