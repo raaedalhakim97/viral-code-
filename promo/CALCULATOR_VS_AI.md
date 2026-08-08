@@ -128,36 +128,68 @@ at a fixed x, and it landed on the equals sign pointing at nothing.
 ```
 Why can a $2 calculator multiply better than GPT-4?
 
-A calculator adds with logic gates — XOR for the sum, AND for the carry. Eight
-rows of a truth table, no opinion. And it MUST start at the smallest digit,
-because every carry moves left. Bit 0 decides the carry into bit 1. It has no
-choice about the order.
+PART 1 — HOW A CALCULATOR WORKS
+It adds in binary using logic gates. XOR gives the sum, AND gives the carry —
+eight rows of a truth table, no opinion anywhere. Take 13 + 11: that's 1101 +
+1011. And it MUST start at the smallest digit, because every carry moves left.
+Bit 0 decides the carry into bit 1, which decides the carry into bit 2. It has
+no choice about the order. Answer: 11000, which is 24. Exactly, every time.
 
-A language model writes left to right. So the first digit it says is the biggest
-one — the one that depends on everything it hasn't worked out yet.
+PART 2 — HOW AI CALCULATES
+A language model doesn't have an adder. It predicts text, left to right — so the
+first digit it says is the BIGGEST one, the one that depends on everything it
+hasn't worked out yet.
 
 Watch what that costs:
 317 × 315 = 99,855
 317 × 316 = 100,172
 
-Change the LAST digit of the input and the FIRST digit of the answer flips from
-9 to 1, and the answer grows a whole extra place. You cannot know that first
-digit without doing the last one first.
+Change the LAST digit going in, and the FIRST digit coming out flips from 9 to
+1 — and the answer grows a whole extra place. You cannot know that first digit
+without doing the last one first. The model has to commit before the work that
+decides the answer exists.
 
 Measured: GPT-4 gets 59% of 3-digit multiplications right. 4-digit: 4%.
 5-digit: 0%. (Goat, arXiv:2305.14201)
 
-The calculator is right by construction. The model is right by resemblance.
-Which is why it now just calls a calculator.
+PART 3 — SIDE BY SIDE
+Calculator: smallest digit first. AI: biggest digit first.
+Calculator: logic gates. AI: prediction.
+Calculator: always exact. AI: 0% at five digits.
+Calculator: right by construction. AI: right by resemblance.
 
-#ai #maths #calculator #gpt #computerscience
+One computes the answer. The other predicts it. Which is why AI now just calls a
+calculator.
+
+#ai #maths #calculator #gpt #computerscience #howaiworks #binary #logicgates
 ```
 
-The searchable phrase is the **first line** — "why can a calculator multiply
-better than GPT" is a question people actually type, and this video is silent so
-the caption carries all the search weight.
+The first line is the searchable one — *"why can a calculator multiply better
+than GPT"* is a question people actually type. The **PART 1 / PART 2 / PART 3**
+headings in the caption mirror the cards in the video, so someone who scrolled
+past the middle can still find the bit they wanted.
 
 **YouTube title:** `Why a $2 calculator beats GPT-4 at multiplication`
+
+---
+
+## The on-screen text, as a subtitle track
+
+This video is **silent**, so neither TikTok nor YouTube gets a transcript from
+it — the caption normally has to carry all of the search weight on its own.
+
+`calculator_vs_ai.srt` fixes that. It is the on-screen text written out as 21
+timed cues covering the full 35.2s with **no gaps and no overlaps** (both
+asserted when the file is generated). YouTube indexes uploaded caption files, so
+this puts every phrase in the video into the search index, and it makes the
+video accessible at the same time.
+
+**Upload it on YouTube** under Subtitles → Add language → Upload file → With
+timing. TikTok has no caption upload, so on TikTok the text above does the work.
+
+The same treatment is worth doing for the whole library — every video on the
+page is silent, so every one of them is currently invisible to search except
+through its caption.
 
 ---
 

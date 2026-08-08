@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:01,600
+Calculator vs AI — why one of them can't multiply
+
+2
+00:00:01,600 --> 00:00:03,200
+Part 1 of 3: THE CALCULATOR
+
+3
+00:00:03,200 --> 00:00:04,400
+13 + 11
+
+4
+00:00:04,400 --> 00:00:05,600
+In binary, with logic gates: 1101 + 1011
+
+5
+00:00:05,600 --> 00:00:06,400
+It starts at the SMALLEST digit.  S = A XOR B XOR C
+
+6
+00:00:06,400 --> 00:00:09,200
+The carry ripples right to left, one column at a time
+
+7
+00:00:09,200 --> 00:00:10,400
+= 24
+
+8
+00:00:10,400 --> 00:00:11,200
+Every carry moves left. It has no choice.
+
+9
+00:00:11,200 --> 00:00:12,800
+Part 2 of 3: THE AI
+
+10
+00:00:12,800 --> 00:00:14,000
+A language model writes left to right — so it says the BIGGEST digit first
+
+11
+00:00:14,000 --> 00:00:16,000
+317 × 315 = 99,855        317 × 316 = 100,172
+
+12
+00:00:16,000 --> 00:00:17,800
+Change the LAST digit going in, and the FIRST digit coming out flips
+
+13
+00:00:17,800 --> 00:00:20,800
+GPT-4 multiplication accuracy: 3 digits 59%, 4 digits 4%, 5 digits 0%
+
+14
+00:00:20,800 --> 00:00:21,600
+Five digits: zero out of a hundred.  Source: Goat, arXiv:2305.14201
+
+15
+00:00:21,600 --> 00:00:24,000
+Part 3 of 3: SIDE BY SIDE
+
+16
+00:00:24,000 --> 00:00:24,800
+Calculator: smallest digit first.  AI: biggest digit first.
+
+17
+00:00:24,800 --> 00:00:25,600
+Calculator: logic gates.  AI: prediction.
+
+18
+00:00:25,600 --> 00:00:26,400
+Calculator: always exact.  AI: 0% at 5 digits.
+
+19
+00:00:26,400 --> 00:00:28,800
+Calculator: right by construction.  AI: right by resemblance.
+
+20
+00:00:28,800 --> 00:00:31,200
+One computes the answer. The other predicts it.
+
+21
+00:00:31,200 --> 00:00:35,200
+Pause. Observe. Learn.  Follow for the math behind AI — @observer.collapse
