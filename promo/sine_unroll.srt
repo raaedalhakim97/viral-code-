@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:01,600
+Why is it called a sine WAVE? Watch the circle unroll.
+
+2
+00:00:01,600 --> 00:00:04,800
+One point, going round a circle. That is the whole ingredient list.
+
+3
+00:00:04,800 --> 00:00:07,200
+y = sin t. Now draw its height, over time.
+
+4
+00:00:07,200 --> 00:00:08,800
+The height IS the wave. Nothing else happened.
+
+5
+00:00:08,800 --> 00:00:11,200
+y = cos t. A second point, a quarter turn ahead of the first.
+
+6
+00:00:11,200 --> 00:00:12,800
+Its height is cos t.
+
+7
+00:00:12,800 --> 00:00:14,400
+cos t = sin(t + 90°). The blue wave is the gold one, moved.
+
+8
+00:00:14,400 --> 00:00:16,800
+Slide the gold wave a quarter wavelength and it lands exactly on the blue. Same wave — it just started earlier.
+
+9
+00:00:16,800 --> 00:00:19,200
+y = A sin(f t). Spin faster and the wave tightens.
+
+10
+00:00:19,200 --> 00:00:20,800
+Draw a bigger circle and the wave gets taller.
+
+11
+00:00:20,800 --> 00:00:22,800
+Now look at the circle edge-on.
+
+12
+00:00:22,800 --> 00:00:24,000
+The dot is just going up and down — and it is still drawing the same wave.
+
+13
+00:00:24,000 --> 00:00:26,000
+A sine wave is a circle, seen from the side.
+
+14
+00:00:26,000 --> 00:00:28,800
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
