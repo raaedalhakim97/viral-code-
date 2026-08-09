@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:01,600
+(a + b)² = a² + 2ab + b². But where does the 2ab come from?
+
+2
+00:00:01,600 --> 00:00:03,200
+Start with one square. Its side is a plus b.
+
+3
+00:00:03,200 --> 00:00:05,600
+So the whole area is (a + b) squared.
+
+4
+00:00:05,600 --> 00:00:07,200
+Now cut it once across and once down.
+
+5
+00:00:07,200 --> 00:00:10,400
+Four pieces: a², a times b, a times b, and b². That is the entire formula.
+
+6
+00:00:10,400 --> 00:00:12,000
+(a + b)² = a² + 2ab + b². And those two rectangles are identical.
+
+7
+00:00:12,000 --> 00:00:14,400
+Rotate one onto the other and it fits exactly. Same rectangle, twice — there is your 2ab.
+
+8
+00:00:14,400 --> 00:00:16,000
+(a + b)² is NOT a² + b². This is the mistake everyone makes.
+
+9
+00:00:16,000 --> 00:00:18,400
+Leave out the 2ab and the square has a hole in it.
+
+10
+00:00:18,400 --> 00:00:20,000
+Same square. Just call the sides x and h instead.
+
+11
+00:00:20,000 --> 00:00:22,400
+(x + h)² = x² + 2xh + h². Now let h get small.
+
+12
+00:00:22,400 --> 00:00:24,000
+The corner h² is a speck. The growth is the two strips: 2xh.
+
+13
+00:00:24,000 --> 00:00:26,000
+So x² grows at 2x. That is the derivative of x squared — and it is the same square.
+
+14
+00:00:26,000 --> 00:00:28,800
+You memorised this in school. Nobody showed you it was a square. Follow for the math behind AI — @observer.collapse
