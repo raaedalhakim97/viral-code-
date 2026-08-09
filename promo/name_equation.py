@@ -42,14 +42,14 @@ import numpy as np
 
 BPM = float(os.environ.get("BPM", 150.0))
 FPS = 60
-TOTAL = 96
+TOTAL = 100
 
 END_OPEN = 4
 END_CARD1, END_TOK = 8, 20
 END_CARD2, END_VEC = 24, 38
 END_CARD3, END_SPACE = 42, 56
-END_CARD4, END_EQN = 60, 80
-END_TAKE = 86
+END_CARD4, END_EQN = 60, 84
+END_TAKE = 90
 
 WHITE_ = "#F7FAFC"
 GREY   = "#8A94A6"
@@ -68,8 +68,11 @@ CEN2 = CEN + np.array([0.0, 0.55, 0.0])  # where the finished curve settles
 RAD  = 1.22                              # on-screen radius of the whole chain
 NPTS = 1500
 
-NAME = "MAYA"
-MONTAGE = ["ALEX", "SARA"]
+HERO_S = 1.62                            # the closing zoom: 1.22 -> 1.98 radius
+HERO_C = np.array([0.0, 0.15, 0.0])
+
+NAME = "RANIA"
+MONTAGE = ["SARA", "RANIA"]   # contrast, then back to hers
 
 # ------------------------------------------------------------ the rule
 def vals(name):
@@ -106,8 +109,11 @@ def path_pts(name, t0=0.0, t1=2 * np.pi, n=NPTS, center=CEN):
 
 
 # ------------------------------------------------------------ verified here
-_CHECK = [NAME] + MONTAGE + ["RAAED", "NOAH", "ZARA", "OMAR", "LUNA", "AMYA",
-                             "AYA", "EMMA", "KAI", "SOFIA", "YUSUF", "AISHA"]
+# dict.fromkeys dedupes: MONTAGE may legitimately end back on NAME, and the
+# collision check below would otherwise flag a name against itself
+_CHECK = list(dict.fromkeys(
+    [NAME] + MONTAGE + ["RAAED", "NOAH", "ZARA", "OMAR", "LUNA", "AMYA",
+                        "AYA", "EMMA", "KAI", "SOFIA", "YUSUF", "AISHA"]))
 
 assert vals("maya") == [13, 1, 25, 1], vals("maya")
 assert vals("a") == [1] and vals("z") == [26]
@@ -353,7 +359,9 @@ class NameEquation(Scene):
                  2, GOLD, size=22, y=LOW_Y)
         self.play(self.tt.animate.set_value(0.55),
                   run_time=self.T(3), rate_func=linear)
-        self.say("four numbers, one moving point", 2, y=LOW_Y)
+        # the count follows NAME — it was hard-coded to "four" and went
+        # wrong the first time the name was not four letters long
+        self.say(f"{len(vals(NAME))} numbers, one moving point", 2, y=LOW_Y)
         self.pad_to(END_SPACE)
 
     def build_chain(self, t, dim):
@@ -411,17 +419,29 @@ class NameEquation(Scene):
         self.play(FadeIn(label, shift=0.12 * UP), run_time=self.T(1))
         tag = txt("one name. one curve.", 24, WHITE_, bold=False, w=4.4)
         tag.move_to(np.array([0, -2.18, 0]))
-        self.play(FadeIn(tag), run_time=self.T(1.5))
-        self.stage += [self.trail, label, tag]
+        self.play(FadeIn(tag), run_time=self.T(1))
 
-        for other in MONTAGE:
+        for i, other in enumerate(MONTAGE):
             # morph, then HOLD. Without the hold each name is only fully formed
             # on the frame the transform ends and is immediately morphed away.
+            # The last one needs no hold — the hero beat below IS its hold.
             nxt = curve_mob(other, CEN2, GOLD, 3.4)
             nl = txt(other, 40, GOLD, w=4.2).move_to(label.get_center())
             self.play(Transform(self.trail, nxt), Transform(label, nl),
                       run_time=self.T(1.5))
-            self.wait(self.T(1.5))
+            if i < len(MONTAGE) - 1:
+                self.wait(self.T(1.5))
+
+        # --- hero. Every label goes, the shape takes the screen and turns.
+        # A rosette this dense is the whole reason to watch to the end, and at
+        # working size with three lines of text round it nobody can see it.
+        self.play(FadeOut(label), FadeOut(tag), FadeOut(self.marker),
+                  self.trail.animate.scale(HERO_S).move_to(HERO_C),
+                  run_time=self.T(2))
+        self.marker = None
+        self.play(Rotating(self.trail, angle=0.55), run_time=self.T(4),
+                  rate_func=linear)
+        self.stage = [self.trail]
         self.pad_to(END_EQN)
 
     # ------------------------------------------------------------------
@@ -437,8 +457,10 @@ class NameEquation(Scene):
         c.move_to(np.array([0, -0.72, 0]))
         self.play(FadeIn(c, shift=0.10 * UP), run_time=self.T(0.5))
         self.pad_to(END_TAKE - 1)
-        self.play(FadeOut(a), FadeOut(b), FadeOut(c), FadeOut(self.title),
-                  FadeOut(self.marker), run_time=self.T(1))
+        gone = [a, b, c, self.title]
+        if self.marker is not None:          # the hero beat already took it
+            gone.append(self.marker)
+        self.play(*[FadeOut(m) for m in gone], run_time=self.T(1))
 
     def signature(self):
         eye = observer_eye(WHITE_)
