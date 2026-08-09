@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:01,600
+Your name is an equation. Follower number 1000 gets theirs.
+
+2
+00:00:01,600 --> 00:00:03,200
+Part 1 — Tokenize.
+
+3
+00:00:03,200 --> 00:00:04,400
+Give it a name. Take MAYA.
+
+4
+00:00:04,400 --> 00:00:06,000
+A model never sees the word. It cuts it into tokens first.
+
+5
+00:00:06,000 --> 00:00:08,000
+A short name — one letter, one token.
+
+6
+00:00:08,000 --> 00:00:09,600
+Part 2 — Vectors.
+
+7
+00:00:09,600 --> 00:00:11,600
+a equals 1, b equals 2, all the way to z equals 26.
+
+8
+00:00:11,600 --> 00:00:13,200
+So MAYA becomes 13, 1, 25, 1. Every token is just a number.
+
+9
+00:00:13,200 --> 00:00:15,200
+This is all a model ever holds. Now watch what the numbers can do.
+
+10
+00:00:15,200 --> 00:00:16,800
+Part 3 — Space x y.
+
+11
+00:00:16,800 --> 00:00:18,800
+Drop the numbers into x-y space. Each number becomes a wheel.
+
+12
+00:00:18,800 --> 00:00:20,800
+And the number is its speed — how fast that wheel turns.
+
+13
+00:00:20,800 --> 00:00:22,400
+Four numbers, one moving point.
+
+14
+00:00:22,400 --> 00:00:24,000
+Part 4 — Equation.
+
+15
+00:00:24,000 --> 00:00:24,800
+x of t is the sum of r-k times cosine of v-k t. y of t is the same with sine.
+
+16
+00:00:24,800 --> 00:00:28,000
+v is the letters: 13, 1, 25, 1. r is the sizes: 1, a half, a third, a quarter.
+
+17
+00:00:28,000 --> 00:00:29,600
+Every speed is a whole number, so the curve always closes. This one is MAYA.
+
+18
+00:00:29,600 --> 00:00:30,800
+ALEX. One name, one curve.
+
+19
+00:00:30,800 --> 00:00:32,000
+SARA. Different letters, a different shape.
+
+20
+00:00:32,000 --> 00:00:34,400
+Follower number 1000 gets their name drawn like this. Comment your name.
+
+21
+00:00:34,400 --> 00:00:38,400
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
