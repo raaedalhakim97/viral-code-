@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:01,600
+How AI reads — it can't see letters
+
+2
+00:00:01,600 --> 00:00:03,200
+Part 1 of 2: CHUNKS
+
+3
+00:00:03,200 --> 00:00:04,800
+Watch it learn to read. It glues the most common pair, over and over.
+
+4
+00:00:04,800 --> 00:00:07,200
+s t r a w b e r r y  →  s t r a w b-er r y  →  s t r a w ber r y
+
+5
+00:00:07,200 --> 00:00:09,600
+→ s t r a w berr y  →  s t r a w berry  →  st ra w berry  →  straw berry
+
+6
+00:00:09,600 --> 00:00:11,200
+Nobody told it “straw” or “berry” — it just counted
+
+7
+00:00:11,200 --> 00:00:14,400
+3 r's.  2 chunks.  So ask it to count the r's and watch.
+
+8
+00:00:14,400 --> 00:00:16,000
+Part 2 of 2: THREADS
+
+9
+00:00:16,000 --> 00:00:18,400
+the animal didn't cross the street because it was too tired
+
+10
+00:00:18,400 --> 00:00:20,000
+Which one is “it”?
+
+11
+00:00:20,000 --> 00:00:22,400
+The animal — 85%. Because tired is a thing animals are.
+
+12
+00:00:22,400 --> 00:00:24,000
+Change ONE word at the end: “because it was too wide”
+
+13
+00:00:24,000 --> 00:00:26,400
+And the link jumps — now “it” is the street
+
+14
+00:00:26,400 --> 00:00:28,000
+It never reads a word. It reads the pieces, and the links.
+
+15
+00:00:28,000 --> 00:00:32,000
+Pause. Observe. Learn.  Follow for the math behind AI — @observer.collapse
