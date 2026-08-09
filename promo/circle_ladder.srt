@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:01,600
+Every wave is a circle — six equations, one picture
+
+2
+00:00:01,600 --> 00:00:04,800
+A point on a circle: one point, going round
+
+3
+00:00:04,800 --> 00:00:08,000
+sin t — its HEIGHT is sin
+
+4
+00:00:08,000 --> 00:00:11,200
+cos t — its WIDTH is cos
+
+5
+00:00:11,200 --> 00:00:14,400
+sin²t + cos²t = 1 — Pythagoras, on a hypotenuse of 1
+
+6
+00:00:14,400 --> 00:00:17,600
+e^(it) = cos t + i sin t — the point IS the exponential
+
+7
+00:00:17,600 --> 00:00:20,800
+e^(iπ) + 1 = 0 — put the point at half a turn and it lands on −1
+
+8
+00:00:20,800 --> 00:00:24,000
+Every wave you have ever seen is a point going round a circle.
+
+9
+00:00:24,000 --> 00:00:28,800
+Pause. Observe. Learn.  Follow for the math behind AI — @observer.collapse
