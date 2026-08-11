@@ -1,9 +1,9 @@
 """
-sales_line — y = mx + b, and what it was always for. 28.8s.
+sales_line — y = mx + b, and what it was always for. 38.4s.
 
     BPM=150 manimgl sales_line.py SalesLine -w -r 1080x1920
 
-72 beats = 18 bars = 28.800s at 150 BPM.
+96 beats = 24 bars = 38.400s at 150 BPM.
 
 EPISODE 1 OF "WHY DID WE LEARN THIS?" — the page series about the maths
 everybody was made to memorise and nobody was told the use of. The series name
@@ -51,11 +51,11 @@ import numpy as np
 
 BPM = float(os.environ.get("BPM", 150.0))
 FPS = 60
-TOTAL = 72
+TOTAL = 96
 
-END_OPEN = 4
-END_R1, END_R2, END_R3, END_R4, END_R5 = 16, 28, 40, 48, 58
-END_TAKE = 64
+END_OPEN = 6
+END_R1, END_R2, END_R3, END_R4, END_R5 = 22, 38, 54, 64, 78
+END_TAKE = 86
 
 SERIES = "WHY DID WE LEARN THIS?"
 
@@ -66,6 +66,8 @@ GOLD   = "#EBCB8B"
 SKY    = "#88C0D0"
 
 FRAME_H = 9.0
+BREATH_BEATS = 32.0     # one full push-in and pull-out
+BREATH_AMT   = 0.05     # 5% of the frame height — felt, not noticed
 LINE_Y  = -2.05
 EQ_Y    = 2.50
 NOTE_Y  = -2.30
@@ -172,6 +174,18 @@ class SalesLine(Scene):
         self.clock.add_updater(lambda m, dt: m.increment_value(dt))
         self.add(self.clock)
 
+        # The camera never sits still. A slow 32-beat breath runs the whole
+        # video, and `zoom` pushes in on the two rungs that have small things
+        # in them. manimlib already keeps camera.frame in scene.mobjects, so
+        # the updater runs — which is also why takeaway() has to exclude it
+        # from the mobjects it fades.
+        self.zoom = ValueTracker(1.0)
+        self.camera.frame.add_updater(lambda m: m.set_height(
+            FRAME_H * self.zoom.get_value() * (
+                1.0 - BREATH_AMT * 0.5 * (1 - np.cos(
+                    2 * np.pi * self.clock.get_value()
+                    / (BREATH_BEATS * self.B))))))
+
         self.open_card()
         self.rung1_dots()
         self.rung2_step()
@@ -238,18 +252,18 @@ class SalesLine(Scene):
         sub = txt("you wondered at 14. nobody answered.", 22, GREY, bold=False)
         sub.move_to(np.array([0, -0.25, 0]))
         self.add(big, sub)
-        self.wait(self.T(3))
+        self.wait(self.T(4.5))
         self.title = txt(SERIES, 19, GREY, bold=False, w=4.0)
         self.title.move_to(np.array([0, 3.35, 0]))
         self.play(FadeOut(big), FadeOut(sub), FadeIn(self.title),
-                  run_time=self.T(1))
+                  run_time=self.T(1.5))
         self.pad_to(END_OPEN)
 
     # ==================================================================
     # 1 — four dots.  Four numbers, and that is the whole of the data.
     # ==================================================================
     def rung1_dots(self):
-        self.show_eq("y = mx + b", 2)
+        self.show_eq("y = mx + b", 2.5)
 
         xa = seg(P(0, 0), P(X_MAX, 0), GREY, 2.6, 0.8)
         ya = seg(P(0, 0), P(0, Y_MAX), GREY, 2.6, 0.8)
@@ -262,9 +276,9 @@ class SalesLine(Scene):
         xlab.move_to(P(X_MAX, 0) + np.array([-0.02, -0.28, 0]))
         ylab = txt("sales", 20, GREY, bold=False, w=1.0)
         ylab.move_to(P(0, Y_MAX) + np.array([0.48, 0.04, 0]))
-        self.play(ShowCreation(xa), ShowCreation(ya), run_time=self.T(1))
-        self.play(FadeIn(marks), FadeIn(xlab), FadeIn(ylab), run_time=self.T(0.5))
-        self.say("a small shop. four days of sales.", 2)
+        self.play(ShowCreation(xa), ShowCreation(ya), run_time=self.T(1.5))
+        self.play(FadeIn(marks), FadeIn(xlab), FadeIn(ylab), run_time=self.T(1))
+        self.say("a small shop. four days of sales.", 2.5)
 
         self.dots = VGroup(*[Dot(P(d, s), radius=0.085, fill_color=WHITE_)
                              for d, s in zip(DAYS, SALES)])
@@ -273,18 +287,20 @@ class SalesLine(Scene):
                              for d, s in zip(DAYS, SALES)])
         self.play(LaggedStart(*[AnimationGroup(FadeIn(dd, scale=1.6), FadeIn(vv))
                                 for dd, vv in zip(self.dots, self.vals)],
-                              lag_ratio=0.5), run_time=self.T(3))
-        self.say("four dots. that is all the data.", 2)
+                              lag_ratio=0.5), run_time=self.T(4))
+        self.say("four dots. that is all the data.", 2.5)
         self.pad_to(END_R1)
 
     # ==================================================================
     # 2 — m.  The step from one dot to the next, and it never changes.
     # ==================================================================
     def rung2_step(self):
-        self.show_eq("m = the step", 2)
+        self.show_eq("m = the step", 2.5)
         # the four values have done their job; clear them before the next
-        # number arrives, or the screen ends up a wall of digits
-        self.play(FadeOut(self.vals), run_time=self.T(1))
+        # number arrives, or the screen ends up a wall of digits. The camera
+        # eases in at the same time — the steps are the small detail.
+        self.play(FadeOut(self.vals), self.zoom.animate.set_value(0.95),
+                  run_time=self.T(1.5))
 
         self.stairs = VGroup()
         for a, b in zip(range(len(DAYS) - 1), range(1, len(DAYS))):
@@ -296,10 +312,10 @@ class SalesLine(Scene):
             step = VGroup(across, up, lab)
             self.stairs.add(step)
             self.play(ShowCreation(across), ShowCreation(up), FadeIn(lab),
-                      run_time=self.T(1))
+                      run_time=self.T(1.5))
 
-        self.say(f"every day: {STEP} more. always {STEP}.", 2)
-        self.show_eq(f"m = {MS}", 2, GOLD)
+        self.say(f"every day: {STEP} more. always {STEP}.", 2.5)
+        self.show_eq(f"m = {MS}", 2.5, GOLD)
         self.say("m is the step. that is the whole of m.", 2)
         self.pad_to(END_R2)
 
@@ -307,85 +323,90 @@ class SalesLine(Scene):
     # 3 — b.  Run the line backwards and see where it came from.
     # ==================================================================
     def rung3_start(self):
-        self.show_eq("b = the start", 2)
-        self.play(FadeOut(self.stairs), run_time=self.T(1))
+        self.show_eq("b = the start", 2.5)
+        self.play(FadeOut(self.stairs), self.zoom.animate.set_value(1.0),
+                  run_time=self.T(1.5))
 
         self.line = seg(P(DAYS[0], SALES[0]), P(DAYS[-1], SALES[-1]), GOLD, 3.8)
-        self.play(ShowCreation(self.line), run_time=self.T(2))
-        self.say("join the dots — one straight line", 2)
+        self.play(ShowCreation(self.line), run_time=self.T(2.5))
+        self.say("join the dots — one straight line", 2.5)
 
         back = dashed(P(DAYS[0], SALES[0]), P(0, B), GOLD, 3.0, 8)
         b_dot = Dot(P(0, B), radius=0.10, fill_color=GOLD)
         b_lab = txt(BS, 26, GOLD, w=0.8).move_to(P(0, B) + np.array([-0.32, 0.16, 0]))
         self.bmark = VGroup(back, b_dot, b_lab)
         self.play(ShowCreation(back), FadeIn(b_dot, scale=1.8), FadeIn(b_lab),
-                  run_time=self.T(2))
-        self.show_eq(f"b = {BS}", 2, GOLD)
-        self.say("b is where it started. before day one.", 1)
+                  run_time=self.T(2.5))
+        self.show_eq(f"b = {BS}", 2.5, GOLD)
+        self.say("b is where it started. before day one.", 2)
         self.pad_to(END_R3)
 
     # ==================================================================
     # 4 — the two numbers, together.  That is the whole formula.
     # ==================================================================
     def rung4_together(self):
-        self.show_eq(f"y = {MS}x + {BS}", 2, GOLD)
-        self.say(f"the step is {MS}. the start is {BS}.", 2)
-        self.say("that is the entire line.", 2)
+        self.show_eq(f"y = {MS}x + {BS}", 2.5, GOLD)
+        self.say(f"the step is {MS}. the start is {BS}.", 2.5)
+        self.say("two numbers. that is the entire line.", 2.5)
         self.pad_to(END_R4)
 
     # ==================================================================
     # 5 — the prediction.  One more day of the same line.
     # ==================================================================
     def rung5_predict(self):
-        self.play(FadeOut(self.bmark), run_time=self.T(1))
-        self.show_eq(f"day {AHEAD}  →  {MS}×{AHEAD} + {BS}", 1.5)
+        self.play(FadeOut(self.bmark), self.zoom.animate.set_value(0.92),
+                  run_time=self.T(1.5))
+        self.show_eq(f"day {AHEAD}  →  {MS}×{AHEAD} + {BS}", 2.5)
 
         ext = dashed(P(DAYS[-1], SALES[-1]), P(AHEAD, PRED), GOLD, 3.4, 7)
         hit = Dot(P(AHEAD, PRED), radius=0.12, fill_color=GOLD)
         lab = txt(PS, 28, GOLD, w=0.9).move_to(P(AHEAD, PRED)
                                                + np.array([-0.06, 0.38, 0]))
-        self.play(ShowCreation(ext), run_time=self.T(1))
-        self.play(FadeIn(hit, scale=2.0), FadeIn(lab), run_time=self.T(1.5))
+        self.play(ShowCreation(ext), run_time=self.T(2))
+        self.play(FadeIn(hit, scale=2.0), FadeIn(lab), run_time=self.T(2))
 
-        self.show_eq(f"= {PS}", 1.5, GOLD)
-        self.say(f"tomorrow you sell {PS}.", 1.5)
-        self.say("you just predicted the future.", 2)
+        self.show_eq(f"= {PS}", 2.5, GOLD)
+        self.say(f"tomorrow you sell {PS}.", 2)
+        self.say("you just predicted the future.", 1.5)
         self.pad_to(END_R5)
 
     # ------------------------------------------------------------------
     def takeaway(self, a, b):
-        keep = (self.clock, self.title, self.eq)
+        # camera.frame lives in scene.mobjects, so it has to be kept out of
+        # this or the breath gets cleared and the frame gets faded
+        keep = (self.clock, self.title, self.eq, self.camera.frame)
         doomed = [m for m in self.mobjects if m not in keep]
         for m in doomed:
             m.clear_updaters()
-        self.play(*[FadeOut(m) for m in doomed], run_time=self.T(1))
+        self.play(*[FadeOut(m) for m in doomed],
+                  self.zoom.animate.set_value(1.0), run_time=self.T(1.5))
         self.note = None
         l1 = txt(a, 29, WHITE_, w=4.4)
         l1.move_to(np.array([0, 0.55, 0]))
-        self.play(FadeIn(l1, shift=0.12 * UP), run_time=self.T(2), rate_func=rush_from)
+        self.play(FadeIn(l1, shift=0.12 * UP), run_time=self.T(2.5), rate_func=rush_from)
         l2 = txt(b, 27, GOLD, w=4.5)
         l2.move_to(np.array([0, -0.25, 0]))
-        self.play(FadeIn(l2), run_time=self.T(1))
+        self.play(FadeIn(l2), run_time=self.T(1.5))
         self.pad_to(END_TAKE)          # two clear beats on the closing line
         self.eq.clear_updaters()
         self.play(FadeOut(l1), FadeOut(l2), FadeOut(self.eq),
-                  FadeOut(self.title), run_time=self.T(1))
+                  FadeOut(self.title), run_time=self.T(1.5))
         self.eq = None
 
     def signature(self):
         self.clock.clear_updaters()
         eye = observer_eye(WHITE_)
         eye.move_to(np.array([0, 1.25, 0])).scale(0.78)
-        self.play(ShowCreation(eye), run_time=self.T(3))
+        self.play(ShowCreation(eye), run_time=self.T(3.5))
         words = VGroup(txt("PAUSE", 20), txt("OBSERVE", 20), txt("LEARN", 20)) \
             .arrange(RIGHT, buff=0.42).move_to(np.array([0, -0.55, 0]))
-        self.play(FadeIn(words, shift=0.08 * UP), run_time=self.T(1))
+        self.play(FadeIn(words, shift=0.08 * UP), run_time=self.T(1.5))
         cta = txt("Follow for the math behind AI", 27)
         handle = txt("@observer.collapse", 21, GREY, bold=False)
         cg = VGroup(cta, handle).arrange(DOWN, buff=0.18)
         if cg.get_width() > 4.3:
             cg.set_width(4.3)
         cg.move_to(np.array([0, LINE_Y, 0]))
-        self.play(FadeIn(cg, shift=0.1 * UP), run_time=self.T(1))
+        self.play(FadeIn(cg, shift=0.1 * UP), run_time=self.T(1.5))
         self.pad_to(TOTAL - 2)
         self.play(FadeOut(eye), FadeOut(words), FadeOut(cg), run_time=self.T(2))

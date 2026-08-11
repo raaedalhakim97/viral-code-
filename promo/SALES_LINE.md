@@ -4,7 +4,7 @@ Companion to `sales_line.py`. **Episode 1 of "WHY DID WE LEARN THIS?"** — the
 page series about the maths everybody was made to memorise and nobody was told
 the use of.
 
-- **Output:** 1080×1920, 60fps, **28.800000s** — 72 beats = 18 bars at 150 BPM
+- **Output:** 1080×1920, 60fps, **38.400000s** — 96 beats = 24 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor.
 
 ---
@@ -94,6 +94,27 @@ would produce a real answer rather than a broken one.
 
 ---
 
+## Pace, and a camera that never sits still
+
+The first cut of this version ran 72 beats and was still too quick — each rung
+landed before the last had settled. It is now **96 beats**, with every rung
+about a third longer and no animation shorter than 1.5 beats. Nothing was
+added; the same five rungs just breathe.
+
+The camera moves for the whole video, in two layers:
+
+- **A 32-beat breath.** The frame height eases between 100% and 95% on a slow
+  cosine, one full push-in and pull-out every 12.8 seconds. At 5% it is felt
+  rather than noticed — the picture never feels pinned to the glass.
+- **Two deliberate pushes.** The camera eases in to 95% for the staircase
+  (rung 2, where the detail is small), back out for the line, in to 92% for the
+  prediction, and back out for the closing lines. Measured across the finished
+  render, the plot swings from 392px to 428px wide — about 9%.
+
+`camera.frame` already lives in `scene.mobjects`, which is why the updater runs
+at all, and also why `takeaway()` has to exclude it from the mobjects it clears
+and fades. Leave it in and the breath stops dead halfway through the last beat.
+
 ## Three things worth keeping
 
 **Numbers on screen are a budget, not a detail.** The single biggest fix here
@@ -155,7 +176,7 @@ not the point of the video. The point is the last line.
 
 ## Subtitle track
 
-`sales_line.srt` — 8 cues, no gaps, no overlaps, asserted at generation.
+`sales_line.srt` — 12 cues, no gaps, no overlaps, asserted at generation.
 YouTube → Subtitles → Add language → Upload file → With timing.
 
 ---
