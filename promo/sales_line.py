@@ -5,40 +5,38 @@ sales_line — y = mx + b, and what it was always for. 28.8s.
 
 72 beats = 18 bars = 28.800s at 150 BPM.
 
-ONE PICTURE CARRIES SIX RUNGS. Fourth in the ladder family, after
+EPISODE 1 OF "WHY DID WE LEARN THIS?" — the page series about the maths
+everybody was made to memorise and nobody was told the use of. The series name
+sits in the header for the whole video.
+
+ONE PICTURE CARRIES FIVE RUNGS. Fourth in the ladder family, after
 circle_ladder.py, square_ladder.py and sine_unroll.py. Same shell: one set of
-axes, seven dots, and nothing is ever added — only named.
+axes, four dots, and nothing is ever added — only named.
 
-    x = the day        y = the sales
+    day     1    2    3    4         (and 5, which is the point)
+    sales  30   40   50   60
 
-    day     1   2   3   4   5   6   7
-    sales  12  15  14  19  21  20  25
+    1   four dots, one per day        a shop. that is all the data.
+    2   the step between them         m = 10
+    3   the line, run back to day 0   b = 20
+    4   put the two together          y = 10x + 20
+    5   run it one day further        day 5 → 70
 
-    1   the axes                          y = mx + b
-    2   seven dots, one per day           x = day, y = sales
-    3   b is where it starts              b = 10
-    4   m is how fast it climbs           m = rise ÷ run = 2
-    5   the line that misses by least     y = 2x + 10
-    6   run the line one day further      day 8 → 26
-
-THE FIT IS REAL AND IT IS EXACT. These seven points are not decoration: the
-least-squares line through them is y = 2x + 10 with no rounding anywhere, so
-every number the video says out loud is the true answer rather than a
-convenient one. Mean day 4, mean sales 18, Sxy 56, Sxx 28, m = 56/28 = 2,
-b = 18 − 2·4 = 10. The residuals are 0, +1, −2, +1, +1, −2, +1 — they sum to
-exactly zero, which is what "best fit" means.
-
-WHY IT MATTERS, WHICH IS THE POINT OF THE VIDEO. This is linear regression, the
-first model in every machine-learning course, and the affine part of every
-neural network layer is the same expression with matrices in it: y = Wx + b.
-The video ends there, and that claim is the only thing in it not derived on
-screen.
+WHY THE DOTS SIT EXACTLY ON THE LINE. The first cut used seven days of realistic
+wobbly sales and spent a whole rung on least squares — residuals, "the line that
+misses by the least", the lot. Every word of it was true and it made the video
+hard, and worse, seven data values plus axis ticks plus m plus b plus the
+prediction put a dozen numbers on screen at once. This cut shows FOUR values,
+introduces exactly ONE new number per rung, and clears each rung's numbers
+before the next arrives. The shop's sales go up by ten a day because that is the
+setup, not a claim about shops.
 
 VERIFIED AT IMPORT
-    m == 2 and b == 10                      exactly, and against np.polyfit
-    residuals sum to 0                      exactly
-    no nearby (m, b) has a smaller SSE      40401-point grid
-    the prediction at day 8 is 26           exactly
+    every point is exactly on the line          s == M*d + B, integers
+    every step is exactly +10                   the claim rung 2 makes
+    least squares on this data returns (10, 20) the fit is real, not asserted
+    every residual is exactly zero
+    the prediction at day 5 is 70               exactly
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -56,35 +54,35 @@ FPS = 60
 TOTAL = 72
 
 END_OPEN = 4
-END_R1, END_R2, END_R3, END_R4, END_R5, END_R6 = 12, 22, 30, 40, 50, 58
+END_R1, END_R2, END_R3, END_R4, END_R5 = 16, 28, 40, 48, 58
 END_TAKE = 64
+
+SERIES = "WHY DID WE LEARN THIS?"
 
 WHITE_ = "#F7FAFC"
 GREY   = "#8A94A6"
 FAINT  = "#2A2F3A"
 GOLD   = "#EBCB8B"
-COOL   = "#5E81AC"
 SKY    = "#88C0D0"
-LEAF   = "#A3BE8C"
 
 FRAME_H = 9.0
 LINE_Y  = -2.05
-EQ_Y    = 2.55
+EQ_Y    = 2.50
 NOTE_Y  = -2.30
 
-DAYS  = [1, 2, 3, 4, 5, 6, 7]
-SALES = [12, 15, 14, 19, 21, 20, 25]
-AHEAD = 8                       # the day being predicted
+DAYS  = [1, 2, 3, 4]
+SALES = [30, 40, 50, 60]
+AHEAD = 5                       # the day being predicted
 
-X_MAX, Y_MAX = 9.0, 30.0        # what the axes span, in data units
-PX0, PX1 = -1.90, 1.95          # and where that lands on screen
-PY0, PY1 = -1.74, 1.70
+X_MAX, Y_MAX = 6.0, 75.0        # what the axes span, in data units
+PX0, PX1 = -1.72, 1.86          # and where that lands on screen
+PY0, PY1 = -1.80, 1.72
 
 
 # ---------------------------------------------------------------- the fit
 def least_squares(xs, ys):
-    """The line that minimises the total squared miss. Written out rather than
-    called from numpy, because the video says these steps on screen."""
+    """The real thing, not a hard-coded answer — on this data it happens to
+    come out whole because the data is clean."""
     x, y = np.asarray(xs, float), np.asarray(ys, float)
     mx, my = x.mean(), y.mean()
     m = ((x - mx) * (y - my)).sum() / ((x - mx) ** 2).sum()
@@ -93,23 +91,15 @@ def least_squares(xs, ys):
 
 M, B = least_squares(DAYS, SALES)
 PRED = M * AHEAD + B
-RESID = [s - (M * d + B) for d, s in zip(DAYS, SALES)]
+STEP = SALES[1] - SALES[0]
 
-assert (M, B) == (2.0, 10.0), (M, B)
-assert np.allclose(np.polyfit(DAYS, SALES, 1), [M, B])
-assert abs(sum(RESID)) < 1e-12, RESID          # what "best fit" means
-assert PRED == 26.0, PRED
+assert (M, B) == (10.0, 20.0), (M, B)
+assert all(s == M * d + B for d, s in zip(DAYS, SALES))        # exactly on it
+assert all(b - a == STEP for a, b in zip(SALES, SALES[1:]))    # rung 2's claim
+assert STEP == M, (STEP, M)                                    # the step IS m
+assert PRED == 70.0, PRED
 
-_sse = sum(r * r for r in RESID)
-for _dm in np.linspace(-1, 1, 201):            # nothing nearby fits better
-    for _db in np.linspace(-4, 4, 201):
-        _e = sum((s - ((M + _dm) * d + (B + _db))) ** 2
-                 for d, s in zip(DAYS, SALES))
-        assert _e >= _sse - 1e-9, (_dm, _db)
-
-MS = f"{M:.0f}"
-BS = f"{B:.0f}"
-PS = f"{PRED:.0f}"
+MS, BS, PS = f"{M:.0f}", f"{B:.0f}", f"{PRED:.0f}"
 
 
 def sx(d):
@@ -140,7 +130,7 @@ def seg(a, b, color=WHITE_, wid=3.0, op=1.0):
     return m
 
 
-def dashed(a, b, color=GOLD, wid=2.4, n=14):
+def dashed(a, b, color=GOLD, wid=2.4, n=12):
     """A dashed segment, built by hand so it needs no DashedLine behaviour."""
     g = VGroup()
     for i in range(n):
@@ -183,14 +173,13 @@ class SalesLine(Scene):
         self.add(self.clock)
 
         self.open_card()
-        self.rung1_axes()
-        self.rung2_dots()
-        self.rung3_b()
-        self.rung4_m()
-        self.rung5_line()
-        self.rung6_predict()
-        self.takeaway("You learned this at 14.",
-                      "A neural net layer is still y = Wx + b.")
+        self.rung1_dots()
+        self.rung2_step()
+        self.rung3_start()
+        self.rung4_together()
+        self.rung5_predict()
+        self.takeaway("We learned this at school.",
+                      "Nobody ever said what for.")
         self.signature()
 
     # ------------------------------------------------------------------
@@ -216,7 +205,7 @@ class SalesLine(Scene):
         mob.add_updater(lambda m: m.set_height(h0 * (1 + amt * self.kick())))
         return mob
 
-    def say(self, s, beats=2, color=WHITE_, size=24, extra=()):
+    def say(self, s, beats=2, color=WHITE_, size=25, extra=()):
         new = txt(s, size, color, bold=False, w=4.5)
         new.move_to(np.array([0, NOTE_Y, 0]))
         if self.note is None:
@@ -228,7 +217,7 @@ class SalesLine(Scene):
                       run_time=self.T(beats))
             self.note = new
 
-    def show_eq(self, s, beats=2, color=WHITE_, size=32):
+    def show_eq(self, s, beats=2, color=WHITE_, size=34):
         body = s if isinstance(s, VMobject) else txt(s, size, color, w=4.6)
         new = self.dance(body.move_to(np.array([0, EQ_Y, 0])))
         if self.eq is None:
@@ -242,132 +231,126 @@ class SalesLine(Scene):
 
     # ------------------------------------------------------------------
     def open_card(self):
-        big = VGroup(txt("y = mx + b", 56, GOLD, w=4.6),
-                     txt("predicts tomorrow", 30, WHITE_, w=4.6)) \
-            .arrange(DOWN, buff=0.26)
+        big = VGroup(txt("y = mx + b", 54, GOLD, w=4.6),
+                     txt("WHAT IS IT FOR?", 34, WHITE_, w=4.6)) \
+            .arrange(DOWN, buff=0.28)
         big.move_to(np.array([0, 0.85, 0]))
-        sub = txt("the one they never explained", 23, GREY, bold=False)
-        sub.move_to(np.array([0, -0.20, 0]))
+        sub = txt("you wondered at 14. nobody answered.", 22, GREY, bold=False)
+        sub.move_to(np.array([0, -0.25, 0]))
         self.add(big, sub)
         self.wait(self.T(3))
-        self.title = txt("y = mx + b", 20, GREY, bold=False, w=4.0)
+        self.title = txt(SERIES, 19, GREY, bold=False, w=4.0)
         self.title.move_to(np.array([0, 3.35, 0]))
         self.play(FadeOut(big), FadeOut(sub), FadeIn(self.title),
                   run_time=self.T(1))
         self.pad_to(END_OPEN)
 
     # ==================================================================
-    # 1 — the axes.  x is the day, y is the sales.  Nothing else.
+    # 1 — four dots.  Four numbers, and that is the whole of the data.
     # ==================================================================
-    def rung1_axes(self):
+    def rung1_dots(self):
         self.show_eq("y = mx + b", 2)
 
         xa = seg(P(0, 0), P(X_MAX, 0), GREY, 2.6, 0.8)
         ya = seg(P(0, 0), P(0, Y_MAX), GREY, 2.6, 0.8)
-        ticks = VGroup()
-        for d in range(1, 9):
-            ticks.add(seg(P(d, 0), P(d, 0) + np.array([0, 0.07, 0]), FAINT, 2.0))
-        for v in (10, 20, 30):
-            ticks.add(seg(P(0, v), P(0, v) + np.array([0.07, 0, 0]), FAINT, 2.0))
-            lab = txt(str(v), 17, GREY, bold=False, w=0.5)
-            lab.move_to(P(0, v) + np.array([-0.26, 0, 0]))
-            ticks.add(lab)
+        marks = VGroup()
+        for d in range(1, 6):
+            marks.add(seg(P(d, 0), P(d, 0) + np.array([0, 0.08, 0]), FAINT, 2.2))
+            marks.add(txt(str(d), 17, GREY, bold=False, w=0.4)
+                      .move_to(P(d, 0) + np.array([0, -0.26, 0])))
         xlab = txt("day", 20, GREY, bold=False, w=0.8)
-        xlab.move_to(P(X_MAX, 0) + np.array([-0.10, -0.30, 0]))
+        xlab.move_to(P(X_MAX, 0) + np.array([-0.02, -0.28, 0]))
         ylab = txt("sales", 20, GREY, bold=False, w=1.0)
-        ylab.move_to(P(0, Y_MAX) + np.array([0.46, 0.06, 0]))
-        self.axes = VGroup(xa, ya, ticks, xlab, ylab)
+        ylab.move_to(P(0, Y_MAX) + np.array([0.48, 0.04, 0]))
         self.play(ShowCreation(xa), ShowCreation(ya), run_time=self.T(1))
-        self.play(FadeIn(ticks), FadeIn(xlab), FadeIn(ylab), run_time=self.T(1))
+        self.play(FadeIn(marks), FadeIn(xlab), FadeIn(ylab), run_time=self.T(0.5))
+        self.say("a small shop. four days of sales.", 2)
 
-        self.say("you did this at school and never used it", 2)
-        self.say("x is the day.   y is the sales.", 2)
+        self.dots = VGroup(*[Dot(P(d, s), radius=0.085, fill_color=WHITE_)
+                             for d, s in zip(DAYS, SALES)])
+        self.vals = VGroup(*[txt(str(s), 23, GOLD, w=0.8)
+                             .move_to(P(d, s) + np.array([-0.02, 0.34, 0]))
+                             for d, s in zip(DAYS, SALES)])
+        self.play(LaggedStart(*[AnimationGroup(FadeIn(dd, scale=1.6), FadeIn(vv))
+                                for dd, vv in zip(self.dots, self.vals)],
+                              lag_ratio=0.5), run_time=self.T(3))
+        self.say("four dots. that is all the data.", 2)
         self.pad_to(END_R1)
 
     # ==================================================================
-    # 2 — the data.  Seven days of a small shop.
+    # 2 — m.  The step from one dot to the next, and it never changes.
     # ==================================================================
-    def rung2_dots(self):
-        self.show_eq("x = day     y = sales", 2)
+    def rung2_step(self):
+        self.show_eq("m = the step", 2)
+        # the four values have done their job; clear them before the next
+        # number arrives, or the screen ends up a wall of digits
+        self.play(FadeOut(self.vals), run_time=self.T(1))
 
-        self.dots = VGroup(*[Dot(P(d, s), radius=0.075, fill_color=WHITE_)
-                             for d, s in zip(DAYS, SALES)])
-        self.play(LaggedStart(*[FadeIn(dd, scale=1.6) for dd in self.dots],
-                              lag_ratio=0.45), run_time=self.T(3))
-        self.say("one dot per day. that is all the data.", 2)
-        self.say(", ".join(str(s) for s in SALES), 2, GOLD)
+        self.stairs = VGroup()
+        for a, b in zip(range(len(DAYS) - 1), range(1, len(DAYS))):
+            d0, s0, d1, s1 = DAYS[a], SALES[a], DAYS[b], SALES[b]
+            across = seg(P(d0, s0), P(d1, s0), SKY, 3.4)
+            up = seg(P(d1, s0), P(d1, s1), SKY, 3.4)
+            lab = txt(f"+{STEP}", 21, SKY, bold=False, w=0.9)
+            lab.move_to(P(d1, (s0 + s1) / 2) + np.array([0.44, 0, 0]))
+            step = VGroup(across, up, lab)
+            self.stairs.add(step)
+            self.play(ShowCreation(across), ShowCreation(up), FadeIn(lab),
+                      run_time=self.T(1))
+
+        self.say(f"every day: {STEP} more. always {STEP}.", 2)
+        self.show_eq(f"m = {MS}", 2, GOLD)
+        self.say("m is the step. that is the whole of m.", 2)
         self.pad_to(END_R2)
 
     # ==================================================================
-    # 3 — b.  Where you were before day one.
+    # 3 — b.  Run the line backwards and see where it came from.
     # ==================================================================
-    def rung3_b(self):
+    def rung3_start(self):
+        self.show_eq("b = the start", 2)
+        self.play(FadeOut(self.stairs), run_time=self.T(1))
+
+        self.line = seg(P(DAYS[0], SALES[0]), P(DAYS[-1], SALES[-1]), GOLD, 3.8)
+        self.play(ShowCreation(self.line), run_time=self.T(2))
+        self.say("join the dots — one straight line", 2)
+
+        back = dashed(P(DAYS[0], SALES[0]), P(0, B), GOLD, 3.0, 8)
+        b_dot = Dot(P(0, B), radius=0.10, fill_color=GOLD)
+        b_lab = txt(BS, 26, GOLD, w=0.8).move_to(P(0, B) + np.array([-0.32, 0.16, 0]))
+        self.bmark = VGroup(back, b_dot, b_lab)
+        self.play(ShowCreation(back), FadeIn(b_dot, scale=1.8), FadeIn(b_lab),
+                  run_time=self.T(2))
         self.show_eq(f"b = {BS}", 2, GOLD)
-        b_dot = Dot(P(0, B), radius=0.085, fill_color=GOLD)
-        b_lab = txt(BS, 24, GOLD, w=0.6).move_to(P(0, B) + np.array([0.30, 0.30, 0]))
-        self.play(FadeIn(b_dot, scale=1.8), FadeIn(b_lab), run_time=self.T(2))
-        self.bmark = VGroup(b_dot, b_lab)
-        self.say("b is where the line starts — day zero", 2)
-        self.say(f"you were already selling {BS}", 2)
+        self.say("b is where it started. before day one.", 1)
         self.pad_to(END_R3)
 
     # ==================================================================
-    # 4 — m.  Along one, up two.  That is the whole of slope.
+    # 4 — the two numbers, together.  That is the whole formula.
     # ==================================================================
-    def rung4_m(self):
-        self.show_eq("m = rise ÷ run", 2)
-
-        d0 = 4
-        run = seg(P(d0, M * d0 + B), P(d0 + 1, M * d0 + B), COOL, 3.4)
-        rise = seg(P(d0 + 1, M * d0 + B), P(d0 + 1, M * (d0 + 1) + B), GOLD, 3.4)
-        rl = txt("+1 day", 18, COOL, bold=False, w=1.0)
-        rl.move_to((P(d0, M * d0 + B) + P(d0 + 1, M * d0 + B)) / 2
-                   + np.array([0, -0.22, 0]))
-        ul = txt(f"+{MS} sales", 18, GOLD, bold=False, w=1.2)
-        ul.move_to((P(d0 + 1, M * d0 + B) + P(d0 + 1, M * (d0 + 1) + B)) / 2
-                   + np.array([0.62, 0, 0]))
-        self.step = VGroup(run, rise, rl, ul)
-        self.play(ShowCreation(run), FadeIn(rl), run_time=self.T(1.5))
-        self.play(ShowCreation(rise), FadeIn(ul), run_time=self.T(1.5))
-
-        self.say(f"one day along, {MS} sales up", 1.5)
-        self.show_eq(f"m = {MS}", 1.5, GOLD)
-        self.say(f"m is the climb: +{MS} every single day", 2)
+    def rung4_together(self):
+        self.show_eq(f"y = {MS}x + {BS}", 2, GOLD)
+        self.say(f"the step is {MS}. the start is {BS}.", 2)
+        self.say("that is the entire line.", 2)
         self.pad_to(END_R4)
 
     # ==================================================================
-    # 5 — the line.  Best fit is not a mystery: it is smallest total miss.
+    # 5 — the prediction.  One more day of the same line.
     # ==================================================================
-    def rung5_line(self):
-        self.show_eq(f"y = {MS}x + {BS}", 2, GOLD)
-        line = seg(P(0, B), P(7, M * 7 + B), GOLD, 3.6)
-        self.play(ShowCreation(line), run_time=self.T(2))
-        self.line = line
+    def rung5_predict(self):
+        self.play(FadeOut(self.bmark), run_time=self.T(1))
+        self.show_eq(f"day {AHEAD}  →  {MS}×{AHEAD} + {BS}", 1.5)
 
-        misses = VGroup(*[seg(P(d, s), P(d, M * d + B), SKY, 4.4, 1.0)
-                          for d, s in zip(DAYS, SALES) if abs(s - (M * d + B)) > 1e-9])
-        self.play(ShowCreation(misses), run_time=self.T(1.5))
-        self.say("no line hits them all", 1.5)
-        self.play(FadeOut(misses), run_time=self.T(1))
-        self.say("this is the one that misses by the least", 2, GOLD)
+        ext = dashed(P(DAYS[-1], SALES[-1]), P(AHEAD, PRED), GOLD, 3.4, 7)
+        hit = Dot(P(AHEAD, PRED), radius=0.12, fill_color=GOLD)
+        lab = txt(PS, 28, GOLD, w=0.9).move_to(P(AHEAD, PRED)
+                                               + np.array([-0.06, 0.38, 0]))
+        self.play(ShowCreation(ext), run_time=self.T(1))
+        self.play(FadeIn(hit, scale=2.0), FadeIn(lab), run_time=self.T(1.5))
+
+        self.show_eq(f"= {PS}", 1.5, GOLD)
+        self.say(f"tomorrow you sell {PS}.", 1.5)
+        self.say("you just predicted the future.", 2)
         self.pad_to(END_R5)
-
-    # ==================================================================
-    # 6 — the prediction.  Run the same line one day further.
-    # ==================================================================
-    def rung6_predict(self):
-        self.play(FadeOut(self.step), FadeOut(self.bmark), run_time=self.T(1))
-        self.show_eq(f"day {AHEAD}  →  {MS}({AHEAD}) + {BS}", 1.5)
-
-        ext = dashed(P(7, M * 7 + B), P(AHEAD, PRED), GOLD, 3.0, 9)
-        self.play(ShowCreation(ext), run_time=self.T(1.5))
-        hit = Dot(P(AHEAD, PRED), radius=0.11, fill_color=GOLD)
-        drop = dashed(P(AHEAD, PRED), P(AHEAD, 0), GREY, 1.8, 12)
-        self.play(FadeIn(hit, scale=2.0), ShowCreation(drop), run_time=self.T(1.5))
-
-        self.show_eq(f"= {PS} sales", 1.5, GOLD)
-        self.say(f"tomorrow: {PS}. that is a prediction.", 1)
-        self.pad_to(END_R6)
 
     # ------------------------------------------------------------------
     def takeaway(self, a, b):
@@ -377,10 +360,10 @@ class SalesLine(Scene):
             m.clear_updaters()
         self.play(*[FadeOut(m) for m in doomed], run_time=self.T(1))
         self.note = None
-        l1 = txt(a, 28, WHITE_, w=4.4)
+        l1 = txt(a, 29, WHITE_, w=4.4)
         l1.move_to(np.array([0, 0.55, 0]))
         self.play(FadeIn(l1, shift=0.12 * UP), run_time=self.T(2), rate_func=rush_from)
-        l2 = txt(b, 25, GOLD, w=4.5)
+        l2 = txt(b, 27, GOLD, w=4.5)
         l2.move_to(np.array([0, -0.25, 0]))
         self.play(FadeIn(l2), run_time=self.T(1))
         self.pad_to(END_TAKE)          # two clear beats on the closing line
