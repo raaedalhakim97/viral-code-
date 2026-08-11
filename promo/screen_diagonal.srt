@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:03,200
+a² + b² = c². They teach you this at school. You're about to realise what for.
+
+2
+00:00:03,200 --> 00:00:05,600
+A screen. Any screen you own.
+
+3
+00:00:05,600 --> 00:00:07,200
+a is across.
+
+4
+00:00:07,200 --> 00:00:08,800
+b is up.
+
+5
+00:00:08,800 --> 00:00:09,600
+c is corner to corner.
+
+6
+00:00:09,600 --> 00:00:13,600
+Measure across: 8. Drag it into a.
+
+7
+00:00:13,600 --> 00:00:18,400
+Measure up: 6. Drag it into b. That is everything you can reach a ruler to.
+
+8
+00:00:18,400 --> 00:00:21,600
+8 squared is 64. 6 squared is 36.
+
+9
+00:00:21,600 --> 00:00:25,600
+64 plus 36 is 100. So c squared is 100 — and c is 10.
+
+10
+00:00:25,600 --> 00:00:28,800
+You never measured the diagonal. The equation handed it to you.
+
+11
+00:00:28,800 --> 00:00:32,800
+The box says 10 inches. Every screen is sold by its diagonal.
+
+12
+00:00:32,800 --> 00:00:36,400
+We learned this at school. Nobody ever said what for.
+
+13
+00:00:36,400 --> 00:00:40,000
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
