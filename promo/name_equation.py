@@ -78,9 +78,10 @@ DECAY = 0.72                             # wheel k is DECAY^k as big as wheel 0
 
 HERO_S = 1.62                            # the closing zoom: 1.22 -> 1.98 radius
 HERO_C = np.array([0.0, 0.15, 0.0])
+HERO_BEATS = 8.5                         # 2 to scale up, the rest turning
 
 NAME = "MIRANDA"
-MONTAGE = ["SARA", "MIRANDA"]   # contrast, then back to hers
+MONTAGE = []                    # her name only — no other name shares the screen
 
 # The fastest wheel turns (m · biggest letter + 1) times per lap, and a longer
 # name makes that number bigger — MIRANDA's fastest is 127. Fixing the sample
@@ -488,6 +489,11 @@ class NameEquation(Scene):
             if i < len(MONTAGE) - 1:
                 self.wait(self.T(1.5))
 
+        # Whatever the montage did or did not use goes to the labelled hold.
+        # pad_to raises rather than drifts, so adding names back without
+        # widening stage 4 fails the render instead of eating the hero beat.
+        self.pad_to(END_EQN - HERO_BEATS)
+
         # --- hero. Every label goes, the shape takes the screen and turns.
         # A rosette this dense is the whole reason to watch to the end, and at
         # working size with three lines of text round it nobody can see it.
@@ -495,8 +501,8 @@ class NameEquation(Scene):
                   self.trail.animate.scale(HERO_S).move_to(HERO_C),
                   run_time=self.T(2))
         self.marker = None
-        self.play(Rotating(self.trail, angle=0.55), run_time=self.T(4),
-                  rate_func=linear)
+        self.play(Rotating(self.trail, angle=0.9),
+                  run_time=self.T(HERO_BEATS - 2), rate_func=linear)
         self.stage = [self.trail]
         self.pad_to(END_EQN)
 

@@ -22,8 +22,8 @@ ending on a closed curve that belongs to that name and no other.
 | 38–42 | **CARD** | **3 · SPACE X Y** |
 | 42–56 | | Each number becomes a wheel in the plane. The number is its **speed**. |
 | 56–60 | **CARD** | **4 · EQUATION** |
-| 60–78 | | The equation, one full lap, the curve. Then SARA, then back to MIRANDA. |
-| 78–84 | | **HERO** — labels go, the shape takes the screen and turns |
+| 60–75.5 | | The equation, one full lap, the curve, and a hold on it named |
+| 75.5–84 | | **HERO** — labels go, the shape takes the screen and turns |
 | 84–90 | | **FOLLOWER #1000 — comment your name** |
 | 90–100 | | The eye |
 
@@ -62,7 +62,7 @@ z(t + 2π/m) = Σ rₖ e^(i vₖ t) · e^(i(m aₖ + 1)2π/m)
 
 The curve comes back to itself, **rotated by exactly one m-th of a turn**. An
 m-letter name draws an m-fold flower. `MIRANDA` has seven letters, so it draws a
-seven-fold rosette; `SARA` has four and draws a four-fold one. That is the line
+seven-fold rosette; a four-letter name draws a four-fold one. That is the line
 the video says out loud, and it is the reason the shape is worth looking at.
 
 Three things fall out of the rule, and all three are asserted:
@@ -74,8 +74,13 @@ Three things fall out of the rule, and all three are asserted:
   letters changes which radius each speed gets, so `MAYA` and `AMYA` are not the
   same drawing.
 
-The montage ends back on the video's own name rather than on a stranger's, so
-the last shape before the hero beat is theirs.
+**The montage is empty by default.** An earlier cut morphed through a second
+name to prove the shapes differ, which is a good argument and the wrong video
+when the clip is a reply to one person — no other name should share her screen.
+`MONTAGE` still works if a comparison is ever wanted; whatever it does not use
+goes to the labelled hold, and `pad_to` raises rather than drifts, so adding
+names back without widening stage 4 fails the render instead of quietly eating
+the hero beat.
 
 **The sample count follows the name.** The fastest wheel turns `m × biggest
 letter + 1` times per lap — 91 for RANIA, **127 for MIRANDA**. A fixed
@@ -140,8 +145,8 @@ wheels turn at *different* speeds, was invisible.
 **The shape needs a beat with nothing else in it.** At working size, with a
 name, a tagline, a stage marker and a title around it, a rosette this dense
 reads as a smudge — and it is the entire reason to watch to the end. The last
-six beats drop every label, scale the curve from 1.22 to 1.98 units and turn it
-slowly. That beat is the payoff, not the equation.
+**8.5 beats** drop every label, scale the curve from 1.22 to 1.98 units and turn
+it slowly through 0.9 radians. That beat is the payoff, not the equation.
 
 **The hook holds for 3 beats, not 2.** Every other video in the library gives
 the opening card 2 beats (0.8s) before shrinking it to a header. That is the one
@@ -219,7 +224,7 @@ Every speed leaves the same remainder when divided by 7 → turn the lap a seven
 of the way round and the whole picture lands back on itself, rotated a seventh
 of a turn. That's the seven petals.
 
-7 letters, 7-fold flower. SARA has 4 letters and draws a 4-fold one.
+7 letters, 7-fold flower. A 4-letter name draws a 4-fold one.
 
 Your name has a flower too. Comment it 👇
 
@@ -257,7 +262,7 @@ entry in that list.
 
 ```python
 NAME = "MIRANDA"
-MONTAGE = ["SARA", "MIRANDA"]   # contrast, then back to hers
+MONTAGE = []      # her name only — no other name shares the screen
 ```
 
 One thing that does **not** follow automatically: a line of narration that

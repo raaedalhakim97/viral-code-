@@ -63,21 +63,17 @@ x of t is the sum of r-k times cosine of v-k t. y of t is the same with sine.
 The speed is seven times the letter, plus one. The size is 0.72 to the power k.
 
 17
-00:00:28,000 --> 00:00:29,600
+00:00:28,000 --> 00:00:30,400
 Every speed is a whole number, so the curve always closes. And every speed leaves the same remainder when divided by seven — so the shape repeats seven times. Seven letters, seven-fold flower.
 
 18
-00:00:29,600 --> 00:00:31,200
-SARA — four letters, four-fold.
+00:00:30,400 --> 00:00:33,600
+One name. One flower. Nobody else draws this one.
 
 19
-00:00:31,200 --> 00:00:33,600
-And back to MIRANDA. One name, one flower — nobody else has this one.
-
-20
 00:00:33,600 --> 00:00:36,000
 Follower number 1000 gets their name drawn like this. Comment your name.
 
-21
+20
 00:00:36,000 --> 00:00:40,000
 Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
