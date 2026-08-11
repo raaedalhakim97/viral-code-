@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:01,600
+y = mx + b. The one they never explained. It predicts tomorrow.
+
+2
+00:00:01,600 --> 00:00:04,800
+You did this at school and never used it. Here is what it was for. x is the day. y is the sales.
+
+3
+00:00:04,800 --> 00:00:08,800
+Seven days of a small shop: 12, 15, 14, 19, 21, 20, 25. One dot per day. That is all the data.
+
+4
+00:00:08,800 --> 00:00:12,000
+b is where the line starts — day zero. b = 10. You were already selling 10 before day one.
+
+5
+00:00:12,000 --> 00:00:16,000
+m is rise divided by run. Go one day along, and the line goes two sales up. m = 2. That is the climb: plus 2 every single day.
+
+6
+00:00:16,000 --> 00:00:20,000
+So the line is y = 2x + 10. No straight line hits all seven dots — this is the one that misses by the least. That is all a line of best fit is.
+
+7
+00:00:20,000 --> 00:00:24,000
+Now run the same line one day further. Day 8: 2 times 8, plus 10, equals 26. Tomorrow you sell 26. That is a prediction.
+
+8
+00:00:24,000 --> 00:00:26,000
+You learned this at 14. A neural net layer is still y = Wx + b.
+
+9
+00:00:26,000 --> 00:00:28,800
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
