@@ -44,7 +44,7 @@ Drop the numbers into x-y space. Each number becomes a wheel.
 
 12
 00:00:18,800 --> 00:00:20,800
-And the number is its speed — how fast that wheel turns.
+The number sets the speed — bigger number, faster wheel.
 
 13
 00:00:20,800 --> 00:00:22,400
@@ -60,19 +60,19 @@ x of t is the sum of r-k times cosine of v-k t. y of t is the same with sine.
 
 16
 00:00:24,800 --> 00:00:28,000
-v is the letters: 18, 1, 14, 9, 1. r is the sizes: 1, a half, a third, a quarter, a fifth.
+The speed is five times the letter, plus one. The size is 0.72 to the power k.
 
 17
 00:00:28,000 --> 00:00:29,600
-Every speed is a whole number, so the curve always closes. This one is RANIA.
+Every speed is a whole number, so the curve always closes. And every speed leaves the same remainder when divided by five — so the shape repeats five times. Five letters, five-fold flower.
 
 18
 00:00:29,600 --> 00:00:31,200
-SARA. Different letters, a different shape.
+SARA — four letters, four-fold.
 
 19
 00:00:31,200 --> 00:00:33,600
-And back to RANIA. One name, one curve — nobody else has this one.
+And back to RANIA. One name, one flower — nobody else has this one.
 
 20
 00:00:33,600 --> 00:00:36,000

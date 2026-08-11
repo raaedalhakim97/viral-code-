@@ -1,9 +1,9 @@
 """
-name_equation — your name, turned into a curve. 38.4s.
+name_equation — your name, turned into a flower. 40.0s.
 
     BPM=150 manimgl name_equation.py NameEquation -w -r 1080x1920
 
-96 beats = 24 bars = 38.400s at 150 BPM.
+100 beats = 25 bars = 40.000s at 150 BPM.
 
 FOUR SIGNPOSTED STAGES, in the order the viewer asked for them:
 
@@ -16,16 +16,24 @@ FOUR SIGNPOSTED STAGES, in the order the viewer asked for them:
 THE MAPPING IS A STATED RULE, NOT A CLAIM ABOUT ANY MODEL.
 Stages 1 and 2 are true of every language model: text is split into tokens and
 the tokens become numbers before anything else happens. Stage 3 onward is OUR
-rule, and the video says so on screen — letter k gets a wheel of radius 1/k
-turning at a speed equal to the letter's value:
+rule, and the video says so on screen:
 
-    x(t) = Σ (1/k) · cos(vₖ t)          v = the letters, a=1 … z=26
-    y(t) = Σ (1/k) · sin(vₖ t)          r = 1, ½, ⅓, ¼ …
+    x(t) = Σ rₖ · cos(vₖ t)
+    y(t) = Σ rₖ · sin(vₖ t)          vₖ = m·aₖ + 1        rₖ = 0.72ᵏ
+
+where aₖ is the letter (a=1 … z=26) and m is HOW MANY LETTERS the name has.
+
+WHY m·aₖ + 1 AND NOT JUST aₖ. Every speed then leaves remainder 1 when divided
+by m, so advancing t by 1/m of a lap multiplies the whole curve by e^(2πi/m):
+the shape returns to itself, rotated by exactly 1/m of a turn. An m-letter name
+draws an m-fold flower. The first cut used the bare letter as the speed — the
+speeds shared no structure, nothing lined up, and the result was a tangle.
 
 Every vₖ is a whole number, so both sums have period 2π and the curve ALWAYS
-closes — asserted below for every name in the file. Different names give
-different curves, including anagrams (order changes which radius each speed
-gets), asserted below across a list of names.
+closes. Different names give different curves, including anagrams (order
+changes which radius each speed gets). All three properties — closure,
+distinctness and the m-fold symmetry — are asserted below across a list of
+names, so a bad edit fails the render instead of shipping.
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -66,7 +74,9 @@ LINE_Y  = -2.05
 CEN  = np.array([0.0, -0.45, 0.0])       # where the wheels live
 CEN2 = CEN + np.array([0.0, 0.55, 0.0])  # where the finished curve settles
 RAD  = 1.22                              # on-screen radius of the whole chain
-NPTS = 1500
+NPTS = 5200                              # max speed is ~5*26+1, so the trace
+                                         # needs a lot of samples to stay smooth
+DECAY = 0.72                             # wheel k is DECAY^k as big as wheel 0
 
 HERO_S = 1.62                            # the closing zoom: 1.22 -> 1.98 radius
 HERO_C = np.array([0.0, 0.15, 0.0])
@@ -80,9 +90,23 @@ def vals(name):
     return [ord(c) - 96 for c in name.lower() if c.isalpha()]
 
 
+def speeds(name):
+    """Wheel k turns at m·aₖ + 1, where m is how many letters the name has.
+
+    THIS IS WHAT MAKES IT A FLOWER. Every speed leaves the same remainder when
+    divided by m, so advancing t by a whole 1/m of a turn multiplies the whole
+    curve by e^(2πi/m) — it comes back to itself, rotated by exactly 1/m of a
+    turn. m-letter name, m-fold symmetry. The first cut used the bare letter as
+    the speed; the speeds then shared no structure and the result was a tangle.
+    """
+    m = len(vals(name))
+    return [m * a + 1 for a in vals(name)]
+
+
 def rads(n):
-    """Wheel k is 1/k as big as the first one."""
-    return [1.0 / (k + 1) for k in range(n)]
+    """Wheel k is DECAY^k as big as the first — a clean drop, so the biggest
+    wheel gives the outline and the rest are ornament."""
+    return [DECAY ** k for k in range(n)]
 
 
 def scale_for(name):
@@ -91,7 +115,7 @@ def scale_for(name):
 
 def chain_at(name, t, center=CEN):
     """Every joint of the wheel chain at time t, tail first."""
-    v, r, s = vals(name), rads(len(vals(name))), scale_for(name)
+    v, r, s = speeds(name), rads(len(vals(name))), scale_for(name)
     p = np.array(center, dtype=float)
     out = [p.copy()]
     for rk, vk in zip(r, v):
@@ -101,7 +125,7 @@ def chain_at(name, t, center=CEN):
 
 
 def path_pts(name, t0=0.0, t1=2 * np.pi, n=NPTS, center=CEN):
-    v, r, s = vals(name), rads(len(vals(name))), scale_for(name)
+    v, r, s = speeds(name), rads(len(vals(name))), scale_for(name)
     t = np.linspace(t0, t1, max(int(n), 2))
     x = sum(s * rk * np.cos(vk * t) for rk, vk in zip(r, v)) + center[0]
     y = sum(s * rk * np.sin(vk * t) for rk, vk in zip(r, v)) + center[1]
@@ -130,8 +154,20 @@ for _nm in _CHECK:
 
 assert np.abs(path_pts("MAYA") - path_pts("AMYA")).max() > 0.1   # anagrams differ
 
+# THE FLOWER. Turn t by 1/m of a lap and the curve comes back to itself, turned
+# by 1/m of a lap. This is the claim the video makes on screen, so it is checked
+# here for every name in the list, to 1e-12.
+for _nm in _CHECK:
+    _m = len(vals(_nm))
+    _t = np.linspace(0, 2 * np.pi, 4000)
+    _r, _v = rads(_m), speeds(_nm)
+    _z = sum(rk * np.exp(1j * vk * _t) for rk, vk in zip(_r, _v))
+    _zr = sum(rk * np.exp(1j * vk * (_t + 2 * np.pi / _m)) for rk, vk in zip(_r, _v))
+    assert np.abs(_zr - _z * np.exp(2j * np.pi / _m)).max() < 1e-12, _nm
+
+M_FOLD  = len(vals(NAME))
 VAL_STR = ", ".join(str(v) for v in vals(NAME))
-RAD_STR = ", ".join(["1", "½", "⅓", "¼", "⅕", "⅙"][:len(vals(NAME))])
+SPD_STR = ", ".join(str(v) for v in speeds(NAME))
 
 
 # ------------------------------------------------------------ drawing
@@ -158,7 +194,7 @@ def chip_row(tokens, color=WHITE_, size=26, buff=0.13, y=0.55, maxw=4.5):
     return g.move_to(np.array([0, y, 0]))
 
 
-def curve_mob(name, center=CEN, color=GOLD, w=3.0, n=NPTS):
+def curve_mob(name, center=CEN, color=GOLD, w=1.9, n=NPTS):
     m = VMobject(stroke_color=color, stroke_width=w)
     m.set_points_as_corners(path_pts(name, n=n, center=center))
     return m
@@ -350,18 +386,21 @@ class NameEquation(Scene):
         self.chain.add_updater(
             lambda m: m.become(VGroup(*self.build_chain(self.tt.get_value(),
                                                         self.dim.get_value()))))
-        self.trail = VMobject(stroke_color=GOLD, stroke_width=3.2)
+        self.trail = VMobject(stroke_color=GOLD, stroke_width=1.8)
         self.trail.add_updater(lambda m: self.redraw_trail(m))
         self.add(self.trail, self.chain)
         self.play(FadeIn(self.chain), run_time=self.T(2))
 
-        self.say("each number is a wheel — and the number is its SPEED",
+        self.say("each number is a wheel — bigger number, faster wheel",
                  2, GOLD, size=22, y=LOW_Y)
-        self.play(self.tt.animate.set_value(0.55),
+        # only a sliver of the lap. The fastest wheel turns ~90 times per lap,
+        # so at 0.55 it was already a blur and the whole point of this beat —
+        # that the wheels turn at DIFFERENT speeds — was invisible
+        self.play(self.tt.animate.set_value(0.13),
                   run_time=self.T(3), rate_func=linear)
         # the count follows NAME — it was hard-coded to "four" and went
         # wrong the first time the name was not four letters long
-        self.say(f"{len(vals(NAME))} numbers, one moving point", 2, y=LOW_Y)
+        self.say(f"{M_FOLD} numbers, one moving point", 2, y=LOW_Y)
         self.pad_to(END_SPACE)
 
     def build_chain(self, t, dim):
@@ -383,7 +422,7 @@ class NameEquation(Scene):
         t = self.tt.get_value()
         # the trail reads self.dim too — otherwise the section-4 card lands on
         # top of a full-brightness gold arc and the number is unreadable
-        m.set_stroke(GOLD, 3.2, opacity=self.dim.get_value())
+        m.set_stroke(GOLD, 1.8, opacity=self.dim.get_value())
         if t <= 1e-4:
             p = chain_at(NAME, 0.0)[-1]
             m.set_points_as_corners([p, p])
@@ -396,28 +435,37 @@ class NameEquation(Scene):
     # ==================================================================
     def part4_equation(self):
         eq = VGroup(
-            txt("x(t) = Σ rₖ · cos(vₖ t)", 25, WHITE_, w=4.4),
-            txt("y(t) = Σ rₖ · sin(vₖ t)", 25, WHITE_, w=4.4))
-        eq[0].move_to(np.array([0, 2.15, 0]))
-        eq[1].move_to(np.array([0, 1.74, 0]))
-        key = txt(f"v = {VAL_STR}      r = {RAD_STR}", 19, GOLD, bold=False, w=4.5)
-        key.move_to(np.array([0, 1.30, 0]))
-        self.play(FadeIn(eq), FadeIn(key),
+            txt("x(t) = Σ rₖ · cos(vₖ t)", 24, WHITE_, w=4.4),
+            txt("y(t) = Σ rₖ · sin(vₖ t)", 24, WHITE_, w=4.4))
+        eq[0].move_to(np.array([0, 2.20, 0]))
+        eq[1].move_to(np.array([0, 1.83, 0]))
+        key = txt(f"vₖ = {M_FOLD}·aₖ + 1        rₖ = {DECAY}ᵏ",
+                  18, GOLD, bold=False, w=4.5)
+        key.move_to(np.array([0, 1.44, 0]))
+        key2 = txt(f"a = {VAL_STR}   →   v = {SPD_STR}",
+                   17, GREY, bold=False, w=4.6)
+        key2.move_to(np.array([0, 1.10, 0]))
+        self.play(FadeIn(eq), FadeIn(key), FadeIn(key2),
                   self.dim.animate.set_value(1.0), run_time=self.T(2))
 
+        # the wheels recede as the curve builds — the fastest one turns 80-odd
+        # times during the lap, and at full brightness it strobes over the
+        # thing it is drawing
         self.play(self.tt.animate.set_value(2 * np.pi),
+                  self.dim.animate.set_value(0.30),
                   run_time=self.T(8), rate_func=linear)
 
         self.chain.clear_updaters()
         self.trail.clear_updaters()
-        final = curve_mob(NAME, CEN2, GOLD, 3.4)
-        self.play(FadeOut(self.chain), FadeOut(eq), FadeOut(key),
+        final = curve_mob(NAME, CEN2, GOLD, 1.9)
+        self.play(FadeOut(self.chain), FadeOut(eq), FadeOut(key), FadeOut(key2),
                   Transform(self.trail, final), run_time=self.T(1.5))
 
         label = txt(NAME, 40, GOLD, w=4.2)
         label.move_to(np.array([0, -1.72, 0]))
         self.play(FadeIn(label, shift=0.12 * UP), run_time=self.T(1))
-        tag = txt("one name. one curve.", 24, WHITE_, bold=False, w=4.4)
+        tag = txt(f"{M_FOLD} letters. {M_FOLD}-fold flower.", 24, WHITE_,
+                  bold=False, w=4.4)
         tag.move_to(np.array([0, -2.18, 0]))
         self.play(FadeIn(tag), run_time=self.T(1))
 
@@ -425,10 +473,13 @@ class NameEquation(Scene):
             # morph, then HOLD. Without the hold each name is only fully formed
             # on the frame the transform ends and is immediately morphed away.
             # The last one needs no hold — the hero beat below IS its hold.
-            nxt = curve_mob(other, CEN2, GOLD, 3.4)
+            nxt = curve_mob(other, CEN2, GOLD, 1.9)
             nl = txt(other, 40, GOLD, w=4.2).move_to(label.get_center())
+            mo = len(vals(other))
+            nt = txt(f"{mo} letters. {mo}-fold flower.", 24, WHITE_,
+                     bold=False, w=4.4).move_to(tag.get_center())
             self.play(Transform(self.trail, nxt), Transform(label, nl),
-                      run_time=self.T(1.5))
+                      Transform(tag, nt), run_time=self.T(1.5))
             if i < len(MONTAGE) - 1:
                 self.wait(self.T(1.5))
 

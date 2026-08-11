@@ -34,20 +34,41 @@ viewer who arrives mid-scroll knows which part they are in.
 
 ## The rule
 
-Letter *k* of the name gets a wheel of radius `1/k` turning at a speed equal to
-the letter's value. Chain the wheels tip to tail and follow the last tip:
+Letter *k* gets a wheel. Chain the wheels tip to tail and follow the last tip:
 
 ```
-x(t) = Σ (1/k) · cos(vₖ t)
-y(t) = Σ (1/k) · sin(vₖ t)          v = the letters, a=1 … z=26
+x(t) = Σ rₖ · cos(vₖ t)
+y(t) = Σ rₖ · sin(vₖ t)        vₖ = m·aₖ + 1        rₖ = 0.72ᵏ
 ```
 
-For `RANIA` that is `v = 18, 1, 14, 9, 1` and `r = 1, ½, ⅓, ¼, ⅕`.
+`aₖ` is the letter (a = 1 … z = 26) and **m is how many letters the name has**.
+For `RANIA`: `a = 18, 1, 14, 9, 1` → `v = 91, 6, 71, 46, 6`, `m = 5`.
 
-Two things fall out of it, and both are the reason the video works:
+### Why `m·aₖ + 1` and not just the letter
+
+The first cut used the bare letter as the speed. It was honest, it closed, it
+was unique to the name — and it looked like a scribble. The speeds shared no
+structure, so nothing lined up with anything.
+
+With `vₖ = m·aₖ + 1`, every speed leaves **the same remainder when divided by
+m**. Advance `t` by 1/m of a lap and every term picks up the same factor:
+
+```
+z(t + 2π/m) = Σ rₖ e^(i vₖ t) · e^(i(m aₖ + 1)2π/m)
+            = Σ rₖ e^(i vₖ t) · e^(2πi aₖ) · e^(2πi/m)
+            = e^(2πi/m) · z(t)                      because every aₖ is a whole number
+```
+
+The curve comes back to itself, **rotated by exactly one m-th of a turn**. An
+m-letter name draws an m-fold flower. `RANIA` has five letters, so it draws a
+five-petal rosette; `SARA` has four and draws a four-fold one. That is the line
+the video says out loud, and it is the reason the shape is worth looking at.
+
+Three things fall out of the rule, and all three are asserted:
 
 - **Every curve closes.** Every `vₖ` is a whole number, so both sums have period
   2π exactly. The point always comes home — there is no fudging the last frame.
+- **The m-fold symmetry is exact**, not approximate — checked to 1e-12.
 - **Different names give different curves,** including anagrams: reordering the
   letters changes which radius each speed gets, so `MAYA` and `AMYA` are not the
   same drawing.
@@ -67,6 +88,7 @@ from names. The stage cards keep the two halves visibly separate.
 ```
 vals("maya") == [13, 1, 25, 1]        a = 1, z = 26
 every curve closes                    |p(0) − p(2π)| < 1e-9, every name
+m-fold symmetry is exact              |z(t + 2π/m) − e^(2πi/m)·z(t)| < 1e-12
 distinct names → distinct curves      no collisions
 MAYA ≠ AMYA                           max separation 0.99 units
 ```
@@ -92,6 +114,18 @@ on a full-brightness gold arc.
 and SARA three beats each, spent entirely on the `Transform` — so each name was
 only fully drawn on the single frame the transform ended, and was immediately
 morphed away. Each now gets 1.5 beats of morph and 1.5 beats of hold.
+
+**A curve with ninety loops fills in solid at normal stroke width.** At 3.4 the
+flower rendered as a gold disc — every crossing merged. The trace and the final
+curve are drawn at 1.8, which is thin enough that the loops stay separate at
+working size and much thinner than it sounds once the hero beat scales it up.
+
+**The wheels have to recede while the curve builds.** The fastest wheel turns
+about ninety times in one lap, so at full brightness it strobes over the thing
+it is drawing. `self.dim` is animated from 1.0 down to 0.30 across the trace.
+For the same reason the stage-3 preview sweep only runs `t` to 0.13 of a lap —
+at 0.55 the fast wheel was already a blur and the point of that beat, that the
+wheels turn at *different* speeds, was invisible.
 
 **The shape needs a beat with nothing else in it.** At working size, with a
 name, a tagline, a stage marker and a title around it, a rosette this dense
@@ -119,17 +153,23 @@ first. Short name, so: R A N I A.
 2 — VECTORS. Every token becomes a number. a=1, b=2, all the way to z=26.
 RANIA is now [18, 1, 14, 9, 1]. That's all a model ever holds — numbers.
 
-3 — SPACE X Y. Now put those numbers in the plane. Give each one a wheel: wheel
-1 is full size, wheel 2 is half, wheel 3 is a third. And the number itself is
-the SPEED — how fast that wheel turns. Chain them tip to tail and follow the
-last tip.
+3 — SPACE X Y. Put those numbers in the plane and give each one a spinning
+wheel. Wheel 1 is full size, each one after is 0.72 of the last. The number
+decides how FAST its wheel turns. Chain them tip to tail and follow the last
+tip.
 
 4 — EQUATION.
-x(t) = Σ (1/k)·cos(vₖ t)
-y(t) = Σ (1/k)·sin(vₖ t)
+x(t) = Σ rₖ·cos(vₖ t)
+y(t) = Σ rₖ·sin(vₖ t)        vₖ = 5·aₖ + 1
 
-Every letter is a whole number, so the curve always closes. One lap and it comes
-home. That shape is RANIA — and no other name draws it.
+Here's the pretty part. Every speed leaves the same remainder when you divide it
+by 5 — so if you turn t by a fifth of a lap, the whole shape comes back to
+itself, turned by a fifth of a turn.
+
+Five letters. Five-fold flower.
+
+Different name, different number of letters, different flower. That one is
+RANIA's, and no other name draws it.
 
 Follower #1000 gets their name turned into this. Comment your name.
 
