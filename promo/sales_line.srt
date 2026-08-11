@@ -1,47 +1,51 @@
 1
-00:00:00,000 --> 00:00:02,400
-y = mx + b. What is it FOR? You wondered at 14. Nobody answered.
+00:00:00,000 --> 00:00:03,200
+y = m · x + b. Where do m, x and b come from? Nobody ever showed you.
 
 2
-00:00:02,400 --> 00:00:05,600
-A small shop. Four days of sales: 30, 40, 50, 60.
+00:00:03,200 --> 00:00:06,400
+x is the day. That is all x ever was.
 
 3
-00:00:05,600 --> 00:00:08,800
-Four dots on a graph. x is the day, y is the sales. That is all the data.
+00:00:06,400 --> 00:00:09,600
+A small shop. Four days of sales: 30, 40, 50, 60.
 
 4
-00:00:08,800 --> 00:00:12,000
-Look at the step from one day to the next. Ten more. Ten more. Ten more.
+00:00:09,600 --> 00:00:12,800
+m? Look at the step from one day to the next.
 
 5
-00:00:12,000 --> 00:00:15,200
-It never changes. That step is m. m = 10.
+00:00:12,800 --> 00:00:16,000
+Ten more. Ten more. Ten more. The same jump every time: 10.
 
 6
-00:00:15,200 --> 00:00:18,400
-Join the dots and you get one straight line.
+00:00:16,000 --> 00:00:17,600
+Drag that 10 into m. That is m — m is the step.
 
 7
-00:00:18,400 --> 00:00:21,600
-Run it backwards, past day one, to where it started: 20. That is b. b = 20.
+00:00:17,600 --> 00:00:21,600
+Join the dots: one straight line. Now run it back past day one.
 
 8
 00:00:21,600 --> 00:00:25,600
-So the line is y = 10x + 20. The step is 10, the start is 20. Two numbers — that is the entire line.
+It started at 20. Drag that into b. That is b — b is the start.
 
 9
 00:00:25,600 --> 00:00:28,800
-Now run it one more day. Day 5: ten times five, plus twenty.
+The equation is full: y = 10 · x + 20. Now put tomorrow in.
 
 10
 00:00:28,800 --> 00:00:31,200
-Seventy. Tomorrow you sell 70. You just predicted the future.
+Day 5. Drag the 5 into x. x becomes 5.
 
 11
-00:00:31,200 --> 00:00:34,800
-We learned this at school. Nobody ever said what for.
+00:00:31,200 --> 00:00:32,800
+Ten times five, plus twenty. Seventy.
 
 12
-00:00:34,800 --> 00:00:38,400
+00:00:32,800 --> 00:00:36,400
+We learned this at school. Nobody ever said what for.
+
+13
+00:00:36,400 --> 00:00:40,000
 Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
