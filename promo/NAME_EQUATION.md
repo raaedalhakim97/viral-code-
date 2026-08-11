@@ -5,7 +5,7 @@ four stages a name goes through — **tokenize → vectors → space x y → equ
 ending on a closed curve that belongs to that name and no other.
 
 - **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
-- **Name in this cut:** `RANIA` → `[18, 1, 14, 9, 1]`
+- **Name in this cut:** `MIRANDA` → `[13, 9, 18, 1, 14, 4, 1]` — 7 letters, 7-fold
 - **Audio:** none. Add a track in the TikTok editor on posting day.
 
 ---
@@ -16,13 +16,13 @@ ending on a closed curve that belongs to that name and no other.
 | --- | --- | --- |
 | 0–4 | | Hook: *your name is an equation — follower #1000 gets theirs* |
 | 4–8 | **CARD** | **1 · TOKENIZE** |
-| 8–20 | | `RANIA` comes apart into `R A N I A`. A model never sees the word. |
+| 8–20 | | `MIRANDA` comes apart into `M I R A N D A`. A model never sees the word. |
 | 20–24 | **CARD** | **2 · VECTORS** |
-| 24–38 | | `a = 1 … z = 26` → `[ 18, 1, 14, 9, 1 ]` |
+| 24–38 | | `a = 1 … z = 26` → `[ 13, 9, 18, 1, 14, 4, 1 ]` |
 | 38–42 | **CARD** | **3 · SPACE X Y** |
 | 42–56 | | Each number becomes a wheel in the plane. The number is its **speed**. |
 | 56–60 | **CARD** | **4 · EQUATION** |
-| 60–78 | | The equation, one full lap, the curve. Then SARA, then back to RANIA. |
+| 60–78 | | The equation, one full lap, the curve. Then SARA, then back to MIRANDA. |
 | 78–84 | | **HERO** — labels go, the shape takes the screen and turns |
 | 84–90 | | **FOLLOWER #1000 — comment your name** |
 | 90–100 | | The eye |
@@ -42,7 +42,8 @@ y(t) = Σ rₖ · sin(vₖ t)        vₖ = m·aₖ + 1        rₖ = 0.72ᵏ
 ```
 
 `aₖ` is the letter (a = 1 … z = 26) and **m is how many letters the name has**.
-For `RANIA`: `a = 18, 1, 14, 9, 1` → `v = 91, 6, 71, 46, 6`, `m = 5`.
+For `MIRANDA`: `a = 13, 9, 18, 1, 14, 4, 1`, m = 7, so
+`v = 92, 64, 127, 8, 99, 29, 8`.
 
 ### Why `m·aₖ + 1` and not just the letter
 
@@ -60,8 +61,8 @@ z(t + 2π/m) = Σ rₖ e^(i vₖ t) · e^(i(m aₖ + 1)2π/m)
 ```
 
 The curve comes back to itself, **rotated by exactly one m-th of a turn**. An
-m-letter name draws an m-fold flower. `RANIA` has five letters, so it draws a
-five-petal rosette; `SARA` has four and draws a four-fold one. That is the line
+m-letter name draws an m-fold flower. `MIRANDA` has seven letters, so it draws a
+seven-fold rosette; `SARA` has four and draws a four-fold one. That is the line
 the video says out loud, and it is the reason the shape is worth looking at.
 
 Three things fall out of the rule, and all three are asserted:
@@ -73,8 +74,17 @@ Three things fall out of the rule, and all three are asserted:
   letters changes which radius each speed gets, so `MAYA` and `AMYA` are not the
   same drawing.
 
-The montage ends back on `RANIA` rather than on a stranger's name, so the last
-shape before the hero beat is hers.
+The montage ends back on the video's own name rather than on a stranger's, so
+the last shape before the hero beat is theirs.
+
+**The sample count follows the name.** The fastest wheel turns `m × biggest
+letter + 1` times per lap — 91 for RANIA, **127 for MIRANDA**. A fixed
+`NPTS` meant longer names traced as visible polygons, so it is now derived
+from the name: 55 samples per cycle of the fastest wheel.
+
+**The key line shows the letters, not the derived speeds.** With seven of each,
+`a = … → v = …` shrank to fit the frame and became unreadable. The rule
+`vₖ = 7·aₖ + 1` is on screen directly above it, so `v` is never a mystery.
 
 ### What is claimed and what is not
 
@@ -147,11 +157,11 @@ Your name is an equation. Follower #1000 gets theirs.
 
 Here's what happens to a name before any AI touches it.
 
-1 — TOKENIZE. A model never sees the word "RANIA". Text gets cut into tokens
-first. Short name, so: R A N I A.
+1 — TOKENIZE. A model never sees the word "MIRANDA". Text gets cut into tokens
+first. Short name, so: M I R A N D A.
 
 2 — VECTORS. Every token becomes a number. a=1, b=2, all the way to z=26.
-RANIA is now [18, 1, 14, 9, 1]. That's all a model ever holds — numbers.
+MIRANDA is now [13, 9, 18, 1, 14, 4, 1]. That's all a model ever holds — numbers.
 
 3 — SPACE X Y. Put those numbers in the plane and give each one a spinning
 wheel. Wheel 1 is full size, each one after is 0.72 of the last. The number
@@ -160,16 +170,16 @@ tip.
 
 4 — EQUATION.
 x(t) = Σ rₖ·cos(vₖ t)
-y(t) = Σ rₖ·sin(vₖ t)        vₖ = 5·aₖ + 1
+y(t) = Σ rₖ·sin(vₖ t)        vₖ = 7·aₖ + 1
 
 Here's the pretty part. Every speed leaves the same remainder when you divide it
-by 5 — so if you turn t by a fifth of a lap, the whole shape comes back to
-itself, turned by a fifth of a turn.
+by 7 — so if you turn t by a seventh of a lap, the whole shape comes back to
+itself, turned by a seventh of a turn.
 
-Five letters. Five-fold flower.
+Seven letters. Seven-fold flower.
 
 Different name, different number of letters, different flower. That one is
-RANIA's, and no other name draws it.
+MIRANDA's, and no other name draws it.
 
 Follower #1000 gets their name turned into this. Comment your name.
 
@@ -187,15 +197,15 @@ How to turn a name into a flower 🌸
 
 Step 1 — letters become numbers.
 a=1, b=2, all the way to z=26.
-RANIA → 18, 1, 14, 9, 1
+MIRANDA → 13, 9, 18, 1, 14, 4, 1
 
 Step 2 — every number gets a wheel.
 The first wheel is full size. Each one after it is 0.72 of the one before, so
 they shrink as they go.
 
 Step 3 — the number decides the SPEED.
-Not the letter itself — 5 times the letter, plus 1. Why 5? Because RANIA has 5
-letters. Speeds: 91, 6, 71, 46, 6.
+Not the letter itself — 7 times the letter, plus 1. Why 7? Because MIRANDA has 7
+letters. Speeds: 92, 64, 127, 8, 99, 29, 8.
 
 Step 4 — chain the wheels tip to tail and follow the very last tip for one
 full lap. That path is the drawing.
@@ -205,11 +215,11 @@ Two things make it work, and both are just arithmetic:
 Every speed is a whole number → after one lap the pen is exactly back where it
 started. The shape always closes. Nothing is fudged.
 
-Every speed leaves the same remainder when divided by 5 → turn the lap a fifth
-of the way round and the whole picture lands back on itself, rotated a fifth of
-a turn. That's the five petals.
+Every speed leaves the same remainder when divided by 7 → turn the lap a seventh
+of the way round and the whole picture lands back on itself, rotated a seventh
+of a turn. That's the seven petals.
 
-5 letters, 5-fold flower. SARA has 4 letters and draws a 4-fold one.
+7 letters, 7-fold flower. SARA has 4 letters and draws a 4-fold one.
 
 Your name has a flower too. Comment it 👇
 
@@ -246,15 +256,16 @@ speeds, radii, scale, equation key line and every assertion follow from them.
 entry in that list.
 
 ```python
-NAME = "RANIA"
-MONTAGE = ["SARA", "RANIA"]   # contrast, then back to hers
+NAME = "MIRANDA"
+MONTAGE = ["SARA", "MIRANDA"]   # contrast, then back to hers
 ```
 
 One thing that does **not** follow automatically: a line of narration that
 counts the letters. `"four numbers, one moving point"` was hard-coded and went
 wrong the moment the name stopped being four letters; it is now
-`f"{len(vals(NAME))} numbers, one moving point"`. Any new line that states a
-count has to be built the same way.
+`f"{M_FOLD} numbers, one moving point"`. Any new line that states a count has to
+be built the same way — and so does anything sized for a short name, which is
+what `NPTS` and the key line caught when MIRANDA arrived.
 
 When #1000 lands, swap `NAME` to their name, re-render, and the whole video is
 about them.

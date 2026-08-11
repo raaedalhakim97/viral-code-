@@ -8,7 +8,7 @@ Part 1 — Tokenize.
 
 3
 00:00:03,200 --> 00:00:04,400
-Give it a name. Take RANIA.
+Give it a name. Take MIRANDA.
 
 4
 00:00:04,400 --> 00:00:06,000
@@ -28,7 +28,7 @@ a equals 1, b equals 2, all the way to z equals 26.
 
 8
 00:00:11,600 --> 00:00:13,200
-So RANIA becomes 18, 1, 14, 9, 1. Every token is just a number.
+So MIRANDA becomes 13, 9, 18, 1, 14, 4, 1. Every token is just a number.
 
 9
 00:00:13,200 --> 00:00:15,200
@@ -48,7 +48,7 @@ The number sets the speed — bigger number, faster wheel.
 
 13
 00:00:20,800 --> 00:00:22,400
-Five numbers, one moving point.
+Seven numbers, one moving point.
 
 14
 00:00:22,400 --> 00:00:24,000
@@ -60,11 +60,11 @@ x of t is the sum of r-k times cosine of v-k t. y of t is the same with sine.
 
 16
 00:00:24,800 --> 00:00:28,000
-The speed is five times the letter, plus one. The size is 0.72 to the power k.
+The speed is seven times the letter, plus one. The size is 0.72 to the power k.
 
 17
 00:00:28,000 --> 00:00:29,600
-Every speed is a whole number, so the curve always closes. And every speed leaves the same remainder when divided by five — so the shape repeats five times. Five letters, five-fold flower.
+Every speed is a whole number, so the curve always closes. And every speed leaves the same remainder when divided by seven — so the shape repeats seven times. Seven letters, seven-fold flower.
 
 18
 00:00:29,600 --> 00:00:31,200
@@ -72,7 +72,7 @@ SARA — four letters, four-fold.
 
 19
 00:00:31,200 --> 00:00:33,600
-And back to RANIA. One name, one flower — nobody else has this one.
+And back to MIRANDA. One name, one flower — nobody else has this one.
 
 20
 00:00:33,600 --> 00:00:36,000

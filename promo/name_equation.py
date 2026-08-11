@@ -74,15 +74,19 @@ LINE_Y  = -2.05
 CEN  = np.array([0.0, -0.45, 0.0])       # where the wheels live
 CEN2 = CEN + np.array([0.0, 0.55, 0.0])  # where the finished curve settles
 RAD  = 1.22                              # on-screen radius of the whole chain
-NPTS = 5200                              # max speed is ~5*26+1, so the trace
-                                         # needs a lot of samples to stay smooth
 DECAY = 0.72                             # wheel k is DECAY^k as big as wheel 0
 
 HERO_S = 1.62                            # the closing zoom: 1.22 -> 1.98 radius
 HERO_C = np.array([0.0, 0.15, 0.0])
 
-NAME = "RANIA"
-MONTAGE = ["SARA", "RANIA"]   # contrast, then back to hers
+NAME = "MIRANDA"
+MONTAGE = ["SARA", "MIRANDA"]   # contrast, then back to hers
+
+# The fastest wheel turns (m · biggest letter + 1) times per lap, and a longer
+# name makes that number bigger — MIRANDA's fastest is 127. Fixing the sample
+# count meant long names traced as visible polygons, so it follows the name.
+NPTS = max(5200, 55 * max(len(_n) * max(ord(_c) - 96 for _c in _n.lower())
+                          + 1 for _n in [NAME] + MONTAGE))
 
 # ------------------------------------------------------------ the rule
 def vals(name):
@@ -442,8 +446,9 @@ class NameEquation(Scene):
         key = txt(f"vₖ = {M_FOLD}·aₖ + 1        rₖ = {DECAY}ᵏ",
                   18, GOLD, bold=False, w=4.5)
         key.move_to(np.array([0, 1.44, 0]))
-        key2 = txt(f"a = {VAL_STR}   →   v = {SPD_STR}",
-                   17, GREY, bold=False, w=4.6)
+        # only the letters, not the derived speeds: with seven of each the line
+        # shrank to fit and became unreadable, and v is what the rule above says
+        key2 = txt(f"a = {VAL_STR}", 18, GREY, bold=False, w=4.6)
         key2.move_to(np.array([0, 1.10, 0]))
         self.play(FadeIn(eq), FadeIn(key), FadeIn(key2),
                   self.dim.animate.set_value(1.0), run_time=self.T(2))
