@@ -176,6 +176,50 @@ Follower #1000 gets their name turned into this. Comment your name.
 #maths #mathtok #ai #howaiworks #tokenization #fourier #generativeart
 ```
 
+### Alternate caption — "how it's made"
+
+Same video, process angle. Use this one if the flower is the hook rather than
+the AI stages. Build-in-public captions get saved and re-watched, and every line
+here is a step someone could actually follow.
+
+```
+How to turn a name into a flower 🌸
+
+Step 1 — letters become numbers.
+a=1, b=2, all the way to z=26.
+RANIA → 18, 1, 14, 9, 1
+
+Step 2 — every number gets a wheel.
+The first wheel is full size. Each one after it is 0.72 of the one before, so
+they shrink as they go.
+
+Step 3 — the number decides the SPEED.
+Not the letter itself — 5 times the letter, plus 1. Why 5? Because RANIA has 5
+letters. Speeds: 91, 6, 71, 46, 6.
+
+Step 4 — chain the wheels tip to tail and follow the very last tip for one
+full lap. That path is the drawing.
+
+Two things make it work, and both are just arithmetic:
+
+Every speed is a whole number → after one lap the pen is exactly back where it
+started. The shape always closes. Nothing is fudged.
+
+Every speed leaves the same remainder when divided by 5 → turn the lap a fifth
+of the way round and the whole picture lands back on itself, rotated a fifth of
+a turn. That's the five petals.
+
+5 letters, 5-fold flower. SARA has 4 letters and draws a 4-fold one.
+
+Your name has a flower too. Comment it 👇
+
+#maths #mathtok #generativeart #creativecoding #fourier #howitsmade #python
+```
+
+**YouTube title for this cut:** `How to turn a name into a flower (the maths behind it)`
+
+---
+
 **YouTube title:** `Turning a name into an equation — tokens, vectors, curves`
 
 The searchable lines are *"how does AI turn words into numbers"* and
