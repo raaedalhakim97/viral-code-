@@ -167,23 +167,28 @@ of one thing:
 | **Middle** | one picture, and the formula fills itself from it |
 | **Close** | *We learned this at school. Nobody ever said what for.* |
 
-Candidates for the next episodes — same shape, something to drag, and **inside
-the page's scope: AI, angles, sin and cos.** See the scope section in
-`MARKETING.md`; a general-maths formula, however well made, does not belong here.
+Shipped so far, all inside the page's scope — **AI, angles, sin and cos.** See
+the scope section in `MARKETING.md`; a general-maths formula, however well made,
+does not belong here.
+
+| # | formula | the viewer measures | the formula hands them |
+| --- | --- | --- | --- |
+| 1 | `y = m·x + b` | four days of sales | tomorrow — `sales_line.py` |
+| 2 | `cos θ = (a·b)/(\|a\|\|b\|)` | two arrows on a grid | the **angle** — how AI decides two things mean the same — `cosine_similarity.py` |
+| 3 | `z = w·x + b`, `y = max(0,z)` | one neuron's wires | why a neuron fires, or does not — `neuron.py` |
+| 4 | `new = old − step·slope` | a ball on a valley | which way is downhill — how AI learns — `gradient_descent.py` |
+
+Episodes 3 and 4 are deliberately built on episode 1: **a neuron *is* that same
+line with a switch on the end**, and the *slope* that trains it is the same `m`.
+The audience has already watched that equation get filled in, so each new
+episode has exactly one new idea in it.
+
+Still open, same shape, something to drag:
 
 | formula | the viewer measures | the formula hands them |
 | --- | --- | --- |
-| **the dot product** | two arrows on a grid | the **angle** between them — and that number is how AI decides two things mean the same |
-| `y = Wx + b` | the line from this episode | one layer of a neural network, with matrices instead of numbers |
-| softmax | three raw scores | the percentages a model actually answers with |
-| the derivative | a curve and a step | which way is downhill — the whole of how AI learns |
-
-**The dot product is the natural episode 2.** It is the only one that closes the
-loop between all three subjects the page is about: it *is* an angle, it is built
-out of cos, and cosine similarity is the number underneath every search,
-recommendation and RAG lookup in production. Same mechanic — drag the two
-arrows' numbers into the slots, and the formula hands back an angle nobody
-measured.
+| softmax | three raw scores | the percentages a model answers with |
+| `y = Wx + b` | a whole layer | what changes when one number becomes a grid of them |
 
 ---
 

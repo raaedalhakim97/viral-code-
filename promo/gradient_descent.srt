@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:03,200
+How does AI learn? It rolls downhill. One line of maths, a few billion times.
+
+2
+00:00:03,200 --> 00:00:05,600
+This curve is how WRONG the model is.
+
+3
+00:00:05,600 --> 00:00:08,000
+The bottom of the valley is the right answer.
+
+4
+00:00:08,000 --> 00:00:10,400
+The model starts up here, and it cannot see where the bottom is.
+
+5
+00:00:10,400 --> 00:00:13,600
+Where is it now? Four.
+
+6
+00:00:13,600 --> 00:00:16,800
+Which way is downhill? The slope where you stand. Along 1, up 2 — the slope is 2.
+
+7
+00:00:16,800 --> 00:00:18,400
+The step is the one number you choose. Call it 1.
+
+8
+00:00:18,400 --> 00:00:22,400
+Four, minus one times two, is two. The ball moved downhill.
+
+9
+00:00:22,400 --> 00:00:25,600
+The new one becomes the old one.
+
+10
+00:00:25,600 --> 00:00:29,600
+Now do it again. Two minus one times one is one. Smaller slope, smaller step.
+
+11
+00:00:29,600 --> 00:00:32,800
+Flat ground. Nothing left to change. That is training — a few billion times.
+
+12
+00:00:32,800 --> 00:00:36,400
+We learned this at school. Nobody ever said what for.
+
+13
+00:00:36,400 --> 00:00:40,000
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse

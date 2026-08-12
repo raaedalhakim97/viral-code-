@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:03,200
+One neuron is y = mx + b, with one switch on the end.
+
+2
+00:00:03,200 --> 00:00:05,600
+One neuron. That is the whole thing.
+
+3
+00:00:05,600 --> 00:00:07,200
+x is what comes in.
+
+4
+00:00:07,200 --> 00:00:08,800
+w is how much it matters.
+
+5
+00:00:08,800 --> 00:00:10,400
+b is how hard it is to set off.
+
+6
+00:00:10,400 --> 00:00:13,600
+Put real numbers on it. The weight is 2.
+
+7
+00:00:13,600 --> 00:00:16,000
+What comes in is 3.
+
+8
+00:00:16,000 --> 00:00:18,400
+The bias is minus 4 — the input has to beat 4.
+
+9
+00:00:18,400 --> 00:00:21,600
+Two times three is six. Six minus four is two.
+
+10
+00:00:21,600 --> 00:00:25,600
+Positive, so it goes straight through. The neuron fires. Output 2.
+
+11
+00:00:25,600 --> 00:00:28,800
+Same neuron. Change only what comes in — now it is 1.
+
+12
+00:00:28,800 --> 00:00:32,800
+Two times one is two. Two minus four is minus two. Negative, so nothing gets through. Same neuron, silent.
+
+13
+00:00:32,800 --> 00:00:36,400
+We learned this at school. Nobody ever said what for.
+
+14
+00:00:36,400 --> 00:00:40,000
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
