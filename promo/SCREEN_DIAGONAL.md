@@ -3,7 +3,8 @@
 Companion to `screen_diagonal.py`. **Episode 2 of "WHY DID WE LEARN THIS?"**
 
 - **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
-- **Audio:** none. Add a track in the TikTok editor.
+- **Audio:** AI voiceover — see below. `screen_diagonal_vo.mp4` carries it;
+  `screen_diagonal.mp4` is still silent if you would rather use a trending sound.
 
 ---
 
@@ -135,6 +136,57 @@ They teach you this at school. You just now realise its use.
 The searchable lines are *"what is the Pythagorean theorem used for"* and
 *"why are TV screens measured diagonally"* — the second is a query people type
 out of pure curiosity, and this video answers it with the first.
+
+---
+
+## Voiceover
+
+`screen_diagonal_vo.mp4` is the graded render with an AI voice track over it;
+`screen_diagonal_voice.wav` is the voice alone, for CapCut.
+
+```bash
+cd promo
+SCRIPT=screen_diagonal python3 narrate_scene.py --check          # timing only
+SCRIPT=screen_diagonal python3 narrate_scene.py screen_diagonal.mp4 \
+       screen_diagonal_vo.mp4 --stem screen_diagonal_voice.wav
+```
+
+**Why bother when the video already has on-screen text.** TikTok transcribes
+video audio and indexes the transcript. A silent video forfeits the platform's
+strongest text signal, so the voice exists to say the two searchable sentences
+out loud — *"a squared plus b squared equals c squared"* and *"every screen you
+have ever bought was sold to you by its diagonal"*.
+
+**The read is sparse on purpose.** Eleven lines across forty seconds, each
+landing just *after* the thing it names, never on top of it. The on-screen text
+already says every number; the voice says the meaning. The silence between the
+lines is the pacing, not a gap to fill.
+
+| at | line |
+| --- | --- |
+| 0.5 | a squared plus b squared equals c squared |
+| 4.1 | Look at any screen you own |
+| 6.0 | a is across. b is up. c is corner to corner |
+| 10.9 | Measure across. Eight |
+| 14.9 | Measure up. Six |
+| 18.4 | Nobody ever measures a diagonal |
+| 20.4 | Eight squared, sixty four. Six squared, thirty six |
+| 23.8 | A hundred. So c is ten |
+| 26.2 | A length you never measured, handed to you by the formula |
+| 30.4 | Every screen you have ever bought was sold to you by its diagonal |
+| 33.8 | We learned this at school. Nobody ever said what for |
+
+**Two lines had to be shortened, not sped up.** `narrate_scene.py` speeds a line
+that will not fit, down to a floor of `length_scale 0.80`, and then reports the
+overrun rather than clipping. *"Nobody has ever measured a diagonal"* and
+*"Eight squared is sixty four…"* both hit the floor and still bled into the next
+line — two lines of speech on top of each other is worse than either being a
+beat late. They were rewritten shorter instead, and the last line now clears at
+36.5s, a tenth of a second before the eye. Worst overrun is **−0.07s**: nothing
+overlaps.
+
+Voice is `en-us-ryan-medium` through the house chain — rumble trimmed, a
+watcher's distance of reverb. `VOICE=` and `PACE=` override both.
 
 ---
 

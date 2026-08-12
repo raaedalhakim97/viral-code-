@@ -108,6 +108,24 @@ SCRIPTS = {
         (32.60, "So it is not computing the answer. "
                 "It is predicting what an answer looks like.", 1.06),
     ],
+    # Episode 2 of "WHY DID WE LEARN THIS?". Sparse on purpose: the on-screen
+    # text already says every number, so the voice says the MEANING and the
+    # two searchable sentences — "what is the Pythagorean theorem used for"
+    # and "screens are measured by the diagonal". Each line lands just after
+    # the thing it names, never on top of it.
+    "screen_diagonal": [
+        (0.50, "a squared plus b squared equals c squared.", 0.95),
+        (4.10, "Look at any screen you own.", 0.92),
+        (6.00, "a is across. b is up. c is corner to corner.", 1.00),
+        (10.90, "Measure across. Eight.", 0.88),
+        (14.90, "Measure up. Six.", 0.88),
+        (18.40, "Nobody ever measures a diagonal.", 0.94),
+        (20.40, "Eight squared, sixty four. Six squared, thirty six.", 0.98),
+        (23.80, "A hundred. So c is ten.", 0.90),
+        (26.20, "A length you never measured, handed to you by the formula.", 1.00),
+        (30.40, "Every screen you have ever bought was sold to you by its diagonal.", 1.00),
+        (33.80, "We learned this at school. Nobody ever said what for.", 1.00),
+    ],
     "illusion_of_logic": [
         (0.40, "No model gets this wrong.", 0.88),
         (3.20, "But ask it to multiply two four digit numbers, "
