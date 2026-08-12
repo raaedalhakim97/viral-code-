@@ -6,6 +6,36 @@ was known and is wrong about where the bottleneck is.
 
 ---
 
+## Scope — what this page is about, and what it is not
+
+Set Aug 2026, after one video went out of bounds. **Four subjects, nothing else:**
+
+- **how AI actually works** — tokens, attention, why it can't multiply
+- **angles**
+- **sin and cos**
+- **the equations AI runs on** — `y = Wx + b`, softmax, the dot product
+
+Everything shipped has to answer *"what has this got to do with AI, or with an
+angle?"* in one sentence. If it cannot, it is a general-maths video, and this is
+not a general-maths page.
+
+**Rejected under this rule:** `a² + b² = c²` and the screen-diagonal video. It
+was well made, properly sourced and exact to the last digit, and it was still
+off-brand — Pythagoras for TV sizes is a maths-teacher video, not an AI one. It
+was removed rather than left unposted, because an off-scope "Episode 2" sitting
+in the repo pulls the whole series sideways. It is recoverable from git history
+(commit `4b0341d`) if it is ever wanted for a different channel.
+
+**No AI voice.** A piper voiceover was tried on that same video and rejected on
+listening: it reads as obviously synthetic, and on a page whose entire promise is
+care, a cheap voice costs more than the transcript SEO it buys. Scenes ship
+**silent**; the sound goes on in the TikTok editor and the searchable words live
+in the caption and the `.srt`. `narrate_scene.py` stays for the long-form OIS
+scenes and carries this note at the top. If narration ever comes back it is a
+real human reading, not a model.
+
+---
+
 ## Where the account actually is
 
 | | |

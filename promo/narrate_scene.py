@@ -2,10 +2,19 @@
 """
 narrate_scene — lay a voice track over a manim render.
 
-Why this exists at all: TikTok transcribes video audio and indexes the transcript.
-A silent video forfeits the platform's strongest text signal. Every one of these
-scenes is silent, so every one of them is throwing away its best SEO surface.
-This is the same argument, and the same voice chain, as OIS tools/narrate.py.
+DO NOT USE THIS ON THE TIKTOK PAGE. It was tried on screen_diagonal in Aug 2026
+and rejected on listening: piper reads as obviously synthetic, and on a page
+whose whole promise is care, a cheap voice costs more than the transcript SEO is
+worth. The scenes ship SILENT with a trending sound added in the TikTok editor,
+and the searchable text lives in the caption and the .srt. This file stays for
+the long-form OIS scenes it was written for — lost_in_the_middle,
+not_calculating, illusion_of_logic — and for nothing else.
+
+Why it exists at all: TikTok transcribes video audio and indexes the transcript.
+A silent video forfeits the platform's strongest text signal. That argument is
+still true; it is just outweighed by how the voice sounds. If a real human read
+ever gets recorded, the timing tables here are the script to read from.
+This is the same voice chain as OIS tools/narrate.py.
 
 The voice is the OBSERVER's — the one who watches and names things — not a
 character's. So it is processed to sit back in the room: rumble trimmed, a
@@ -107,24 +116,6 @@ SCRIPTS = {
                 "A transformer runs the same fixed stack every time.", 1.02),
         (32.60, "So it is not computing the answer. "
                 "It is predicting what an answer looks like.", 1.06),
-    ],
-    # Episode 2 of "WHY DID WE LEARN THIS?". Sparse on purpose: the on-screen
-    # text already says every number, so the voice says the MEANING and the
-    # two searchable sentences — "what is the Pythagorean theorem used for"
-    # and "screens are measured by the diagonal". Each line lands just after
-    # the thing it names, never on top of it.
-    "screen_diagonal": [
-        (0.50, "a squared plus b squared equals c squared.", 0.95),
-        (4.10, "Look at any screen you own.", 0.92),
-        (6.00, "a is across. b is up. c is corner to corner.", 1.00),
-        (10.90, "Measure across. Eight.", 0.88),
-        (14.90, "Measure up. Six.", 0.88),
-        (18.40, "Nobody ever measures a diagonal.", 0.94),
-        (20.40, "Eight squared, sixty four. Six squared, thirty six.", 0.98),
-        (23.80, "A hundred. So c is ten.", 0.90),
-        (26.20, "A length you never measured, handed to you by the formula.", 1.00),
-        (30.40, "Every screen you have ever bought was sold to you by its diagonal.", 1.00),
-        (33.80, "We learned this at school. Nobody ever said what for.", 1.00),
     ],
     "illusion_of_logic": [
         (0.40, "No model gets this wrong.", 0.88),

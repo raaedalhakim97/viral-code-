@@ -167,16 +167,23 @@ of one thing:
 | **Middle** | one picture, and the formula fills itself from it |
 | **Close** | *We learned this at school. Nobody ever said what for.* |
 
-Candidates for the next episodes, all with the same shape and all with
-something to drag:
+Candidates for the next episodes — same shape, something to drag, and **inside
+the page's scope: AI, angles, sin and cos.** See the scope section in
+`MARKETING.md`; a general-maths formula, however well made, does not belong here.
 
-| formula | what it was for |
-| --- | --- |
-| `a² + b² = c²` | how your phone knows how far away something is |
-| percentages | what "20% off, then another 10%" actually costs |
-| `πr²` | why a 16-inch pizza is nearly twice a 12-inch |
-| standard deviation | why "average" hides everything that matters |
-| `(a+b)²` | already shipped as `square_ladder.py` |
+| formula | the viewer measures | the formula hands them |
+| --- | --- | --- |
+| **the dot product** | two arrows on a grid | the **angle** between them — and that number is how AI decides two things mean the same |
+| `y = Wx + b` | the line from this episode | one layer of a neural network, with matrices instead of numbers |
+| softmax | three raw scores | the percentages a model actually answers with |
+| the derivative | a curve and a step | which way is downhill — the whole of how AI learns |
+
+**The dot product is the natural episode 2.** It is the only one that closes the
+loop between all three subjects the page is about: it *is* an angle, it is built
+out of cos, and cosine similarity is the number underneath every search,
+recommendation and RAG lookup in production. Same mechanic — drag the two
+arrows' numbers into the slots, and the formula hands back an angle nobody
+measured.
 
 ---
 
