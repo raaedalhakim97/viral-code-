@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:03,200
+cos is how AI compares. You learned it for triangles.
+
+2
+00:00:03,200 --> 00:00:05,600
+AI turns everything it knows into arrows.
+
+3
+00:00:05,600 --> 00:00:08,000
+Two things. Two arrows.
+
+4
+00:00:08,000 --> 00:00:10,400
+How alike they are IS the angle between them. And nobody can measure that angle.
+
+5
+00:00:10,400 --> 00:00:13,600
+Count them off the grid. a is 5 across and 0 up. b is 3 across and 4 up. That is all an arrow is.
+
+6
+00:00:13,600 --> 00:00:18,400
+Multiply the matching numbers and add. Five times three, plus zero times four. Fifteen. Drag it into the top.
+
+7
+00:00:18,400 --> 00:00:22,400
+Each arrow is 5 long. Five times five is twenty five.
+
+8
+00:00:22,400 --> 00:00:25,600
+Drag that into the bottom.
+
+9
+00:00:25,600 --> 00:00:28,800
+Fifteen divided by twenty five is nought point six.
+
+10
+00:00:28,800 --> 00:00:31,200
+That is the score for this angle — a number nobody measured.
+
+11
+00:00:31,200 --> 00:00:32,800
+One is the same direction. Zero is nothing in common. AI calls this cosine similarity.
+
+12
+00:00:32,800 --> 00:00:36,400
+We learned this at school. Nobody ever said what for.
+
+13
+00:00:36,400 --> 00:00:40,000
+Pause. Observe. Learn. Follow for the math behind AI — @observer.collapse
