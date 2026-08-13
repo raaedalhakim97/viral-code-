@@ -390,7 +390,8 @@ class RedBall2(Scene):
         self.play(self.red2.animate.set_value(0.0),
                   FadeOut(self.head), run_time=self.T(1.5))
         self.head = None
-        self.note = None
+        # NOT self.note = None — the note line is still on screen, and
+        # nulling it here would leave "lock on" stranded under "good luck".
         self.say("good luck.", 2, GREY)
 
         for beat, words in TAUNTS:
@@ -476,14 +477,17 @@ class RedBall2(Scene):
         self.play(ShowCreation(eye), run_time=self.T(2.5))
         words = VGroup(txt("PAUSE", 20), txt("OBSERVE", 20), txt("LEARN", 20)) \
             .arrange(RIGHT, buff=0.42).move_to(np.array([0, -0.42, 0]))
-        self.play(FadeIn(words, shift=0.08 * UP), run_time=self.T(1.2))
+        self.play(FadeIn(words, shift=0.08 * UP), run_time=self.T(1.5))
         cta = txt("Follow for the math behind AI", 27)
         handle = txt("@observer.collapse", 21, GREY, bold=False)
         cg = VGroup(cta, handle).arrange(DOWN, buff=0.18)
         if cg.get_width() > 4.3:
             cg.set_width(4.3)
         cg.move_to(np.array([0, LINE_Y, 0]))
-        self.play(FadeIn(cg, shift=0.1 * UP), run_time=self.T(1.3))
+        # Every run_time here is a half-beat multiple (12-frame steps) on
+        # purpose. A 31-frame animation renders as 32: 31/60*60 evaluates to
+        # 31.000000000000004, and manim ceils it. 1.3 beats was exactly that.
+        self.play(FadeIn(cg, shift=0.1 * UP), run_time=self.T(1.5))
         self.pad_to(TOTAL - 1.5)
         self.play(FadeOut(eye), FadeOut(words), FadeOut(cg),
                   run_time=self.T(1.5))

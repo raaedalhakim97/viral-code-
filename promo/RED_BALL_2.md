@@ -152,6 +152,29 @@ exactly the state part 1 leaves the comment section in.
 
 ---
 
+## One trap worth knowing about
+
+The first render came out **2401 frames / 40.016667s** instead of 2400 /
+40.000000. The beat schedule summed to exactly 2400 — manim was adding the
+frame.
+
+The cause: one animation was **1.3 beats = 31 frames**, and `31/60*60`
+evaluates to `31.000000000000004` in float64. manim ceils that to 32.
+
+```
+frame counts that render one long:  31, 62, 124, 125, 248, 249, 250, 481, ...
+```
+
+**The rule that avoids it: keep every `self.T()` value a multiple of 0.25
+beats.** At 150 BPM a quarter-beat is 6 frames, so every duration becomes a
+multiple of 6 — and none of the bad counts is. Every other scene in this repo
+already obeys that by accident; this one did not, and now does by design.
+
+If a video ever renders one frame long, this is why. Look for a duration whose
+frame count is in that list.
+
+---
+
 ## Build
 
 ```bash
