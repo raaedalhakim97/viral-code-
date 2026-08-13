@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:02,000
+Your map is a grid. The world is not.
+
+2
+00:00:02,000 --> 00:00:03,200
+sin and cos are the translation.
+
+3
+00:00:03,200 --> 00:00:06,400
+You, here. The place you want, there.
+
+4
+00:00:06,400 --> 00:00:08,800
+Your phone says: 5 km, that way.
+
+5
+00:00:08,800 --> 00:00:11,200
+But a map only speaks east and north.
+
+6
+00:00:11,200 --> 00:00:14,400
+Two languages for the same place.
+
+7
+00:00:14,400 --> 00:00:17,600
+That direction, in numbers: cos θ = 0.8, sin θ = 0.6.
+
+8
+00:00:17,600 --> 00:00:20,000
+Now the distance. It is r, and it is 5.
+
+9
+00:00:20,000 --> 00:00:22,400
+Both rows. One journey, two answers.
+
+10
+00:00:22,400 --> 00:00:25,200
+5 × 0.8 = 4. Four kilometres east.
+
+11
+00:00:25,200 --> 00:00:28,000
+5 × 0.6 = 3. Three kilometres north.
+
+12
+00:00:28,000 --> 00:00:30,400
+Go 4 east, then 3 north. Same place — but that walk is 7 km.
+
+13
+00:00:30,400 --> 00:00:32,800
+Every sat-nav, every delivery app, every game character.
+
+14
+00:00:32,800 --> 00:00:34,000
+We learned this at school.
+
+15
+00:00:34,000 --> 00:00:35,200
+Nobody ever said what for.
+
+16
+00:00:35,200 --> 00:00:36,800
+Send this to your school friend — and tell them THIS is how it's solved.
+
+17
+00:00:36,800 --> 00:00:40,000
+Follow for the math behind AI. @observer.collapse

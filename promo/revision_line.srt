@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:02,000
+How many hours of revision is enough?
+
+2
+00:00:02,000 --> 00:00:03,200
+mark = m × hours + b
+
+3
+00:00:03,200 --> 00:00:06,400
+Four students. Hours revised, and the mark they got.
+
+4
+00:00:06,400 --> 00:00:10,400
+48, 52, 60, 72. No straight line goes through all four.
+
+5
+00:00:10,400 --> 00:00:13,600
+So take the line that misses least. Every miss is 2, total 16.
+
+6
+00:00:13,600 --> 00:00:17,200
+One more hour is worth 8 marks. That is m.
+
+7
+00:00:17,200 --> 00:00:20,800
+With zero hours it starts at 38. That is b.
+
+8
+00:00:20,800 --> 00:00:24,000
+So what if you do five?
+
+9
+00:00:24,000 --> 00:00:27,200
+8 × 5 + 38 = 78.
+
+10
+00:00:27,200 --> 00:00:29,600
+And now the part nobody says out loud.
+
+11
+00:00:29,600 --> 00:00:31,200
+The line knows four people. It does not know you.
+
+12
+00:00:31,200 --> 00:00:32,800
+Every AI has this problem: it learns a pattern, then gets asked about someone new.
+
+13
+00:00:32,800 --> 00:00:34,000
+We learned this at school.
+
+14
+00:00:34,000 --> 00:00:35,200
+Nobody ever said what for.
+
+15
+00:00:35,200 --> 00:00:36,800
+Send this to your school friend — and tell them THIS is how it's solved.
+
+16
+00:00:36,800 --> 00:00:40,000
+Follow for the math behind AI. @observer.collapse

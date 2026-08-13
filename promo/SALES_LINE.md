@@ -195,6 +195,33 @@ one new idea in it:
 is how wrong the model is"* and never said where that height came from. Episode
 6 is where it comes from.
 
+---
+
+## The companion series — **WHERE YOU ACTUALLY USE IT**
+
+Same shell, same drag mechanic, same close. Different job: the formula is
+already known, and the video runs it on **a problem a person actually has**.
+Each one names its parent in its own header comment, and each reuses that
+parent's exact numbers so the audience recognises them with meaning attached.
+
+| # | runs | on | file |
+| --- | --- | --- | --- |
+| 8 | episode 5 | a map. 5 km that way → 4 km east, 3 km north — and the 7 km it costs to walk it | `map_bearing.py` |
+| 9 | episodes 1 + 6 | four students' revision hours → what 5 hours gets you, and why the line still doesn't know you | `revision_line.py` |
+| 10 | episode 7 | a self-driving car. "3 right, 4 ahead" → 5 m due north | `car_eyes.py` |
+
+**Two things make these work rather than being reruns.**
+
+**The letters get renamed to what they are.** `x = r cos θ` becomes
+`east = r cos θ`; `y = m·x + b` becomes `mark = m·hours + b`. The formula did
+not change — the words did, and that *is* the lesson.
+
+**Each one ends on a cost, not a result.** 4 + 3 is 7 km, not 5. The revision
+line knows four people and does not know you. Skip the rotation and the car
+brakes for somebody who isn't there. A result is forgettable; a cost is not.
+
+---
+
 Still open, same shape, something to drag:
 
 | formula | the viewer measures | the formula hands them |
