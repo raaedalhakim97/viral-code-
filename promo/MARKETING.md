@@ -34,6 +34,19 @@ in the caption and the `.srt`. `narrate_scene.py` stays for the long-form OIS
 scenes and carries this note at the top. If narration ever comes back it is a
 real human reading, not a model.
 
+**Every episode closes the same two ways.** First the line the whole series is
+named after — *"We learned this at school. Nobody ever said what for."* Then, on
+its own beat before the sign-off:
+
+> **Send this to your school friend — and tell them THIS is how it's solved.**
+
+The first line is the identity. The second is the only ask, and it asks for the
+one action that actually moves a page this size: **a share to one specific
+person**, not a follow, not a like. It works here because the video has just
+finished handing the viewer something they can teach — and the person they most
+want to tell is whoever sat next to them while they were both failing to see the
+point. 74 shares across 60 days is the number this line exists to move.
+
 ---
 
 ## Where the account actually is

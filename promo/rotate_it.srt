@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:02,000
+How do you TURN something?
+
+2
+00:00:02,000 --> 00:00:03,200
+sin and cos do the whole job.
+
+3
+00:00:03,200 --> 00:00:06,400
+One arrow. Across 3, up 4 — that is all an arrow is.
+
+4
+00:00:06,400 --> 00:00:09,600
+Now turn it. Where does it end up?
+
+5
+00:00:09,600 --> 00:00:12,000
+From last time: cos θ = 0.8, sin θ = 0.6.
+
+6
+00:00:12,000 --> 00:00:14,800
+Across is cos, up is sin. Four slots filled, for free.
+
+7
+00:00:14,800 --> 00:00:18,000
+The 3 goes into x. The 4 goes into y.
+
+8
+00:00:18,000 --> 00:00:20,800
+The equation is full. Read it out.
+
+9
+00:00:20,800 --> 00:00:23,600
+new x = 3(0.8) − 4(0.6). That is 2.4 − 2.4.
+
+10
+00:00:23,600 --> 00:00:26,000
+The same number, twice. It cancels. new x = 0.
+
+11
+00:00:26,000 --> 00:00:28,000
+THAT is what the minus is for.
+
+12
+00:00:28,000 --> 00:00:30,400
+new y = 1.8 + 3.2 = 5. Across 0, up 5 — dead straight up.
+
+13
+00:00:30,400 --> 00:00:32,800
+5 long before. 5 long after. Turning never stretches.
+
+14
+00:00:32,800 --> 00:00:34,000
+We learned this at school.
+
+15
+00:00:34,000 --> 00:00:35,200
+Nobody ever said what for.
+
+16
+00:00:35,200 --> 00:00:36,800
+Send this to your school friend — and tell them THIS is how it's solved.
+
+17
+00:00:36,800 --> 00:00:40,000
+Follow for the math behind AI. @observer.collapse

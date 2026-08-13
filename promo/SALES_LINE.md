@@ -177,11 +177,23 @@ does not belong here.
 | 2 | `cos θ = (a·b)/(\|a\|\|b\|)` | two arrows on a grid | the **angle** — how AI decides two things mean the same — `cosine_similarity.py` |
 | 3 | `z = w·x + b`, `y = max(0,z)` | one neuron's wires | why a neuron fires, or does not — `neuron.py` |
 | 4 | `new = old − step·slope` | a ball on a valley | which way is downhill — how AI learns — `gradient_descent.py` |
+| 5 | `x = r·cos θ`, `y = r·sin θ` | a point on a circle of radius one | where an angle puts you — `angle_to_place.py` |
+| 6 | `miss = real − guess` | four dots that don't line up | which line is the **best** one — `best_line.py` |
+| 7 | `new x = x cos θ − y sin θ` | an arrow, across 3 and up 4 | where it lands after a turn — `rotate_it.py` |
 
-Episodes 3 and 4 are deliberately built on episode 1: **a neuron *is* that same
-line with a switch on the end**, and the *slope* that trains it is the same `m`.
-The audience has already watched that equation get filled in, so each new
-episode has exactly one new idea in it.
+**Every episode after the first is built on one before it,** so each has exactly
+one new idea in it:
+
+| | builds on | the one new idea |
+| --- | --- | --- |
+| 3 | episode 1 | a neuron *is* that line, with a switch on the end |
+| 4 | episode 1 | the *slope* that trains it is the same `m` |
+| 6 | episode 1 | episode 1's dots were perfect. Real ones aren't |
+| 7 | episode 5 | cos and sin were earned there, so they arrive free here |
+
+**6 also closes the loop on 4.** Gradient descent said *"the height of the valley
+is how wrong the model is"* and never said where that height came from. Episode
+6 is where it comes from.
 
 Still open, same shape, something to drag:
 

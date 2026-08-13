@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:02,000
+sin and cos. What are they actually FOR?
+
+2
+00:00:02,000 --> 00:00:03,200
+They turn an angle into a place.
+
+3
+00:00:03,200 --> 00:00:05,600
+A circle. Radius one. That is the whole set-up.
+
+4
+00:00:05,600 --> 00:00:08,000
+Turn by any angle θ. Where does the point land?
+
+5
+00:00:08,000 --> 00:00:10,800
+How far ACROSS it went — 0.8. That is cos θ.
+
+6
+00:00:10,800 --> 00:00:13,600
+How far UP it went — 0.6. That is sin θ.
+
+7
+00:00:13,600 --> 00:00:16,000
+That is not a fact about cos and sin. That IS them.
+
+8
+00:00:16,000 --> 00:00:18,800
+0.8 goes into cos θ. 0.6 goes into sin θ.
+
+9
+00:00:18,800 --> 00:00:21,600
+Width and height of one turn. Nothing else.
+
+10
+00:00:21,600 --> 00:00:24,800
+Same angle — but the real arrow is 5 long, not 1.
+
+11
+00:00:24,800 --> 00:00:27,200
+That length is r. Same circle, five times bigger.
+
+12
+00:00:27,200 --> 00:00:29,600
+x = 5 × 0.8 = 4.   y = 5 × 0.6 = 3.
+
+13
+00:00:29,600 --> 00:00:32,000
+An angle went in. A place came out.
+
+14
+00:00:32,000 --> 00:00:32,800
+Every game character, every robot arm, every rotating screen.
+
+15
+00:00:32,800 --> 00:00:34,000
+We learned this at school.
+
+16
+00:00:34,000 --> 00:00:35,200
+Nobody ever said what for.
+
+17
+00:00:35,200 --> 00:00:36,800
+Send this to your school friend — and tell them THIS is how it's solved.
+
+18
+00:00:36,800 --> 00:00:40,000
+Follow for the math behind AI. @observer.collapse

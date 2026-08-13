@@ -1,0 +1,75 @@
+1
+00:00:00,000 --> 00:00:02,000
+miss = real − guess.
+
+2
+00:00:02,000 --> 00:00:03,200
+But what if the dots DON'T line up?
+
+3
+00:00:03,200 --> 00:00:05,600
+Four days of sales: 30, 45, 50, 65.
+
+4
+00:00:05,600 --> 00:00:08,000
+Last time the dots sat perfectly on a line.
+
+5
+00:00:08,000 --> 00:00:10,400
+These don't. So which line is right?
+
+6
+00:00:10,400 --> 00:00:12,800
+Try one — the line from last time.
+
+7
+00:00:12,800 --> 00:00:15,200
+Day 2. The line says 40. The shop sold 45.
+
+8
+00:00:15,200 --> 00:00:17,600
+Real goes up into the equation. So does guess.
+
+9
+00:00:17,600 --> 00:00:20,000
+That gap is the miss. 5.
+
+10
+00:00:20,000 --> 00:00:22,400
+Now every day. The misses are 0, 5, 0, 5.
+
+11
+00:00:22,400 --> 00:00:24,800
+A dot below counts the same as above — so square them.
+
+12
+00:00:24,800 --> 00:00:27,200
+Total miss = 50. One number for how wrong the WHOLE line is.
+
+13
+00:00:27,200 --> 00:00:29,600
+Tilt it, and watch that number.
+
+14
+00:00:29,600 --> 00:00:31,200
+50 down to 20. A better line.
+
+15
+00:00:31,200 --> 00:00:32,800
+It misses all four a little, instead of two badly. That IS training.
+
+16
+00:00:32,800 --> 00:00:34,000
+We learned this at school.
+
+17
+00:00:34,000 --> 00:00:35,200
+Nobody ever said what for.
+
+18
+00:00:35,200 --> 00:00:36,800
+Send this to your school friend — and tell them THIS is how it's solved.
+
+19
+00:00:36,800 --> 00:00:40,000
+Follow for the math behind AI. @observer.collapse
