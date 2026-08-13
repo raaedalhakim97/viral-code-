@@ -111,7 +111,7 @@ FRAMES  = F_STOP + 1
 TAIL    = 105         # how much of each path is left drawn behind it
 
 
-def _start(rng):
+def _start(rng, n):
     p = []
     for _ in range(4000):
         q = rng.uniform(-0.80, 0.80, 2)
@@ -119,26 +119,34 @@ def _start(rng):
             continue
         if all(np.linalg.norm(q - o) > 0.26 for o in p):
             p.append(q)
-            if len(p) == N:
+            if len(p) == n:
                 return np.array(p)
     raise RuntimeError("could not place the balls — pick another seed")
 
 
-def _simulate():
-    """Precompute the whole run, and check the physics while doing it.
+def simulate(seed=None, frames=None, n=None, speed=None):
+    """Precompute a whole run, and check the physics while doing it.
 
     The bounce is a reflection in the wall's normal:  v' = v − 2(v·n)n.
     It conserves speed exactly, which is why the speed assertion below can be
-    at 1e-12 rather than something forgiving."""
-    rng = np.random.default_rng(SEED)
-    p = _start(rng)
-    a = rng.uniform(0, 2 * np.pi, N)
-    v = SPEED * np.stack([np.cos(a), np.sin(a)], 1)
-    path = np.empty((FRAMES, N, 2))
+    at 1e-12 rather than something forgiving.
+
+    Defaults are this video's own run. red_ball_2.py calls it with a different
+    seed for its second round, so both videos share one physics engine and
+    cannot drift apart."""
+    seed = SEED if seed is None else seed
+    frames = FRAMES if frames is None else frames
+    n = N if n is None else n
+    speed = SPEED if speed is None else speed
+    rng = np.random.default_rng(seed)
+    p = _start(rng, n)
+    a = rng.uniform(0, 2 * np.pi, n)
+    v = speed * np.stack([np.cos(a), np.sin(a)], 1)
+    path = np.empty((frames, n, 2))
     worst_speed = worst_refl = worst_r = 0.0
-    bounces = np.zeros(N, int)
+    bounces = np.zeros(n, int)
     dt = 1.0 / FPS
-    for f in range(FRAMES):
+    for f in range(frames):
         p = p + v * dt
         d = np.linalg.norm(p, axis=1)
         hit = d > R - BR
@@ -155,12 +163,12 @@ def _simulate():
             bounces[hit] += 1
         path[f] = p
         worst_speed = max(worst_speed,
-                          float(np.abs(np.linalg.norm(v, axis=1) - SPEED).max()))
+                          float(np.abs(np.linalg.norm(v, axis=1) - speed).max()))
         worst_r = max(worst_r, float(np.linalg.norm(p, axis=1).max()))
     return path, worst_speed, worst_r, worst_refl, bounces
 
 
-PATH, _WS, _WR, _WF, _BOUNCES = _simulate()
+PATH, _WS, _WR, _WF, _BOUNCES = simulate()
 
 assert _WS < 1e-12, f"speed drifted by {_WS}"
 assert _WR < R - BR + 1e-9, f"a ball escaped the circle: {_WR}"
@@ -180,10 +188,17 @@ assert abs(_BOUNCES[RED_I] - np.median(_BOUNCES)) <= 3, \
 
 # The balls are numbered left to right at the freeze, which is the order a
 # viewer reads them in. LABEL[k] is what ball k is called on screen.
-_ORDER = np.argsort(PATH[-1, :, 0])
-LABEL = np.empty(N, int)
-for _slot, _k in enumerate(_ORDER):
-    LABEL[_k] = _slot + 1
+def label_order(path):
+    """Number the balls left to right at the freeze — the order a viewer reads
+    them in. Returns an array where entry k is what ball k is called."""
+    order = np.argsort(path[-1, :, 0])
+    lab = np.empty(len(order), int)
+    for slot, k in enumerate(order):
+        lab[k] = slot + 1
+    return lab
+
+
+LABEL = label_order(PATH)
 ANSWER = int(LABEL[RED_I])
 
 assert sorted(LABEL.tolist()) == list(range(1, N + 1)), "labels must be 1..N"
