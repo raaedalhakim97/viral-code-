@@ -5,12 +5,21 @@ red_ball — can you follow the red ball? 40.0s.
 
 100 beats = 25 bars = 40.000s at 150 BPM.
 
-A TRACKING GAME, AND THEN THE REASON IT IS HARD. Nine balls bounce inside a
-circle. One is red. It turns white with the rest, and for sixteen seconds you
-try to keep hold of it. Almost nobody can.
+A TRACKING GAME THAT DOES NOT ANSWER ITSELF. Nine balls bounce inside a circle.
+One is red. It turns white with the rest, and for fourteen seconds you try to
+keep hold of it. Then everything freezes, the balls are numbered, and the video
+asks for a number instead of giving one.
 
-WHY THIS BELONGS ON THIS PAGE, AND IS NOT JUST A REPOST. Two reasons, and both
-are honest:
+    THE ANSWER IS NOT IN THIS VIDEO. It is number 5, it is pinned in the
+    comments, and it is the whole of part 2.
+
+That is deliberate. A reveal ends the video; a withheld reveal sends the viewer
+to the comments, which on a page this size is the only place growth comes from.
+The ANSWER constant below is the thing part 2 has to agree with — it is derived
+from the simulation rather than typed, so the two videos cannot disagree.
+
+WHY THIS BELONGS ON THIS PAGE, AND IS NOT JUST A REPOST. Two reasons, both
+honest:
 
   THE BOUNCE IS AN ANGLE PROBLEM. Every bounce in this video is one line:
 
@@ -19,34 +28,37 @@ are honest:
   where n is the direction straight out from the centre. That is the dot
   product from the cos episode, doing the only job it does here: splitting the
   velocity into the part along the wall and the part into it, and flipping the
-  second one. Angle in equals angle out — and it is ASSERTED, every bounce,
-  rather than assumed.
+  second one. Angle in equals angle out — ASSERTED, every bounce, rather than
+  assumed.
 
   AND LOSING THE BALL IS WHAT ATTENTION MEANS. You could watch one. You could
   not watch nine. That limit is exactly the problem the attention mechanism
-  exists to solve, and feeling it for sixteen seconds explains it better than a
-  diagram does.
+  exists to solve, and feeling it for fourteen seconds explains it better than
+  a diagram does.
 
-THE SEED IS CHOSEN, NOT RANDOM. Seed 142 out of 150 searched, picked on two
-measurable properties of the red ball across the all-white stretch:
+THE SEED IS CHOSEN, NOT RANDOM. Seed 142, from a 200-seed search at this exact
+speed and beat layout — see red_ball_seed_search.py. Re-run it if SPEED, N or
+the beats change, because a seed that is hard at one speed is not hard at
+another. It is picked on measurable properties of the red ball:
 
     it ROAMS       mean distance from its own average position, 0.71 of the
                    radius — you cannot find it by staring at one spot
-    it is CROWDED  another ball is within three ball-radii of it in 78% of
-                   the all-white frames — which is the thing that actually
-                   makes the eye jump to the wrong ball
-    and it is not the odd one out on bounce count, so counting cannot cheat it
+    it is CROWDED  another ball is within three ball-radii of it in 82% of the
+                   all-white frames — the thing that actually makes the eye
+                   jump to the wrong ball
+    its bounce count is unremarkable, so counting cannot cheat it
+    and its number is neither 1 nor 9, so the reading order gives nothing away
 
 ALL NINE BALLS HAVE IDENTICAL SPEED AND IDENTICAL RADIUS. Once the colour is
-gone there is no tell. That is asserted too, because a video that cheats here
-is worthless.
+gone there is no tell. Asserted, because a video that cheats here is worthless.
 
 VERIFIED AT IMPORT
     every ball's speed is constant           to 1e-12, every frame, all nine
     every ball stays inside the circle       to 1e-9, every frame
     angle in == angle out                    every bounce, to 1e-12
-    all nine speeds are equal                or the red one would be findable
     the red ball roams and stays crowded     the two difficulty properties
+    the answer is not 1 and not 9            or the numbering leaks it
+    the numbers are a permutation of 1..9    no ball shares a label
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -63,13 +75,11 @@ BPM = float(os.environ.get("BPM", 150.0))
 FPS = 60
 TOTAL = 100
 
-BEAT_GO    = 7        # the balls start moving
-BEAT_WHITE = 13       # the red one loses its colour
-BEAT_STOP  = 53       # everything freezes
-END_ASK, END_REVEAL, END_WHY = 62, 74, 82
-END_TAKE, END_SHARE = 88, 92
-
-SERIES = "WHERE YOU ACTUALLY USE IT"
+BEAT_GO    = 6        # the balls start moving
+BEAT_WHITE = 11       # the red one loses its colour
+BEAT_STOP  = 45       # everything freezes
+END_ASK, END_PART2, END_WHY = 56, 70, 78
+END_TAKE, END_SHARE = 86, 92
 
 WHITE_ = "#F7FAFC"
 GREY   = "#8A94A6"
@@ -87,18 +97,18 @@ NOTE_Y  = -3.16
 LINE_Y  = -2.05
 
 # ------------------------------------------------------------------ the sim
-SEED  = 142           # chosen — see the note above
+SEED  = 142           # chosen — see red_ball_seed_search.py
 N     = 9
 RED_I = 0
 R     = 1.0           # circle radius, in sim units
 BR    = 0.075         # ball radius
-SPEED = 0.60          # identical for every ball. no tells.
+SPEED = 0.82          # identical for every ball. no tells.
 
 B_SEC   = 60.0 / BPM
-F_WHITE = int(round((BEAT_WHITE - BEAT_GO) * B_SEC * FPS))    # 144
-F_STOP  = int(round((BEAT_STOP - BEAT_GO) * B_SEC * FPS))     # 1104
+F_WHITE = int(round((BEAT_WHITE - BEAT_GO) * B_SEC * FPS))
+F_STOP  = int(round((BEAT_STOP - BEAT_GO) * B_SEC * FPS))
 FRAMES  = F_STOP + 1
-TAIL    = 130         # how much of each path is left drawn behind it
+TAIL    = 105         # how much of each path is left drawn behind it
 
 
 def _start(rng):
@@ -168,6 +178,18 @@ assert CROWDED > 0.50, f"the red ball is too lonely to lose — {CROWDED:.2f}"
 assert abs(_BOUNCES[RED_I] - np.median(_BOUNCES)) <= 3, \
     "the red ball bounces an odd number of times — countable, so findable"
 
+# The balls are numbered left to right at the freeze, which is the order a
+# viewer reads them in. LABEL[k] is what ball k is called on screen.
+_ORDER = np.argsort(PATH[-1, :, 0])
+LABEL = np.empty(N, int)
+for _slot, _k in enumerate(_ORDER):
+    LABEL[_k] = _slot + 1
+ANSWER = int(LABEL[RED_I])
+
+assert sorted(LABEL.tolist()) == list(range(1, N + 1)), "labels must be 1..N"
+assert ANSWER not in (1, N), \
+    f"answer {ANSWER} sits on the edge of the reading order — too guessable"
+
 CR = 1.86                       # the circle's radius on screen
 CY = -0.30                      # and where its centre sits
 SCREEN = np.zeros((FRAMES, N, 3))
@@ -217,9 +239,9 @@ class RedBall(Scene):
         self.clock.add_updater(lambda m, dt: m.increment_value(dt))
         self.add(self.clock)
 
-        # 1 while the red ball is red, 0 once it has gone white
+        # 1 while the red ball is red, 0 once it has gone white. It never goes
+        # back — the answer is not in this video.
         self.redmix = ValueTracker(1.0)
-        self.dimmix = ValueTracker(0.0)      # 1 dims the eight decoys
 
         self.zoom = ValueTracker(1.0)
         self.camera.frame.add_updater(lambda m: m.set_height(
@@ -231,7 +253,7 @@ class RedBall(Scene):
         self.open_card()
         self.play_game()
         self.stage_ask()
-        self.stage_reveal()
+        self.stage_part2()
         self.stage_why()
         self.takeaway("We learned this at school.",
                       "Nobody ever said what for.")
@@ -272,10 +294,9 @@ class RedBall(Scene):
         return max(0, min(i, FRAMES - 1))
 
     def ball_color(self, k):
-        c = interpolate_color(WHITE_, RED, self.redmix.get_value()) \
-            if k == RED_I else WHITE_
-        return interpolate_color(c, FAINT, 0.0 if k == RED_I
-                                 else self.dimmix.get_value())
+        if k != RED_I:
+            return WHITE_
+        return interpolate_color(WHITE_, RED, self.redmix.get_value())
 
     def build_balls(self):
         self.ring = Circle(radius=CR, stroke_color=WHITE_, stroke_width=3.0)
@@ -295,7 +316,7 @@ class RedBall(Scene):
                     pts = np.array([SCREEN[i, k],
                                     SCREEN[i, k] + np.array([1e-4, 0, 0])])
                 mo.set_points_as_corners(pts)
-                mo.set_stroke(self.ball_color(k), opacity=0.62)
+                mo.set_stroke(self.ball_color(k), opacity=0.60)
 
             tr.add_updater(t_up)
             self.trails.add(tr)
@@ -317,14 +338,14 @@ class RedBall(Scene):
         self.title.move_to(np.array([0, TITLE_Y, 0]))
         self.build_balls()
         self.play(FadeIn(self.title), ShowCreation(self.ring),
-                  run_time=self.T(2.5))
+                  run_time=self.T(2))
         self.add(self.trails, self.balls)
-        self.play(FadeIn(self.balls), run_time=self.T(1.5))
+        self.play(FadeIn(self.balls), run_time=self.T(1))
 
         mark = Circle(radius=DOT_R * 2.4, stroke_color=RED, stroke_width=3.0)
         mark.move_to(SCREEN[0, RED_I])
         self.play(ShowCreation(mark), run_time=self.T(1.5))
-        self.say("this one. lock on to it.", 1, RED)
+        self.say("this one. lock on.", 1, RED)
         self.play(FadeOut(mark), run_time=self.T(BEAT_GO - self.used))
 
     # ==================================================================
@@ -346,36 +367,57 @@ class RedBall(Scene):
             pos = SCREEN[FRAMES - 1, k]
             off = pos - np.array([0, CY, 0])
             off = off / max(np.linalg.norm(off), 1e-6) * (DOT_R + 0.20)
-            lab = txt(str(k + 1), 20, GOLD, w=0.4).move_to(pos + off)
-            self.nums.add(lab)
-        self.play(FadeIn(self.nums), run_time=self.T(2))
-        self.say("which one is it? say it out loud.", 3, GOLD)
-        self.say("no going back now.", 2)
+            self.nums.add(txt(str(LABEL[k]), 20, GOLD, w=0.4)
+                          .move_to(pos + off))
+        self.play(FadeIn(self.nums), run_time=self.T(1.5))
+        self.say("which one is it?", 2.5, GOLD)
+        self.say("pick a number. out loud. now.", 3)
         self.pad_to(END_ASK)
 
     # ==================================================================
-    # The reveal.
+    # No reveal. The answer is somewhere else, on purpose.
     # ==================================================================
-    def stage_reveal(self):
-        self.play(FadeOut(self.nums), run_time=self.T(1.5))
-        self.play(self.redmix.animate.set_value(1.0),
-                  self.dimmix.animate.set_value(0.72),
-                  run_time=self.T(2.5), rate_func=smooth)
-        mark = Circle(radius=DOT_R * 2.4, stroke_color=RED, stroke_width=3.0)
-        mark.move_to(SCREEN[FRAMES - 1, RED_I])
-        self.reveal_mark = mark
-        self.play(ShowCreation(mark), run_time=self.T(2))
-        self.say(f"number {RED_I + 1}. did you have it?", 3, RED)
-        self.say("most people lose it in the first five seconds.", 3)
-        self.pad_to(END_REVEAL)
+    def stage_part2(self):
+        self.play(FadeOut(self.nums), FadeOut(self.trails),
+                  FadeOut(self.balls), FadeOut(self.ring),
+                  run_time=self.T(1.5))
+        self.note = None
+
+        p1 = txt("PART 2", 54, RED, w=3.2)
+        p1.move_to(np.array([0, 1.10, 0]))
+        p2 = txt("has the answer", 30, WHITE_, w=4.2)
+        p2.move_to(np.array([0, 0.34, 0]))
+        self.p_card = VGroup(p1, p2)
+        self.play(FadeIn(p1, scale=1.18), run_time=self.T(2),
+                  rate_func=rush_from)
+        self.play(FadeIn(p2), run_time=self.T(1.5))
+
+        c1 = txt("comment your number below", 27, GOLD, w=4.5)
+        c1.move_to(np.array([0, -0.62, 0]))
+        c2 = txt("no editing it after", 22, GREY, bold=False, w=3.4)
+        c2.move_to(np.array([0, -1.24, 0]))
+        self.c_card = VGroup(c1, c2)
+        self.play(FadeIn(c1, shift=0.12 * UP), run_time=self.T(2),
+                  rate_func=rush_from)
+        self.play(FadeIn(c2), run_time=self.T(1.5))
+        self.pad_to(END_PART2)
 
     # ==================================================================
     # Why it is hard, and why that is the whole of attention.
     # ==================================================================
     def stage_why(self):
-        self.say("you could watch one. you could not watch nine.", 3)
-        self.say("that limit has a name: attention.", 2.5, SKY)
-        self.say("it is the one idea inside every AI you use.", 2.5, SKY)
+        self.play(FadeOut(self.p_card), FadeOut(self.c_card),
+                  run_time=self.T(1.5))
+        self.w1 = txt("you could watch one.", 29, WHITE_, w=4.4)
+        self.w1.move_to(np.array([0, 0.72, 0]))
+        self.w2 = txt("you could not watch nine.", 29, WHITE_, w=4.4)
+        self.w2.move_to(np.array([0, 0.06, 0]))
+        self.w3 = txt("that limit is called attention.", 27, SKY, w=4.5)
+        self.w3.move_to(np.array([0, -0.72, 0]))
+        self.play(FadeIn(self.w1, shift=0.10 * UP), run_time=self.T(2),
+                  rate_func=rush_from)
+        self.play(FadeIn(self.w2, shift=0.10 * UP), run_time=self.T(2))
+        self.play(FadeIn(self.w3), run_time=self.T(2))
         self.pad_to(END_WHY)
 
     # ------------------------------------------------------------------
@@ -385,17 +427,17 @@ class RedBall(Scene):
         for m in doomed:
             m.clear_updaters()
         self.play(*[FadeOut(m) for m in doomed],
-                  self.zoom.animate.set_value(1.0), run_time=self.T(2))
+                  self.zoom.animate.set_value(1.0), run_time=self.T(1.5))
         self.note = None
         e = txt("every bounce was: angle in = angle out", 24, GOLD, w=4.5)
         e.move_to(np.array([0, 1.15, 0]))
-        self.play(FadeIn(e), run_time=self.T(1.5))
         self.l0 = e
+        self.play(FadeIn(e), run_time=self.T(1.5))
         self.l1 = txt(a, 29, WHITE_, w=4.4).move_to(np.array([0, 0.10, 0]))
         self.play(FadeIn(self.l1, shift=0.12 * UP), run_time=self.T(1.5),
                   rate_func=rush_from)
         self.l2 = txt(b, 27, GOLD, w=4.5).move_to(np.array([0, -0.62, 0]))
-        self.play(FadeIn(self.l2), run_time=self.T(1))
+        self.play(FadeIn(self.l2), run_time=self.T(1.5))
         self.pad_to(END_TAKE)
 
     def share(self):

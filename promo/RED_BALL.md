@@ -14,7 +14,11 @@ Companion to `red_ball.py`. A tracking game — and then the reason it is hard.
 > **the RED ball?**
 
 Nine balls bounce inside a circle. One is red. It turns white with the rest, and
-for **sixteen seconds** you try to keep hold of it.
+for **fourteen seconds** you try to keep hold of it.
+
+**There is no reveal.** The balls freeze, they get numbered, and the video asks
+for a number instead of giving one. The answer is **number 5** — pinned in the
+comments, and the whole of part 2.
 
 ---
 
@@ -50,14 +54,17 @@ what makes this an AI video rather than a party trick.
 
 ## The seed is chosen, not random
 
-Seed **142**, out of 150 searched, picked on two measurable properties of the
-red ball across the all-white stretch:
+Seed **142**, from a 200-seed search **at this exact speed and beat layout**,
+picked on measurable properties of the red ball across the all-white stretch.
+Re-run `red_ball_seed_search.py` if `SPEED`, `N` or the beats change — a seed
+that is hard at one speed is not hard at another.
 
 | property | value | why it matters |
 | --- | --- | --- |
 | **it roams** | mean distance from its own average position = **0.71** of the radius | you cannot find it by staring at one spot |
-| **it is crowded** | another ball within three ball-radii in **78%** of frames | this is the thing that actually makes the eye jump to the wrong ball |
-| **its bounce count is unremarkable** | 7, against a median of 7 | so counting bounces cannot cheat it |
+| **it is crowded** | another ball within three ball-radii in **82%** of frames | this is the thing that actually makes the eye jump to the wrong ball |
+| **its bounce count is unremarkable** | 9, against a median of 9 | so counting bounces cannot cheat it |
+| **its number is 5** | neither 1 nor 9 | the reading order gives nothing away |
 
 Both are re-asserted at import, so the difficulty is a property of the file
 rather than a hope.
@@ -70,9 +77,11 @@ gone there is no tell — asserted, because a video that cheats here is worthles
 ```
 every ball's speed is constant     drift 7.8e-16 across all frames, all nine
 every ball stays inside            max radius exactly R − r, never over
-angle in == angle out              2.8e-16, every bounce
+angle in == angle out              5.6e-16, every bounce
 every ball actually bounces
 the red ball roams and stays crowded   the two difficulty properties above
+the answer is not 1 and not 9      or the numbering leaks it
+the labels are a permutation of 1..9   no two balls share a number
 ```
 
 ---
@@ -81,14 +90,14 @@ the red ball roams and stays crowded   the two difficulty properties above
 
 | Beats | |
 | --- | --- |
-| 0–7 | *Can you follow the RED ball?* It is ringed. **Lock on.** |
-| 7–13 | It moves, still red — six beats to get your eye on it |
-| 13–53 | **The colour goes.** Sixteen seconds, nine identical balls, trails |
-| 53–62 | Freeze. The balls are **numbered 1–9**. *Which one? Say it out loud.* |
-| 62–74 | The reveal, and the decoys dim |
-| 74–82 | *You could watch one. You could not watch nine. That limit is attention.* |
-| 82–88 | *Every bounce was: angle in = angle out.* Then the series line |
-| 88–92 | **Send this to your school friend — see if THEY can hold it** |
+| 0–6 | *Can you follow the RED ball?* It is ringed. **Lock on.** |
+| 6–11 | It moves, still red — five beats to get your eye on it |
+| 11–45 | **The colour goes.** Fourteen seconds, nine identical balls, trails |
+| 45–56 | Freeze. The balls are **numbered 1–9**. *Pick a number. Out loud. Now.* |
+| 56–70 | **PART 2 has the answer. Comment your number below.** No reveal |
+| 70–78 | *You could watch one. You could not watch nine. That limit is attention.* |
+| 78–86 | *Every bounce was: angle in = angle out.* Then the series line |
+| 86–92 | **Send this to your school friend — see if THEY can hold it** |
 | 92–100 | The eye |
 
 **The numbers at the freeze are the comment engine.** Without them, "did you get
@@ -97,8 +106,14 @@ committed to before the reveal — and the caption asks for it. On a page where
 comments are the growth channel, that is the single highest-value four beats in
 the video.
 
-**Sixteen seconds is deliberate.** Long enough that nearly everyone loses it,
-short enough that the payoff still lands inside a scroll.
+**Fourteen seconds at speed 0.82 is deliberate.** Fast enough that nearly
+everyone loses it inside five, short enough that the ask still lands inside a
+scroll.
+
+**Withholding the reveal is the whole point of this cut.** A reveal ends the
+video. A withheld reveal sends the viewer to the comments — which on a page this
+size is the only place growth actually comes from. `ANSWER` is derived from the
+simulation rather than typed, so part 2 cannot contradict part 1.
 
 ---
 
@@ -111,9 +126,11 @@ Nine balls. One is red — for six seconds. Then the colour goes and they're all
 identical: same size, same speed, no tells. That's not a figure of speech, it's
 in the code.
 
-Sixteen seconds. Then they freeze, they get numbered, and you have to commit.
+Fourteen seconds. Then they freeze, they get numbered, and you have to commit.
 
-Comment your number BEFORE you watch the end. No editing it after 👀
+COMMENT YOUR NUMBER 👇 No editing it after.
+
+The answer is pinned in the comments — and the full reveal is PART 2.
 
 —
 
@@ -123,7 +140,7 @@ Every single bounce is one line of school maths. Angle in = angle out. The ball
 hits the wall, the part of its motion going INTO the wall flips, the part
 sliding ALONG the wall doesn't. That's it. That's the whole physics engine.
 
-And the reason you lost the ball? You could watch one. You could not watch nine.
+And the reason you lost it? You could watch one. You could not watch nine.
 
 That limit has a name. It's called attention — and it is the one idea inside
 every AI you have ever used. The whole reason ChatGPT works is a mechanism for
@@ -155,3 +172,10 @@ python3 cinegrade.py videos/RedBall.mp4 red_ball.mp4
 assertions re-run — a seed where the red ball loiters in one corner, or drifts
 around on its own, **fails the render**. Re-run the search in
 `red_ball_seed_search.py` to find a new one rather than guessing.
+
+## Part 2
+
+The answer is **number 5**, and `red_ball.py` exposes it as `ANSWER` so
+part 2 can import it rather than repeat it. Part 2 needs the same `SEED`,
+`SPEED` and beat layout, or the freeze frame — and therefore the numbering —
+will not match what part 1 showed.
