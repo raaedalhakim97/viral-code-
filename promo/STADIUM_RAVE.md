@@ -169,6 +169,8 @@ attention, the maths behind how AI actually thinks — all of it drawn.
 #mathtok #animation #manim #spongebob #stadiumrave
 ```
 
+**YouTube title:** `A 3D Lissajous curve, and the two numbers behind it`
+
 `#spongebob` and `#stadiumrave` are the reason this one can travel. They are
 enormous pools that the maths hashtags are not, and the sound page is where a
 trending audio's reach comes from — which is exactly why the render is silent

@@ -97,6 +97,8 @@ Try one in the comments and I'll do it.
 #mentalmath #maths #mathtrick #longdivision #nocalculator
 ```
 
+**YouTube title:** `47500 ÷ 234 without a calculator`
+
 **"Try one in the comments and I'll do it."** is the comment driver, and unlike
 the puzzle videos it also generates the next video for free — whatever people
 post is a ready-made sequel with a built-in audience already invested in it.

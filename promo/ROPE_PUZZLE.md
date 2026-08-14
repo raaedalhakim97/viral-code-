@@ -101,6 +101,8 @@ Did you get it right?
 #mathtok #maths #puzzle #geometry #brainteaser
 ```
 
+**YouTube title:** `The rope puzzle — and the algorithm behind it`
+
 **"Did you get it right?"** is the line that earns the comments. Keep it last.
 
 Note the hashtags are deliberately *not* the AI set — this one is a pure maths

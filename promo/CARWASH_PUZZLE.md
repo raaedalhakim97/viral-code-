@@ -104,6 +104,8 @@ Did you say walk?
 #puzzle #brainteaser #riddle #aithinking #logic
 ```
 
+**YouTube title:** `The car wash puzzle — how AI would actually solve it`
+
 **"Did you say walk?"** is the comment driver. Keep it last — it is the same
 role "Did you get it right?" plays on the rope puzzle, and admitting a wrong
 answer to something this simple is easy, which is exactly why people do it.

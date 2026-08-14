@@ -95,6 +95,8 @@ exactly the point.
 #aimath #mathtok #embeddings #machinelearning #linearalgebra
 ```
 
+**YouTube title:** `Why an AI needs 1,536 dimensions to hold one word`
+
 Short alternate:
 
 ```
