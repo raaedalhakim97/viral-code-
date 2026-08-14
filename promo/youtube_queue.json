@@ -1,5 +1,7 @@
 {
   "count": 32,
+  "repo": "raaedalhakim97/viral-code-",
+  "branch": "claude/marketing-tiktok-page-bj4ba4",
   "videos": [
     {
       "slot": 1,
@@ -16,6 +18,7 @@
         "illusion",
         "howaiworks"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/red_ball.mp4",
       "brief": "RED_BALL.md",
       "requires": null,
       "width": 1080,
@@ -37,6 +40,7 @@
         "machinelearning",
         "strawberry"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/how_ai_reads.mp4",
       "brief": "HOW_AI_READS.md",
       "requires": null,
       "width": 1080,
@@ -60,6 +64,7 @@
         "binary",
         "logicgates"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/calculator_vs_ai.mp4",
       "brief": "CALCULATOR_VS_AI.md",
       "requires": null,
       "width": 1080,
@@ -80,6 +85,7 @@
         "geometry",
         "trigonometry"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/circle_ladder.mp4",
       "brief": "CIRCLE_LADDER.md",
       "requires": null,
       "width": 1080,
@@ -102,6 +108,7 @@
         "ai",
         "linearregression"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/sales_line.mp4",
       "brief": "SALES_LINE.md",
       "requires": null,
       "width": 1080,
@@ -124,6 +131,7 @@
         "physics",
         "howaiworks"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/red_ball_2.mp4",
       "brief": "RED_BALL_2.md",
       "requires": "red_ball.mp4",
       "width": 1080,
@@ -146,6 +154,7 @@
         "studytok",
         "ai"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/angle_to_place.mp4",
       "brief": "ANGLE_TO_PLACE.md",
       "requires": null,
       "width": 1080,
@@ -168,6 +177,7 @@
         "machinelearning",
         "howaiworks"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/cosine_similarity.mp4",
       "brief": "COSINE_SIMILARITY.md",
       "requires": null,
       "width": 1080,
@@ -190,6 +200,7 @@
         "algebra",
         "gcse"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/neuron.mp4",
       "brief": "NEURON.md",
       "requires": "sales_line.mp4",
       "width": 1080,
@@ -212,6 +223,7 @@
         "calculus",
         "gradientdescent"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/gradient_descent.mp4",
       "brief": "GRADIENT_DESCENT.md",
       "requires": "sales_line.mp4",
       "width": 1080,
@@ -234,6 +246,7 @@
         "statistics",
         "gcse"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/best_line.mp4",
       "brief": "BEST_LINE.md",
       "requires": "sales_line.mp4",
       "width": 1080,
@@ -256,6 +269,7 @@
         "gcse",
         "ai"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/rotate_it.mp4",
       "brief": "ROTATE_IT.md",
       "requires": "angle_to_place.mp4",
       "width": 1080,
@@ -278,6 +292,7 @@
         "gcse",
         "studytok"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/sine_unroll.mp4",
       "brief": "SINE_UNROLL.md",
       "requires": null,
       "width": 1080,
@@ -300,6 +315,7 @@
         "studytok",
         "学习"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/square_ladder.mp4",
       "brief": "SQUARE_LADDER.md",
       "requires": null,
       "width": 1080,
@@ -320,6 +336,7 @@
         "geometry",
         "mathtok"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/linear_geometry.mp4",
       "brief": "LINEAR_GEOMETRY.md",
       "requires": null,
       "width": 1080,
@@ -342,6 +359,7 @@
         "gcse",
         "studytok"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/map_bearing.mp4",
       "brief": "MAP_BEARING.md",
       "requires": "angle_to_place.mp4",
       "width": 1080,
@@ -364,6 +382,7 @@
         "ai",
         "machinelearning"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/revision_line.mp4",
       "brief": "REVISION_LINE.md",
       "requires": "best_line.mp4",
       "width": 1080,
@@ -386,6 +405,7 @@
         "robotics",
         "howaiworks"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/car_eyes.mp4",
       "brief": "CAR_EYES.md",
       "requires": "rotate_it.mp4",
       "width": 1080,
@@ -410,6 +430,7 @@
         "fourier",
         "generativeart"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/name_equation.mp4",
       "brief": "NAME_EQUATION.md",
       "requires": null,
       "width": 1080,
@@ -424,6 +445,7 @@
       "title": "How AI solves a maze — breadth-first search",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_1.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -438,6 +460,7 @@
       "title": "Wolf, goat, cabbage — how AI turns a story into a map",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_2.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -452,6 +475,7 @@
       "title": "How AI plays tic-tac-toe — minimax",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_3.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -466,6 +490,7 @@
       "title": "Six queens — how AI wins by being wrong cheaply",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_4.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -480,6 +505,7 @@
       "title": "How AI solves sudoku — it never tries a number",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_5.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -494,6 +520,7 @@
       "title": "The travelling salesman — why AI stops trying to be perfect",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_6.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -508,6 +535,7 @@
       "title": "The sliding tile puzzle — A* and one good guess",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/ai_puzzle_7.mp4",
       "brief": "AI_PUZZLES.md",
       "requires": null,
       "width": 1080,
@@ -528,6 +556,7 @@
         "geometry",
         "brainteaser"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/rope_puzzle.mp4",
       "brief": "ROPE_PUZZLE.md",
       "requires": null,
       "width": 1080,
@@ -548,6 +577,7 @@
         "aithinking",
         "logic"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/carwash_puzzle.mp4",
       "brief": "CARWASH_PUZZLE.md",
       "requires": null,
       "width": 1080,
@@ -568,6 +598,7 @@
         "longdivision",
         "nocalculator"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/no_calculator.mp4",
       "brief": "NO_CALCULATOR.md",
       "requires": null,
       "width": 1080,
@@ -588,6 +619,7 @@
         "machinelearning",
         "linearalgebra"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/dimensions.mp4",
       "brief": "DIMENSIONS.md",
       "requires": null,
       "width": 1080,
@@ -608,6 +640,7 @@
         "spongebob",
         "stadiumrave"
       ],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/stadium_rave.mp4",
       "brief": "STADIUM_RAVE.md",
       "requires": null,
       "width": 1080,
@@ -622,6 +655,7 @@
       "title": "The illusion of logic — what AI is really doing",
       "description": null,
       "tags": [],
+      "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/illusion_of_logic.mp4",
       "brief": null,
       "requires": null,
       "width": 1080,

@@ -31,6 +31,15 @@ import subprocess
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "youtube_queue.json")
 
+# Every entry also carries a raw GitHub URL. That is the important field: it
+# lets n8n PULL each video itself rather than having it pushed through a
+# webhook. A 16 MB multipart POST from a sandbox is the fragile way to do this;
+# a URL the uploader fetches is not, and it survives this repo being cloned
+# anywhere. Regenerate if the branch is renamed or the work is merged.
+REPO = "raaedalhakim97/viral-code-"
+BRANCH = "claude/marketing-tiktok-page-bj4ba4"
+RAW = f"https://raw.githubusercontent.com/{REPO}/{BRANCH}/promo/"
+
 # Posting order. Prerequisites are declared, not assumed — see the assert below.
 ORDER = [
     # strongest standalone hooks first
@@ -159,12 +168,14 @@ def main():
             "title": title,
             "description": desc,
             "tags": tags[:15],
+            "url": RAW + video,
             "brief": os.path.basename(bp) if bp else None,
             "requires": needs,
             **(meta or {}),
         })
 
-    json.dump({"count": len(queue), "videos": queue},
+    json.dump({"count": len(queue), "repo": REPO, "branch": BRANCH,
+               "videos": queue},
               open(OUT, "w"), indent=2, ensure_ascii=False)
 
     print(f"queued {len(queue)} videos -> {os.path.basename(OUT)}")
