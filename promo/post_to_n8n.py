@@ -20,14 +20,31 @@ channel on the strength of a payload format nobody has confirmed is how a
 channel ends up with five broken uploads. Send one, look at it, then raise the
 count.
 
-THE PAYLOAD IS A GUESS UNTIL THE ENDPOINT CONFIRMS IT. Two shapes are
-supported because n8n workflows are commonly built either way:
+THE PAYLOAD IS CONFIRMED, NOT GUESSED. Read off the live workflow
+(u32k553be5vakrce, "Manus - Viral Shorts -> YouTube Auto Upload"):
 
-    --mode multipart   (default)  file + fields, as a real upload
-    --mode json                   metadata only, video as base64 or a URL
+    {"video_url": "...", "title": "...", "description": "...", "tags": [...]}
 
-Run --probe first. If the workflow expects something else, the shape is one
-function (`build_payload`) and the fields are one dict.
+The workflow does not receive the file. It receives a URL and FETCHES the video
+itself, then hands it to the YouTube node (public, region AE, category 28) and
+mirrors it to Google Drive.
+
+    THAT URL MUST BE PUBLICLY FETCHABLE. The "Download Video File" node has no
+    credentials attached, so it gets exactly what an anonymous curl gets. The
+    repo these videos live in is PRIVATE — every raw.githubusercontent URL for
+    it returns 404 unauthenticated, SHA-pinned or not. Until that is fixed the
+    workflow will fail at the download step.
+
+    It fails safely: the HTTP node raises on a 404 rather than passing an error
+    page downstream, so a bad URL means no upload rather than a broken upload.
+    But it does mean nothing can be posted until the videos are reachable.
+
+Three ways out, in order of least friction:
+    1. attach a GitHub credential to the "Download Video File" node
+       (there is already an "Observer World - Pull from GitHub & Upload"
+       workflow, so a credential very likely exists)
+    2. make the repo public
+    3. host the finished videos somewhere anonymous fetch works
 """
 import argparse
 import json
@@ -88,14 +105,25 @@ def multipart(entry):
 
 
 def as_json(entry):
+    """The exact shape the live workflow reads. Confirmed by reading
+    workflow u32k553be5vakrce, not guessed:
+
+        Check Payload          gates on  $json.body.video_url  isNotEmpty
+        Download Video File    GETs      $json.body.video_url  as a file
+        Upload to YouTube      reads     body.title
+                                         body.description
+                                         body.tags.join(',')   <- must be a LIST
+
+    tags MUST be a JSON array: the node calls .join(',') on it, so a string
+    there throws at runtime, after the video has already been downloaded."""
     payload = {
+        "video_url": entry["url"],
         "title": entry["title"],
         "description": entry["description"] or "",
         "tags": entry["tags"],
-        "filename": entry["file"],
-        "duration": entry["duration"],
-        "privacyStatus": "public",
     }
+    assert payload["video_url"], "the workflow drops any payload with no video_url"
+    assert isinstance(payload["tags"], list), "tags.join(',') needs a list"
     return json.dumps(payload).encode(), "application/json"
 
 
@@ -126,7 +154,10 @@ def main():
     ap.add_argument("--count", type=int, default=1,
                     help="how many to send (default 1 — raise it only once one "
                          "has landed correctly)")
-    ap.add_argument("--mode", choices=("multipart", "json"), default="multipart")
+    ap.add_argument("--mode", choices=("multipart", "json"), default="json",
+                    help="json is the confirmed contract; multipart is kept "
+                         "only in case the workflow is ever rebuilt to take "
+                         "the file directly")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--timeout", type=int, default=300)
@@ -151,6 +182,7 @@ def main():
         print(f"  {v['file']}  ({size:.1f} MB, {v['duration']}s)")
         print(f"    title: {v['title']}")
         print(f"    tags:  {', '.join(v['tags'][:8])}")
+        print(f"    url:   {v['url']}")
         if a.dry_run:
             print("    [dry run — nothing sent]\n")
             continue
