@@ -1,0 +1,103 @@
+{
+  "name": "Observer Collapse — Daily Shorts Queue",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Every 24 hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/raaedalhakim97/viral-code-/claude/marketing-tiktok-page-bj4ba4/promo/youtube_queue.json",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Fetch Queue From GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 300],
+      "notes": "Reads the manifest straight from the public repo, so the queue is edited by pushing to git — never by editing this workflow."
+    },
+    {
+      "parameters": {
+        "jsCode": "// How many to publish per run. Start at 2 and raise it once you have\n// watched a few land — five same-day uploads compete with each other.\nconst PER_RUN = 5;\n\n// Which files have already gone out. Stored on the workflow itself, so it\n// survives restarts and this node is the single source of truth for\n// \"what is next\". Clearing it will re-post everything.\nconst store = $getWorkflowStaticData('global');\nif (!Array.isArray(store.posted)) store.posted = [];\n\nconst queue = $input.first().json.videos || [];\nif (!queue.length) throw new Error('queue is empty — did the GitHub fetch fail?');\n\nconst next = queue\n  .filter(v => !store.posted.includes(v.file))\n  .slice(0, PER_RUN);\n\nif (!next.length) return [];   // everything has been posted; nothing to do\n\n// Mark them before sending. Posting is not reversible, so the failure we\n// guard against is a DUPLICATE upload, not a missed one — a video that\n// silently fails can be re-queued by hand, a double upload cannot be undone.\nfor (const v of next) store.posted.push(v.file);\n\nreturn next.map(v => ({\n  json: {\n    video_url: v.url,\n    title: v.title,\n    description: (v.description || '').slice(0, 4900),\n    tags: v.tags || []\n  }\n}));"
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Pick Next Unposted",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Wait 60s Between Posts",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [720, 300],
+      "webhookId": "a1000000-0000-4000-8000-00000000000a",
+      "notes": "Spaces the uploads out so YouTube does not see five posts in one second."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.thunderworkflow.com/webhook/manus-viral-shorts",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Send To Upload Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 300],
+      "notes": "Hands each item to the existing 'Manus - Viral Shorts -> YouTube Auto Upload' workflow, which downloads the video and uploads it. That pipeline is already working and is not touched."
+    },
+    {
+      "parameters": {
+        "content": "DAILY SHORTS QUEUE\n\nWhat it does, once every 24 hours:\n  1. reads youtube_queue.json from the public repo\n  2. picks the next 5 that have not gone out yet\n  3. posts each one to the existing upload webhook, 60s apart\n\nNOTHING OUTSIDE n8n HAS TO RUN. No laptop, no terminal, no chat session.\n\nTO CHANGE THE QUEUE: push to the repo. This workflow re-reads it every run.\nTO CHANGE THE RATE: edit PER_RUN in 'Pick Next Unposted'.\nTO START OVER: clear the workflow's static data (this re-posts everything).\n\n32 videos are queued. At 5/run that is about 6 days.",
+        "height": 320,
+        "width": 460,
+        "color": 4
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Read Me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [0, -80]
+    }
+  ],
+  "connections": {
+    "Every 24 hours": {
+      "main": [[{ "node": "Fetch Queue From GitHub", "type": "main", "index": 0 }]]
+    },
+    "Fetch Queue From GitHub": {
+      "main": [[{ "node": "Pick Next Unposted", "type": "main", "index": 0 }]]
+    },
+    "Pick Next Unposted": {
+      "main": [[{ "node": "Wait 60s Between Posts", "type": "main", "index": 0 }]]
+    },
+    "Wait 60s Between Posts": {
+      "main": [[{ "node": "Send To Upload Webhook", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
