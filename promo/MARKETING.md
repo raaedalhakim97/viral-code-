@@ -8,23 +8,47 @@ was known and is wrong about where the bottleneck is.
 
 ## Scope — what this page is about, and what it is not
 
-Set Aug 2026, after one video went out of bounds. **Four subjects, nothing else:**
+**Reset by the owner, Aug 2026.** The page's subject is the thing it is named
+after: **observer collapse** — how an observer changes the environment it is
+observing, and how what reaches an observer decides what it does.
 
-- **how AI actually works** — tokens, attention, why it can't multiply
-- **angles**
-- **sin and cos**
-- **the equations AI runs on** — `y = Wx + b`, softmax, the dot product
+> **An observer never acts on the world. It acts on the part of the world that
+> reached it — and those are different objects.**
 
-Everything shipped has to answer *"what has this got to do with AI, or with an
-angle?"* in one sentence. If it cannot, it is a general-maths video, and this is
-not a general-maths page.
+Everything shipped has to answer *"whose model of the world does this change,
+and how would you measure it?"* If it cannot, it is a general-maths video, and
+this is not a general-maths page.
 
-**Rejected under this rule:** `a² + b² = c²` and the screen-diagonal video. It
-was well made, properly sourced and exact to the last digit, and it was still
-off-brand — Pythagoras for TV sizes is a maths-teacher video, not an AI one. It
-was removed rather than left unposted, because an off-scope "Episode 2" sitting
-in the repo pulls the whole series sideways. It is recoverable from git history
-(commit `4b0341d`) if it is ever wanted for a different channel.
+**What that admits, all of it countable, none of it metaphor:**
+
+- **occlusion and line of sight** — grids, position vectors, cross products
+- **information availability** — the honest double slit: what *can* be known,
+  not what a mind knows
+- **delay and sampling** — the observer acts on where you were, not where you are
+- **measurement cost** — to locate a thing you have to interact with it
+- **the observer inside the viewer** — perception as a model, not a window
+
+**Still in scope, because it is the same subject wearing different clothes:**
+attention (a machine choosing what to look at), the dot product, `y = Wx + b`.
+An AI is an observer with a measurable model, which makes it the most
+convenient observer to film. It is no longer the *point* — it is one example.
+
+**Out of scope, unchanged:** general-maths explainers with no observer in them.
+`a² + b² = c²` and the screen-diagonal video stay rejected under the new rule
+for the same reason they were rejected under the old one — nobody's model of the
+world changes in them.
+
+**The back catalogue is not off-brand, it is the funnel.** `red_ball`,
+`the_sync`, `which_way` and the teaching episodes stay up and keep posting. They
+are what brings people to a page that then shows them this. `which_way` in
+particular is a straight lead-in: it ends on *your brain guessed and never told
+you*, which is episode 01's thesis said sideways.
+
+The precedent for enforcing this: `a² + b² = c²` and the screen-diagonal video
+were well made, properly sourced and exact to the last digit, and were still
+removed rather than left unposted — because an off-scope "Episode 2" sitting in
+the repo pulls the whole series sideways. Recoverable from git history (commit
+`4b0341d`) if ever wanted for a different channel.
 
 **No AI voice.** A piper voiceover was tried on that same video and rejected on
 listening: it reads as obviously synthetic, and on a page whose entire promise is
@@ -34,9 +58,20 @@ in the caption and the `.srt`. `narrate_scene.py` stays for the long-form OIS
 scenes and carries this note at the top. If narration ever comes back it is a
 real human reading, not a model.
 
-**Every episode closes the same two ways.** First the line the whole series is
-named after — *"We learned this at school. Nobody ever said what for."* Then, on
-its own beat before the sign-off:
+**The close depends on which series the video belongs to.**
+
+**OBSERVER COLLAPSE** episodes close on the series card — *OBSERVER COLLAPSE /
+episode one of many / follow — you are on somebody's grid* — and then the eye.
+The ask here is a **follow**, not a share, and that is deliberate: these are
+serial, and a viewer who understood episode 01 has a reason to want episode 02.
+Nobody shares a thesis to one specific friend; they subscribe to it.
+
+**WHY DID WE LEARN THIS?** episodes — the school series — keep their own close,
+below, unchanged. It is the right ask for a video that just handed somebody
+something they can teach, and it is not the right ask for this one.
+
+First the line that series is named after — *"We learned this at school. Nobody
+ever said what for."* Then, on its own beat before the sign-off:
 
 > **Send this to your school friend — and tell them THIS is how it's solved.**
 
