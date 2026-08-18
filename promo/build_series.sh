@@ -38,7 +38,7 @@ ffmpeg -v error -y \
   -t "$TRIM" -i the_scan.mp4 \
   -i videos/SeriesOutro_g.mp4 \
   -filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v]concat=n=7:v=1:a=0[v]" \
-  -map "[v]" -r 60 -pix_fmt yuv420p -c:v libx264 -crf 17 -preset slow \
+  -map "[v]" -r 60 -pix_fmt yuv420p -c:v libx264 -crf 21 -preset slow \
   -movflags +faststart "$OUT"
 
 FRAMES=$(ffprobe -v error -count_frames -select_streams v:0 \
