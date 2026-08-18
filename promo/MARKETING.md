@@ -117,6 +117,53 @@ being spent on one platform.
 
 ---
 
+## Parts or one long video — the answer is both, split by platform
+
+Asked directly: should OBSERVER COLLAPSE ship as 40-second parts, or as one
+video long enough to explain itself? **Both, and the split is not a compromise.**
+
+**Shorts, Reels, TikTok — keep the 40-second parts.** Watch-through rate is the
+dominant ranking signal, and at ~100 followers every video is discovered cold.
+A two-minute cut completes at maybe 20%; a forty-second one completes at 60–80%.
+Merging them would reduce how many people meet the idea at all.
+
+**YouTube — one full cut.** YouTube ranks on watch *time*, not percentage, and a
+two-minute piece is a normal format there. It is also the searchable, evergreen
+asset, and the thing to link from the bio. `observer_collapse_full.mp4`,
+built by `build_series.sh`: **121.6 s, 7296 frames.**
+
+```
+open 4.0 + room 34.4 + bridge 3.2 + delay 34.4 + bridge 3.2 + scan 34.4 + outro 8.0
+```
+
+Each episode is trimmed at **34.400 s — beat 86, exactly 2064 frames** — the
+point where every episode in this shell hands over to its follow card. Three
+sign-offs in a row is the only thing wrong with a naive concatenation, so the
+long cut carries **one** signature at the end.
+
+### Two things the parts get wrong for cold viewers, and the fix
+
+**Drop the episode numbers from the on-screen cards.** A stranger who sees "03"
+reads it as *you missed something*, which is a scroll trigger. The series name
+alone identifies it; keep the numbering in captions and YouTube titles, where it
+helps returning viewers instead of taxing new ones.
+
+**Post them strongest-first, not in numerical order.** `the_scan` is the only one
+that stops a scroll inside one second — a human body assembling out of laser
+returns. `the_room` needs eight seconds before anything happens, which is fatal
+cold and fine once someone already trusts the page. Recommended order:
+
+```
+the_scan  ->  the_delay  ->  the_room
+```
+
+Once the numbers are off the cards, order is free, and every episode is an
+entry point rather than a middle chapter. Comprehension does not come from
+length — it comes from each part being complete on its own and ending on the
+same thesis.
+
+---
+
 ## Move 1 — multiply surface area (this week, zero new production)
 
 Upload the existing library to **YouTube Shorts** and **Instagram Reels**.
