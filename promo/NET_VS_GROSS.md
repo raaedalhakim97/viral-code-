@@ -1,133 +1,146 @@
-# tax = paid ÷ 21
+# EVERY MANAGER GETS THIS WRONG
 
-Episode of **"WHERE MATH ACTUALLY GETS USED"**. The answer is pinned at
-the **top of the frame** for the whole video — and it's deliberately
-strange. *Twenty-one?* The video is the audience finding out why.
-
-- **Output:** 1080×1920, 60fps, **60.000000s** — 150 beats = 37.5 bars at 150 BPM
+- **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor. **No AI voice.**
+
+---
+
+## Built to the hook rules, not to a lesson plan
+
+This is the third cut. The first two were correct and *slow* — a title
+card, then a build-up, then the payoff at the end. That ordering is
+backwards for short-form. What the research says, and what this cut does:
+
+| Finding | What changed |
+| --- | --- |
+| Viewers decide in **under 1.7s**; 63% of top-CTR videos hook inside 3s | There is **no** opening card. Frame 1 is the finished mistake. |
+| Show the **mistake visually in the first frame** while you state it | `38,000` is on screen at t=0, struck through, with a cross on it |
+| **Loss framing beats gain framing** — "*you're* losing money", second person | *"this costs you 95.24 / every single invoice"* — in frame 1 |
+| **Identity callout** self-selects the audience, highest-converting for growth | The banner *is* the callout: **EVERY MANAGER GETS THIS WRONG** |
+| **Outcome shown in the first 2 seconds** is the top-performing hook type (~2× views) | The real answer lands at **0:05**, before any explanation |
+| Hook ≈ 10–14 words, lines short | Captions are 4–7 words, second person, present tense |
+
+The pinned line is no longer a formula. It's **`38,095.24  not  38,000`** —
+the answer *and* an open loop, held at the top of the frame the whole way
+down.
+
+**One more fix from watching the render:** after the answer pinned at
+0:05, the stage sat empty until the bar arrived at 0:14 — nine seconds of
+captions over black, which is exactly where people scroll. The wrong sum
+now runs live in the centre of the frame during that stretch and gets
+crossed out on the beat.
 
 ---
 
 ## The story
 
-Someone hands you **40,000**. The price already had 5% tax in it. How
-much of it is the taxman's?
+Frame 1 — the mistake, already made:
 
-**The obvious move.** 5% of 40,000 = 2,000. That's what almost everyone
-writes down.
+```
+             40,000  −  5%
+             ~38,000~      ✗
 
-**The doubt.** Five percent… of *what*? Nobody ever charged 5% of 40,000.
-The 5% was worked out from **your price** — a number you haven't found
-yet — and then added on top.
+         this costs you 95.24
+          every single invoice
+```
+
+Then the real number, immediately: **38,095.24.** *That's what you
+actually keep.* It pins to the top and stays.
+
+Then, and only then, why. 40,000 comes in, tax already inside. You take
+5% off — 2,000 — and book 38,000. **But 5% of what?** Nobody ever
+charged 5% of 40,000. The 5% came off *your* price and was added on top.
 
 **The shape.** Cut your price into 20 equal parts. The tax is one more
-part, exactly the same size, stuck on the end. So what they handed you is
-not 20 parts.
+part exactly like them, on the end. So what came in is **21 parts**:
 
 ```
  [][][][][][][][][][][][][][][][][][][][]  []      =  40,000
   \____________ 20 = yours ____________/    1 = tax
-
-              twenty-one parts
 ```
 
-**The answer falls out.**
-
 ```
-one part   =  40,000 ÷ 21  =  1,904.76      <- the tax, all of it
-yours      =  20 parts     =  38,095.24
-
-              38,095.24 + 1,904.76  =  40,000.00
+one part  =  40,000 ÷ 21  =  1,904.76      <- the whole tax
+yours     =  20 parts     =  38,095.24
+             38,095.24 + 1,904.76  =  40,000.00
 ```
 
-**The cost of the mistake.** Taking 5% off the whole thing cuts a 21-part
-bar into 20. You hand over 2,000 where 1,904.76 was owed — **95.24 that
-was never his.** On a million: 2,380.95.
+**The stake, in manager units.** You handed over 2,000 where 1,904.76 was
+owed. **95.24 gone per invoice — 9,523.81 across a hundred of them.**
 
-**The rule worth keeping:** 5% → 21 parts. 10% → 11. 20% → 6. Always one
-part more than you'd think.
+**The rule:** 5% → 21 parts. 10% → 11. 20% → 6. Always one more.
 
 ### Verified at import
 
 ```
 every figure is exact Fraction arithmetic — nothing typed in by hand
-one part really is 5% OF THE NET, so the slice story and ÷ 1.05 agree
+one part really is 5% OF THE NET, so the slices agree with ÷ 1.05
 38,095.24 + 1,904.76 == 40,000.00, at cent precision, exactly as shown
-the overpayment is exactly 2000/21 -> 95.24, and 2,380.95 on a million
+95.24 per invoice, 9,523.81 per hundred, 2,380.95 on a million
 the 5/10/20% -> 21/11/6 rule is checked against 1/s == r/(1+r)
 the bar and its labels are asserted to stay inside the frame
 ```
 
 ---
 
-## Why a bar of 21 parts, and not two bars
+## Why a bar of 21 parts
 
-The first cut of this video was a chain of boxes doing `÷1.05` and
-`×1.05`. It was correct and it was cold — arithmetic where a picture
-should have been.
-
-A proportional comparison doesn't work either: 38,000 and 38,095.24
-differ by less than a quarter of a percent, so two bars side by side are
-two identical bars, and the video would be arguing against its own
-picture.
-
-What *is* visible is the **construction**. The bar doesn't compare two
-answers — it shows how the 40,000 got built in the first place: twenty
-parts that are yours, and one more added on the end. Once the 21st part
-is on screen, "one in twenty-one, not one in twenty" needs no algebra,
-and the strange `÷ 21` at the top of the frame explains itself.
+A proportional before/after can't work: 38,000 and 38,095.24 differ by
+under a quarter of a percent, so two bars side by side are two identical
+bars and the picture contradicts the caption. The bar doesn't compare the
+two answers — it shows how the 40,000 got **built**: twenty parts that
+are yours, one more added on the end. Once the 21st part is on screen,
+"one in twenty-one, not one in twenty" needs no algebra.
 
 ---
 
 ## Structure
 
-| Beats | |
-| --- | --- |
-| 0–10 | **they hand you 40,000. the price had 5% tax in it. how much is the taxman's?** |
-| 10–26 | the obvious move: `40,000 × 5% = 2,000`. *that's what almost everyone writes down* |
-| 26–38 | **five percent… of what?** *nobody ever charged 5% of 40,000* |
-| 38–68 | the bar builds: 20 gold parts = YOUR PRICE, then one rose part lands on the end. the whole thing is the 40,000 |
-| 68–86 | the rose part steps out. *20 yours + 1 taxman = 21 parts.* **twenty-one. not twenty.** |
-| 86–110 | `40,000 ÷ 21 = 1,904.76` → the labels turn into numbers → `38,095.24 + 1,904.76 = 40,000.00` |
-| 110–122 | *you'd have handed over 2,000 — 95.24 was never his.* 10% → 11 parts, 20% → 6 |
-| 122–132 | *The tax was never 5% of what they paid. It's one part in twenty-one.* |
-| 132–138 | share ask |
-| 138–150 | The eye |
+| Beats | Time | |
+| --- | --- | --- |
+| 0–5 | 0:00 | **HOOK.** the mistake, struck out, crossed. *this costs you 95.24 / every single invoice* |
+| 5–14 | 0:02 | **38,095.24** — *that's what you actually keep* → pins to the top |
+| 14–26 | 0:05 | the sum runs in the centre: 40,000 − 2,000 = 38,000 ✗ |
+| 26–34 | 0:10 | **5% of WHAT?** *nobody charged 5% of 40,000* |
+| 34–62 | 0:13 | the bar: 20 gold parts + 1 rose part. *twenty-one. not twenty.* |
+| 62–80 | 0:25 | `÷ 21 = 1,904.76`, the labels become numbers, they add back to 40,000.00 |
+| — | 0:30 | *95.24 gone. × 100 invoices = 9,523.81.* |
+| 80–88 | 0:32 | *5% tax means 21 parts. 10% means 11. 20% means 6.* |
+| 88–92 | 0:35 | *Send this to whoever signs off your invoices* |
+| 92–100 | 0:37 | The eye |
 
 ---
 
 ## Caption
 
 ```
-They hand you 40,000. The price already had 5% tax in it. How much of it
-is the taxman's?
+Every manager gets this wrong.
 
-Easy — 5% of 40,000 is 2,000. That's what almost everyone writes down.
+40,000 comes in, tax already inside. You take 5% off — 2,000 — and book
+38,000.
 
-But five percent of WHAT? Nobody ever charged 5% of 40,000. The 5% came
-off YOUR price, and then it was added on top.
+That costs you 95.24. Every single invoice.
 
-So start with your price and cut it into 20 equal parts. The tax is one
-more part, exactly the same size, on the end.
+Because 5% of WHAT? Nobody ever charged 5% of 40,000. The 5% came off
+YOUR price, and then it was added on top.
 
-Now count what they handed you. Not 20 parts. Twenty-one.
+So cut your price into 20 equal parts. The tax is one more part, exactly
+the same size, on the end.
 
-One part = 40,000 ÷ 21 = 1,904.76. That's the tax, all of it.
-The other 20 are yours: 38,095.24.
+What came in isn't 20 parts. It's 21.
 
-38,095.24 + 1,904.76 = 40,000.00. Nothing left over.
+40,000 ÷ 21 = 1,904.76 — that's the whole tax. The other 20 are yours:
+38,095.24. And they add straight back to 40,000.00.
 
-Take 5% off the whole thing and you hand over 2,000 — 95.24 that was
-never his. On a million, 2,380.95.
+You handed over 2,000. He was owed 1,904.76. Across a hundred invoices
+that's 9,523.81 you never owed.
 
-5% means 21 parts. 10% means 11. 20% means 6. Always one more than you'd
-think.
+5% means 21 parts. 10% means 11. 20% means 6. Always one more.
 
-#maths #mathtok #tax #vat #smallbusiness #invoice #fyp
+#maths #mathtok #tax #vat #smallbusiness #finance #manager #fyp
 ```
 
-**YouTube title:** `The bar has 21 parts, not 20 — the tax trick nobody teaches`
+**YouTube title:** `Every manager gets this wrong — 5% tax means 21 parts, not 20`
 
 ---
 
@@ -142,12 +155,21 @@ python3 cinegrade.py videos/NetVsGross.mp4 net_vs_gross.mp4
 ## Changing it
 
 `PAID` and `RATE` are the only inputs. `PARTS_NET` and `SLICES` are
-derived (`1/rate`, and one more), so setting `RATE = 20/100` redraws the
-bar as 5 gold parts plus 1 and every number follows. The assertions
-refuse to build unless one part really is the tax, the two on-screen
-amounts still add to the total at cent precision, and the bar still fits
-the frame.
+derived (`1/rate`, and one more), so `RATE = 20/100` redraws the bar as 5
+parts plus 1 and every number follows. The assertions refuse to build
+unless one part really is the tax, the two on-screen amounts still add to
+the total at cent precision, and the bar still fits the frame.
 
-**Not tax advice.** It's one arithmetic fact: when a figure already
-includes the tax, the tax is one part in `1/rate + 1` — you divide, you
-don't subtract.
+**Not tax advice.** One arithmetic fact: when a figure already includes
+the tax, the tax is one part in `1/rate + 1` — you divide, you don't
+subtract.
+
+---
+
+## Sources for the hook rework
+
+- [TikTok Hook Formulas That Drive 3-Second Holds — OpusClip](https://www.opus.pro/blog/tiktok-hook-formulas)
+- [TikTok Hook Formulas Every Founder Should Steal — Conbersa](https://www.conbersa.ai/learn/tiktok-hook-formulas-for-founders)
+- [Video Hooks: How to Win the First Two Seconds — RedHub AI](https://blog.redhub.ai/video-hooks)
+- [How to Write Viral Hooks for Short-Form Video (2026) — Kineclip](https://kineclip.com/blog/how-to-write-viral-hooks-short-form-2026/)
+- [The best TikTok hooks to boost views and engagement — HeyOrca](https://www.heyorca.com/blog/best-tiktok-hooks)
