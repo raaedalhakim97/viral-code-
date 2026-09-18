@@ -1,80 +1,82 @@
-# net = gross ÷ 1.05
+# tax = paid ÷ 21
 
-Episode of **"WHERE MATH ACTUALLY GETS USED"**. The answer sits pinned at
-the **top of the frame** for the whole video.
+Episode of **"WHERE MATH ACTUALLY GETS USED"**. The answer is pinned at
+the **top of the frame** for the whole video — and it's deliberately
+strange. *Twenty-one?* The video is the audience finding out why.
 
-- **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
+- **Output:** 1080×1920, 60fps, **60.000000s** — 150 beats = 37.5 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor. **No AI voice.**
 
 ---
 
-## The idea
+## The story
 
-You're handed **40,000, tax included at 5%.** What's the net?
+Someone hands you **40,000**. The price already had 5% tax in it. How
+much of it is the taxman's?
 
-Almost everyone takes 5% off the 40,000:
+**The obvious move.** 5% of 40,000 = 2,000. That's what almost everyone
+writes down.
 
-```
-40,000 × 5%   =  2,000
-40,000 − 2,000  =  38,000          <- wrong
-```
+**The doubt.** Five percent… of *what*? Nobody ever charged 5% of 40,000.
+The 5% was worked out from **your price** — a number you haven't found
+yet — and then added on top.
 
-**The test that settles it costs nothing: put the tax back on.**
-
-```
-38,000 × 1.05  =  39,900           100 short
-```
-
-You started at 40,000. The round trip doesn't close, so 38,000 was never
-the net. The 5% was never 5% *of the 40,000* — it is 5% **of the net**,
-and the gross is already 105% of the net. So you divide:
+**The shape.** Cut your price into 20 equal parts. The tax is one more
+part, exactly the same size, stuck on the end. So what they handed you is
+not 20 parts.
 
 ```
-40,000 ÷ 1.05  =  38,095.238…   ->  38,095.24
-tax            =   1,904.76         not 2,000
+ [][][][][][][][][][][][][][][][][][][][]  []      =  40,000
+  \____________ 20 = yours ____________/    1 = tax
+
+              twenty-one parts
 ```
 
-And the trip closes exactly:
+**The answer falls out.**
 
 ```
-38,095.24 × 1.05  =  40,000.00     ✓
+one part   =  40,000 ÷ 21  =  1,904.76      <- the tax, all of it
+yours      =  20 parts     =  38,095.24
+
+              38,095.24 + 1,904.76  =  40,000.00
 ```
 
-## The part worth putting on screen
+**The cost of the mistake.** Taking 5% off the whole thing cuts a 21-part
+bar into 20. You hand over 2,000 where 1,904.76 was owed — **95.24 that
+was never his.** On a million: 2,380.95.
 
-The tax is **1/21 of the gross, not 1/20.** Subtracting 5% overstates it
-by 95.24 on this one invoice — and it scales:
-
-```
-gross      1,000   ->   net       952.38    overpaid      2.38
-gross     40,000   ->   net    38,095.24    overpaid     95.24
-gross  1,000,000   ->   net   952,380.95    overpaid  2,380.95
-```
+**The rule worth keeping:** 5% → 21 parts. 10% → 11. 20% → 6. Always one
+part more than you'd think.
 
 ### Verified at import
 
 ```
 every figure is exact Fraction arithmetic — nothing typed in by hand
-the wrong net really does come back exactly 100 short
-the right net really does round-trip to exactly 40,000
-38,095.24 and 1,904.76 are the true cent-roundings of 800000/21 and 40000/21
-the round trip still closes at cent precision: 38,095.24 × 1.05 = 40,000.00
-tax / gross == Fraction(1, 21)
+one part really is 5% OF THE NET, so the slice story and ÷ 1.05 agree
+38,095.24 + 1,904.76 == 40,000.00, at cent precision, exactly as shown
+the overpayment is exactly 2000/21 -> 95.24, and 2,380.95 on a million
+the 5/10/20% -> 21/11/6 rule is checked against 1/s == r/(1+r)
+the bar and its labels are asserted to stay inside the frame
 ```
 
 ---
 
-## Why the picture is a chain of boxes
+## Why a bar of 21 parts, and not two bars
 
-The argument *is* a round trip, so the video draws one: 40,000 goes down
-an arrow, gets a value, then goes down another arrow labelled `× 1.05`
-and has to land back where it started. The wrong path lands on 39,900
-with a cross beside it; the right path lands on 40,000.00 with a tick.
-Nothing else needs explaining — you can see which chain closes.
+The first cut of this video was a chain of boxes doing `÷1.05` and
+`×1.05`. It was correct and it was cold — arithmetic where a picture
+should have been.
 
-The two amounts differ by less than a quarter of a percent, so a
-proportional bar chart would have shown two identical-looking bars. The
-chain shows the *test* instead of the size, which is the actual lesson.
+A proportional comparison doesn't work either: 38,000 and 38,095.24
+differ by less than a quarter of a percent, so two bars side by side are
+two identical bars, and the video would be arguing against its own
+picture.
+
+What *is* visible is the **construction**. The bar doesn't compare two
+answers — it shows how the 40,000 got built in the first place: twenty
+parts that are yours, and one more added on the end. Once the 21st part
+is on screen, "one in twenty-one, not one in twenty" needs no algebra,
+and the strange `÷ 21` at the top of the frame explains itself.
 
 ---
 
@@ -82,43 +84,50 @@ chain shows the *test* instead of the size, which is the actual lesson.
 
 | Beats | |
 | --- | --- |
-| 0–8 | **40,000, tax included at 5%. what's the net?** → formula pins to the top |
-| 8–26 | `40,000 × 5% = 2,000`, `− 5%` → **38,000**. *looks finished. it isn't.* |
-| 26–46 | `× 1.05` → **39,900** ✗. *100 short — so 38,000 was never the net* |
-| 46–64 | `÷ 1.05` → **38,095.24**. tax 1,904.76, not 2,000. *the gross is already 105% of the net* |
-| 64–78 | `× 1.05` → **40,000.00** ✓. *the tax is 1/21 of the gross. not 1/20.* |
-| 78–88 | *Subtracting takes 5% of the gross. The tax was 5% of the net.* |
-| 88–92 | share ask |
-| 92–100 | The eye |
+| 0–10 | **they hand you 40,000. the price had 5% tax in it. how much is the taxman's?** |
+| 10–26 | the obvious move: `40,000 × 5% = 2,000`. *that's what almost everyone writes down* |
+| 26–38 | **five percent… of what?** *nobody ever charged 5% of 40,000* |
+| 38–68 | the bar builds: 20 gold parts = YOUR PRICE, then one rose part lands on the end. the whole thing is the 40,000 |
+| 68–86 | the rose part steps out. *20 yours + 1 taxman = 21 parts.* **twenty-one. not twenty.** |
+| 86–110 | `40,000 ÷ 21 = 1,904.76` → the labels turn into numbers → `38,095.24 + 1,904.76 = 40,000.00` |
+| 110–122 | *you'd have handed over 2,000 — 95.24 was never his.* 10% → 11 parts, 20% → 6 |
+| 122–132 | *The tax was never 5% of what they paid. It's one part in twenty-one.* |
+| 132–138 | share ask |
+| 138–150 | The eye |
 
 ---
 
 ## Caption
 
 ```
-40,000, tax included at 5%. What's the net?
+They hand you 40,000. The price already had 5% tax in it. How much of it
+is the taxman's?
 
-Almost everyone takes 5% off: 40,000 − 2,000 = 38,000.
+Easy — 5% of 40,000 is 2,000. That's what almost everyone writes down.
 
-Test it for free — put the tax back on. 38,000 × 1.05 = 39,900.
+But five percent of WHAT? Nobody ever charged 5% of 40,000. The 5% came
+off YOUR price, and then it was added on top.
 
-You started at 40,000. It's 100 short. The round trip didn't close, so
-38,000 was never the net.
+So start with your price and cut it into 20 equal parts. The tax is one
+more part, exactly the same size, on the end.
 
-The 5% was never 5% of the 40,000. It's 5% OF THE NET — and the gross is
-already 105% of the net. So you divide.
+Now count what they handed you. Not 20 parts. Twenty-one.
 
-40,000 ÷ 1.05 = 38,095.24. Tax 1,904.76, not 2,000.
+One part = 40,000 ÷ 21 = 1,904.76. That's the tax, all of it.
+The other 20 are yours: 38,095.24.
 
-38,095.24 × 1.05 = 40,000.00. Straight back. That's how you know.
+38,095.24 + 1,904.76 = 40,000.00. Nothing left over.
 
-The tax is 1/21 of the gross, not 1/20. On a million, subtracting hands
-over 2,380.95 too much.
+Take 5% off the whole thing and you hand over 2,000 — 95.24 that was
+never his. On a million, 2,380.95.
 
-#maths #mathtok #tax #vat #smallbusiness #accounting #fyp
+5% means 21 parts. 10% means 11. 20% means 6. Always one more than you'd
+think.
+
+#maths #mathtok #tax #vat #smallbusiness #invoice #fyp
 ```
 
-**YouTube title:** `You can't take 5% off a 105% number — net vs gross, settled in one test`
+**YouTube title:** `The bar has 21 parts, not 20 — the tax trick nobody teaches`
 
 ---
 
@@ -132,11 +141,13 @@ python3 cinegrade.py videos/NetVsGross.mp4 net_vs_gross.mp4
 
 ## Changing it
 
-`GROSS` and `RATE` are the only inputs; every amount on screen is derived
-from them with `Fraction`. Change the rate to 20% (VAT) and the whole
-chain follows. The assertions refuse to build unless the wrong path still
-falls short and the right path still round-trips exactly — so the video
-can't end up showing a tick beside a number that doesn't close.
+`PAID` and `RATE` are the only inputs. `PARTS_NET` and `SLICES` are
+derived (`1/rate`, and one more), so setting `RATE = 20/100` redraws the
+bar as 5 gold parts plus 1 and every number follows. The assertions
+refuse to build unless one part really is the tax, the two on-screen
+amounts still add to the total at cent precision, and the bar still fits
+the frame.
 
-**Not tax advice.** It's one arithmetic identity: when a figure is
-tax-inclusive, you divide by `1 + rate`, you don't subtract `rate`.
+**Not tax advice.** It's one arithmetic fact: when a figure already
+includes the tax, the tax is one part in `1/rate + 1` — you divide, you
+don't subtract.

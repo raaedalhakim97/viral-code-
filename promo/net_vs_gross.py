@@ -1,41 +1,46 @@
 """
-net_vs_gross — you can't take 5% off a 105% number. 40.0s.
+net_vs_gross — the bar has 21 parts, not 20. 60.0s.
 
     BPM=150 manimgl net_vs_gross.py NetVsGross -w -r 1080x1920
 
-100 beats = 25 bars = 40.000s at 150 BPM.
+150 beats = 37.5 bars = 60.000s at 150 BPM.
 
-EPISODE OF "WHERE MATH ACTUALLY GETS USED". The ANSWER is pinned at the
-TOP for the whole video.
+EPISODE OF "WHERE MATH ACTUALLY GETS USED". The answer is pinned at the
+TOP for the whole video — and it is deliberately strange, so the audience
+spends the video wondering where the 21 came from:
 
-        net = gross ÷ 1.05
+        tax = paid ÷ 21
 
-SUBTRACTING THE TAX AND REMOVING IT ARE DIFFERENT SUMS. Given a
-tax-inclusive 40,000, almost everyone takes 5% off it:
+THE STORY. Someone hands you 40,000. The price already had 5% tax in it.
+How much of it is the taxman's? Everyone writes 5% of 40,000 = 2,000.
 
-        40,000 − 5%   =   38,000        <- wrong
+THE DOUBT. Five percent of WHAT? Nobody ever charged 5% of 40,000. The
+5% was worked out from your price — a number you haven't found yet — and
+then added on top.
 
-The test that settles it costs nothing: put it back.
+THE SHAPE, which is the whole trick. Cut your price into 20 equal parts.
+The tax is one more part exactly like them, stuck on the end. So what
+they handed you is not 20 parts. It is 21.
 
-        38,000 × 1.05  =  39,900        100 short. the trip doesn't close.
+        [][][][][][][][][][][][][][][][][][][][] + []     = 40,000
+         \______________ 20 = yours _________/    1 = tax
 
-The 5% was never 5% of the 40,000. It is 5% OF THE NET, and the gross is
-already 105% of the net — so you divide, you don't subtract:
+        one part  =  40,000 ÷ 21  =  1,904.76        <- the tax
+        yours     =  20 parts     =  38,095.24
+                     38,095.24 + 1,904.76 = 40,000.00
 
-        40,000 ÷ 1.05  =  38,095.238…   ->  38,095.24
-        tax            =   1,904.76
-        38,095.24 × 1.05  =  40,000.00  <- closes exactly
+Taking 5% off the whole thing cuts a 21-part bar into 20 — you hand over
+2,000 where 1,904.76 was owed, so 95.24 that was never the taxman's.
 
-Same money, two formulas, one right answer. The gap is 95.24 of
-overpaid tax on a single 40,000 invoice — and the tax is exactly 1/21 of
-the gross, not 1/20.
+THE RULE WORTH REMEMBERING: 5% -> 21 parts. 10% -> 11. 20% -> 6. Always
+one more than you'd think.
 
 VERIFIED AT IMPORT
-    every figure is exact Fraction arithmetic, nothing typed in by hand
-    the wrong net really does come back 100 short, exactly
-    the right net really does round-trip to 40,000, exactly
-    38,095.24 and 1,904.76 are the true cent-roundings of 800000/21 and 40000/21
-    tax / gross == Fraction(1, 21)
+    every figure is exact Fraction arithmetic — nothing typed in by hand
+    one part really is 5% OF THE NET, so the slice story and ÷1.05 agree
+    38,095.24 + 1,904.76 == 40,000.00, at cent precision, on screen
+    the overpayment is exactly 2000/21 -> 95.24, and 2,380.95 on a million
+    the 5/10/20% -> 21/11/6 rule is checked against 1/s == r/(1+r)
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -51,12 +56,13 @@ import numpy as np
 
 BPM = float(os.environ.get("BPM", 150.0))
 FPS = 60
-TOTAL = 100
+TOTAL = 150
 
-END_OPEN = 8
-END_WRONG, END_TEST = 26, 46
-END_RIGHT, END_CHECK = 64, 78
-END_TAKE, END_SHARE = 88, 92
+END_OPEN = 10
+END_OBVIOUS, END_DOUBT = 26, 38
+END_BUILD, END_COUNT = 68, 86
+END_NUMBERS, END_COST = 110, 122
+END_TAKE, END_SHARE = 132, 138
 
 SERIES = "WHERE MATH ACTUALLY GETS USED"
 
@@ -78,43 +84,64 @@ NOTE_Y = -3.30
 LINE_Y = -2.05
 
 # ------------------------------------------------------------------ numbers
-GROSS = Fraction(40000)
-RATE  = Fraction(5, 100)
+PAID = Fraction(40000)
+RATE = Fraction(5, 100)
 
-WRONG_TAX = GROSS * RATE                       # 2000
-WRONG_NET = GROSS - WRONG_TAX                  # 38000
-assert WRONG_NET == 38000 and WRONG_TAX == 2000
+PARTS_NET = int(1 / RATE)                 # 20 parts make the price
+SLICES = PARTS_NET + 1                    # 21 parts make what they paid
+assert PARTS_NET == 20 and SLICES == 21
 
-BACK = WRONG_NET * (1 + RATE)                  # 39900 — the trip doesn't close
-SHORT = GROSS - BACK
-assert BACK == 39900 and SHORT == 100
-
-NET = GROSS / (1 + RATE)
-TAX = GROSS - NET
+ONE = PAID / SLICES                       # one part — and that IS the tax
+NET = ONE * PARTS_NET
+assert ONE == Fraction(40000, 21)
 assert NET == Fraction(800000, 21)
-assert TAX == Fraction(40000, 21)
-assert NET * (1 + RATE) == GROSS               # the trip closes, exactly
+assert NET + ONE == PAID
+assert ONE / NET == RATE                  # one part really is 5% OF THE NET
+assert NET * (1 + RATE) == PAID           # so the slices agree with ÷ 1.05
 
-NET_2DP = round(float(NET), 2)
-TAX_2DP = round(float(TAX), 2)
-assert NET_2DP == 38095.24 and TAX_2DP == 1904.76
+ONE_2DP, NET_2DP = round(float(ONE), 2), round(float(NET), 2)
+assert ONE_2DP == 1904.76 and NET_2DP == 38095.24
 assert round(float(NET), 3) == 38095.238
-assert round(NET_2DP * 1.05, 2) == 40000.00    # still closes at cent precision
+assert NET_2DP + ONE_2DP == 40000.00      # the two on-screen numbers add up
 
-OVERPAID = WRONG_TAX - TAX
+WRONG_TAX = PAID * RATE
+OVERPAID = WRONG_TAX - ONE
+assert WRONG_TAX == 2000
 assert OVERPAID == Fraction(2000, 21)
 assert round(float(OVERPAID), 2) == 95.24
 
-assert TAX / GROSS == Fraction(1, 21)          # 1 in 21 of the gross, not 1 in 20
-
 _M = Fraction(1000000)
-MILLION_OVER = _M * RATE - (_M - _M / (1 + RATE))
-assert round(float(MILLION_OVER), 2) == 2380.95
+assert round(float(_M * RATE - _M / SLICES), 2) == 2380.95
+
+for _pct, _want in ((5, 21), (10, 11), (20, 6)):
+    _r = Fraction(_pct, 100)
+    _s = int(1 / _r) + 1
+    assert _s == _want
+    assert Fraction(1, _s) == _r / (1 + _r)   # one part is the tax share of paid
 
 # ------------------------------------------------------------------ layout
-SLOT_Y = (1.50, 0.10, -1.30)
-BOX_W, BOX_H = 2.25, 0.66
-MARK_X = 1.62
+PITCH, CELL_W, CELL_H = 0.20, 0.185, 0.58
+BAR_Y = 0.00
+HALF = CELL_W / 2
+
+
+def slot(k):
+    return (k - 10) * PITCH
+
+
+GOLD_X0, GOLD_X1 = slot(0) - HALF, slot(PARTS_NET - 1) + HALF
+FULL_X0, FULL_X1 = slot(0) - HALF, slot(SLICES - 1) + HALF
+GOLD_MID = (GOLD_X0 + GOLD_X1) / 2
+ROSE_X = slot(SLICES - 1)
+TOP_Y, BOT_Y = BAR_Y + CELL_H / 2 + 0.17, BAR_Y - CELL_H / 2 - 0.17
+LAB_TOP = BAR_Y + CELL_H / 2 + 0.52
+LAB_BOT = BAR_Y - CELL_H / 2 - 0.52
+FVAL_Y = BAR_Y - CELL_H / 2 - 1.10
+ROSE_LAB_X, ROSE_LAB_W = 1.80, 1.28        # keeps 1,904.76 off the right edge
+LIFT = 0.22                                # rose cell steps out of the bar
+assert FULL_X1 < 2.45                      # the bar has to stay on screen
+assert ROSE_LAB_X + ROSE_LAB_W / 2 < 2.48
+assert BAR_Y + CELL_H / 2 + LIFT < LAB_TOP - 0.16   # lifted cell clears its label
 
 
 # ------------------------------------------------------------------ drawing
@@ -133,50 +160,19 @@ def seg(a, b, color=WHITE_, wid=3.0, op=1.0):
     return m
 
 
-def money_box(label, color, slot, tag=None):
-    """A framed amount in one of the three vertical slots."""
-    y = SLOT_Y[slot]
-    g = VGroup()
-    g.add(Rectangle(width=BOX_W, height=BOX_H, stroke_color=color,
-                    stroke_width=2.4, fill_color=color,
-                    fill_opacity=0.12).move_to(np.array([0, y, 0])))
-    g.add(txt(label, 30, color, w=BOX_W - 0.28).move_to(np.array([0, y, 0])))
-    if tag:
-        # tags go LEFT of the box, not above it: above collides with the
-        # working line on slot 0 and with the incoming arrow on slot 1.
-        g.add(txt(tag, 17, DIM, bold=False, w=0.95).move_to(
-            np.array([-(BOX_W / 2 + 0.62), y, 0])))
-    return g
-
-
-def step_arrow(op, color, a, b):
-    """Vertical arrow from slot a down to slot b, operator on the right."""
-    y0 = SLOT_Y[a] - BOX_H / 2 - 0.06
-    y1 = SLOT_Y[b] + BOX_H / 2 + 0.06
-    g = VGroup(seg(np.array([0, y0, 0]), np.array([0, y1, 0]), color, 2.2),
-               seg(np.array([-0.10, y1 + 0.16, 0]), np.array([0, y1, 0]), color, 2.2),
-               seg(np.array([0.10, y1 + 0.16, 0]), np.array([0, y1, 0]), color, 2.2))
-    lab = txt(op, 24, color, w=1.3)
-    lab.move_to(np.array([0.92, (y0 + y1) / 2, 0]))
-    g.add(lab)
-    return g
-
-
-def tick(color, y):
+def bracket(x0, x1, y, color, down=True):
+    """A horizontal rule with two ticks pointing at the bar."""
+    d = -0.13 if down else 0.13
     return VGroup(
-        seg(np.array([MARK_X - 0.16, y + 0.01, 0]),
-            np.array([MARK_X - 0.05, y - 0.13, 0]), color, 4.0),
-        seg(np.array([MARK_X - 0.05, y - 0.13, 0]),
-            np.array([MARK_X + 0.20, y + 0.19, 0]), color, 4.0))
+        seg(np.array([x0, y, 0]), np.array([x1, y, 0]), color, 2.0),
+        seg(np.array([x0, y, 0]), np.array([x0, y + d, 0]), color, 2.0),
+        seg(np.array([x1, y, 0]), np.array([x1, y + d, 0]), color, 2.0))
 
 
-def cross(color, y):
-    d = 0.17
-    return VGroup(
-        seg(np.array([MARK_X - d, y - d, 0]), np.array([MARK_X + d, y + d, 0]),
-            color, 4.0),
-        seg(np.array([MARK_X - d, y + d, 0]), np.array([MARK_X + d, y - d, 0]),
-            color, 4.0))
+def cell(k, color, fill=0.20):
+    return Rectangle(width=CELL_W, height=CELL_H, stroke_color=color,
+                     stroke_width=1.6, fill_color=color,
+                     fill_opacity=fill).move_to(np.array([slot(k), BAR_Y, 0]))
 
 
 def observer_eye(color):
@@ -216,12 +212,14 @@ class NetVsGross(Scene):
                 2 * np.pi * self.clock.get_value() / (BREATH_BEATS * self.B))))))
 
         self.open_card()
-        self.stage_wrong()
-        self.stage_test()
-        self.stage_right()
-        self.stage_check()
-        self.takeaway("Subtracting takes 5% of the gross.",
-                      "The tax was 5% of the net.")
+        self.stage_obvious()
+        self.stage_doubt()
+        self.stage_build()
+        self.stage_count()
+        self.stage_numbers()
+        self.stage_cost()
+        self.takeaway("The tax was never 5% of what they paid.",
+                      "It's one part in twenty-one.")
         self.share()
         self.signature()
 
@@ -263,76 +261,106 @@ class NetVsGross(Scene):
 
     # ------------------------------------------------------------------
     def open_card(self):
-        big = txt("40,000", 46, GOLD, w=3.0)
-        big.move_to(np.array([0, 1.30, 0]))
-        q = txt("tax included at 5%.", 27, WHITE_, w=4.5)
-        q.move_to(np.array([0, 0.25, 0]))
-        sub = txt("what's the net?", 27, GREY, bold=False, w=3.0)
-        sub.move_to(np.array([0, -0.45, 0]))
-        self.add(big, q, sub)
-        self.wait(self.T(5))
+        big = txt("40,000", 48, GOLD, w=3.0)
+        big.move_to(np.array([0, 1.35, 0]))
+        q = txt("they hand you this.", 28, WHITE_, w=4.5)
+        q.move_to(np.array([0, 0.30, 0]))
+        q2 = txt("the price already had 5% tax in it.", 23, GREY, bold=False)
+        q2.move_to(np.array([0, -0.35, 0]))
+        q3 = txt("how much of it is the taxman's?", 26, WHITE_, w=4.5)
+        q3.move_to(np.array([0, -1.10, 0]))
+        self.add(big, q, q2, q3)
+        self.wait(self.T(6))
 
         self.title = txt(SERIES, 19, GREY, bold=False, w=4.2)
         self.title.move_to(np.array([0, 3.62, 0]))
-        self.eq = txt("net = gross ÷ 1.05", 24, GOLD, w=4.3)
+        self.eq = txt("tax = paid ÷ 21", 26, GOLD, w=4.3)
         self.eq.move_to(np.array([0, EQ_Y, 0]))
-        self.play(FadeOut(q), FadeOut(sub), FadeOut(big),
-                  FadeIn(self.eq), FadeIn(self.title), run_time=self.T(3))
+        self.play(FadeOut(big), FadeOut(q), FadeOut(q2), FadeOut(q3),
+                  FadeIn(self.eq), FadeIn(self.title), run_time=self.T(4))
         self.pad_to(END_OPEN)
 
     # ==================================================================
-    def stage_wrong(self):
-        self.say("almost everyone takes 5% off the 40,000.", 2.5, GREY)
-        self.gross = money_box("40,000", GOLD, 0, tag="GROSS")
-        self.play(FadeIn(self.gross), run_time=self.T(2))
-        self.set_work("40,000 × 5%  =  2,000", ROSE, 2.5)
-
-        self.a1 = step_arrow("− 5%", ROSE, 0, 1)
-        self.b1 = money_box("38,000", ROSE, 1)
-        self.play(ShowCreation(self.a1), FadeIn(self.b1), run_time=self.T(2.5))
-        self.set_work("40,000 − 2,000  =  38,000", ROSE, 2.5)
-        self.say("looks finished. it isn't.", 3, ROSE)
-        self.pad_to(END_WRONG)
+    def stage_obvious(self):
+        self.say("easy. five percent of forty thousand.", 3, GREY)
+        self.set_work("40,000 × 5%  =  2,000", ROSE, 3)
+        self.say("that's what almost everyone writes down.", 3.5, GREY)
+        self.say("it's the wrong number. here's how you'd know.", 3.5, ROSE)
+        self.pad_to(END_OBVIOUS)
 
     # ==================================================================
-    def stage_test(self):
-        self.say("test it for free — put the tax back on.", 3, SKY)
-        self.a2 = step_arrow("× 1.05", SKY, 1, 2)
-        self.b2 = money_box("39,900", ROSE, 2)
-        self.play(ShowCreation(self.a2), FadeIn(self.b2), run_time=self.T(2.5))
-        self.set_work("38,000 × 1.05  =  39,900", SKY, 2.5)
-
-        self.x1 = cross(ROSE, SLOT_Y[2])
-        self.play(ShowCreation(self.x1), run_time=self.T(1.5))
-        self.say("39,900. you started at 40,000.", 3.5, ROSE)
-        self.set_work("100 short. so 38,000 was never the net.", ROSE, 3)
-        self.say("the round trip has to close. this one doesn't.", 3, ROSE)
-        self.pad_to(END_TEST)
+    def stage_doubt(self):
+        self.say("five percent . . . of what?", 3.5, SKY)
+        self.set_work("nobody ever charged 5% of 40,000", SKY, 3)
+        self.say("the 5% came off YOUR price. then it was added on.", 3.5, SKY)
+        self.pad_to(END_DOUBT)
 
     # ==================================================================
-    def stage_right(self):
-        self.play(FadeOut(self.a1), FadeOut(self.b1), FadeOut(self.a2),
-                  FadeOut(self.b2), FadeOut(self.x1), run_time=self.T(1.5))
-        self.say("the 5% was never 5% of the 40,000.", 3, GOLD)
-        self.a3 = step_arrow("÷ 1.05", GOLD, 0, 1)
-        self.b3 = money_box("38,095.24", GOLD, 1, tag="NET")
-        self.play(ShowCreation(self.a3), FadeIn(self.b3), run_time=self.T(2.5))
-        self.set_work("40,000 ÷ 1.05  =  38,095.238…", GOLD, 3)
-        self.set_work("tax  =  1,904.76        not  2,000", GOLD, 3)
-        self.say("the gross is already 105% of the net.", 3, GOLD)
-        self.pad_to(END_RIGHT)
+    def stage_build(self):
+        self.say("so start with your price. cut it into 20 parts.", 3, GOLD)
+
+        self.gold = VGroup(*[cell(k, GOLD) for k in range(PARTS_NET)])
+        self.play(FadeIn(self.gold, lag_ratio=0.05), run_time=self.T(4))
+
+        self.gbr = bracket(GOLD_X0, GOLD_X1, TOP_Y, GOLD, down=True)
+        self.glab = txt("YOUR PRICE", 24, GOLD, w=2.4)
+        self.glab.move_to(np.array([GOLD_MID, LAB_TOP, 0]))
+        self.play(ShowCreation(self.gbr), FadeIn(self.glab), run_time=self.T(1.5))
+        self.set_work("20 equal parts. we don't know the size yet.", GOLD, 3)
+
+        self.say("the tax is one more part, exactly the same size.", 3, ROSE)
+        self.rose = cell(PARTS_NET, ROSE, 0.80)
+        self.rose.set_stroke(ROSE, 2.6)
+        self.rlab = txt("+ 5%", 22, ROSE, w=1.05)
+        self.rlab.move_to(np.array([ROSE_LAB_X, LAB_TOP, 0]))
+        self.play(FadeIn(self.rose, shift=0.30 * LEFT), run_time=self.T(2.5))
+        self.play(FadeIn(self.rlab), run_time=self.T(1.5))
+
+        self.fbr = bracket(FULL_X0, FULL_X1, BOT_Y, WHITE_, down=False)
+        self.flab = txt("what they handed you", 22, WHITE_, bold=False, w=3.2)
+        self.flab.move_to(np.array([0, LAB_BOT, 0]))
+        self.fval = txt("40,000", 34, WHITE_, w=2.2)
+        self.fval.move_to(np.array([0, FVAL_Y, 0]))
+        self.play(ShowCreation(self.fbr), FadeIn(self.flab), run_time=self.T(2.5))
+        self.play(FadeIn(self.fval), run_time=self.T(2))
+        self.say("that whole bar is the 40,000.", 3.5)
+        self.pad_to(END_BUILD)
 
     # ==================================================================
-    def stage_check(self):
-        self.a4 = step_arrow("× 1.05", GREEN, 1, 2)
-        self.b4 = money_box("40,000.00", GREEN, 2)
-        self.play(ShowCreation(self.a4), FadeIn(self.b4), run_time=self.T(2.5))
-        self.t1 = tick(GREEN, SLOT_Y[2])
-        self.play(ShowCreation(self.t1), run_time=self.T(1.5))
-        self.set_work("38,095.24 × 1.05  =  40,000.00", GREEN, 2.5)
-        self.say("straight back. that's how you know it's the net.", 3, GREEN)
-        self.say("the tax is 1/21 of the gross. not 1/20.", 3, GOLD)
-        self.pad_to(END_CHECK)
+    def stage_count(self):
+        self.say("now count the parts in it.", 3, SKY)
+        self.play(self.rose.animate.shift(LIFT * UP), run_time=self.T(2))
+        self.set_work("20 yours  +  1 taxman  =  21 parts", SKY, 3)
+        self.say("twenty-one. not twenty.", 3.5, GOLD)
+        self.set_work("so his share is 1 of 21 — not 1 of 20", GOLD, 3)
+        self.say("that one part is the whole trick.", 3, GOLD)
+        self.pad_to(END_COUNT)
+
+    # ==================================================================
+    def stage_numbers(self):
+        self.set_work("40,000 ÷ 21  =  1,904.76", ROSE, 3)
+        newr = txt("1,904.76", 22, ROSE, w=ROSE_LAB_W)
+        newr.move_to(np.array([ROSE_LAB_X, LAB_TOP, 0]))
+        self.play(Transform(self.rlab, newr), run_time=self.T(2))
+        self.say("one part. that's the taxman's, and that's all of it.", 3.5, ROSE)
+
+        self.set_work("the other 20 parts are yours", GOLD, 3)
+        newg = txt("38,095.24", 28, GOLD, w=2.4)
+        newg.move_to(np.array([GOLD_MID, LAB_TOP, 0]))
+        self.play(Transform(self.glab, newg), run_time=self.T(2))
+        self.say("38,095.24. that's what you actually earned.", 3.5, GOLD)
+
+        self.set_work("38,095.24 + 1,904.76  =  40,000.00", GREEN, 3)
+        self.say("straight back to the 40,000. nothing left over.", 3.5, GREEN)
+        self.pad_to(END_NUMBERS)
+
+    # ==================================================================
+    def stage_cost(self):
+        self.set_work("you'd have handed over 2,000", ROSE, 3)
+        self.say("95.24 of it was never his. on a million: 2,380.95.", 3.5, ROSE)
+        self.set_work("10% tax → 11 parts.     20% → 6 parts.", GOLD, 3)
+        self.say("always one part more than you'd think.", 2.5, GOLD)
+        self.pad_to(END_COST)
 
     # ------------------------------------------------------------------
     def takeaway(self, a, b):
@@ -345,7 +373,7 @@ class NetVsGross(Scene):
         self.l1 = txt(a, 26, WHITE_, w=4.5).move_to(np.array([0, 0.10, 0]))
         self.play(FadeIn(self.l1, shift=0.12 * UP), run_time=self.T(2.5),
                   rate_func=rush_from)
-        self.l2 = txt(b, 26, GOLD, w=4.5).move_to(np.array([0, -0.62, 0]))
+        self.l2 = txt(b, 26, GOLD, w=4.6).move_to(np.array([0, -0.62, 0]))
         self.play(FadeIn(self.l2), run_time=self.T(1.5))
         self.pad_to(END_TAKE)
 
