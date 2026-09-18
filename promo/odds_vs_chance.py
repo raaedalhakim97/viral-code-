@@ -72,8 +72,14 @@ BREATH_BEATS = 32.0
 BREATH_AMT   = 0.05
 EQ_Y   = 3.08
 WORK_Y = 2.30
-NOTE_Y = -3.30
+NOTE_Y = -2.36          # 456px up from the bottom — clear of TikTok's block
 LINE_Y = -2.05
+
+# platform safe zone, 1080x1920: TikTok/Reels cover ~320px of the bottom
+# and ~160px on the right for the action rail. Nothing that has to be READ
+# may sit outside this box.
+SAFE_X, SAFE_BOT = 1.68, -2.58
+assert NOTE_Y - 0.20 >= SAFE_BOT
 
 
 # ------------------------------------------------------------------ numbers
@@ -182,7 +188,7 @@ class OddsVsChance(Scene):
             self.wait(self.T(rem))
 
     def say(self, s, beats=2, color=WHITE_, size=25):
-        new = txt(s, size, color, bold=False, w=4.5)
+        new = txt(s, size, color, bold=False, w=2 * SAFE_X - 0.15)
         new.move_to(np.array([0, NOTE_Y, 0]))
         if self.note is None:
             self.note = new
@@ -228,8 +234,9 @@ class OddsVsChance(Scene):
     def stage_five(self):
         self.say("odds count ways to LOSE against ways to WIN.", 3, GOLD)
 
-        side, buff = 0.70, 0.13
+        side, buff = 0.58, 0.11          # 5 boxes must clear the action rail
         pitch = side + buff
+        assert 2 * pitch + side / 2 <= SAFE_X
         boxes = VGroup()
         marks = VGroup()
         for k in range(5):
@@ -251,10 +258,11 @@ class OddsVsChance(Scene):
                   run_time=self.T(2))
         self.set_work(". . . for one way to win", GOLD, 2.5)
 
+        bx = 2 * pitch + side / 2 + 0.05
         brace = VGroup(
-            seg(np.array([-2.06, 0.02, 0]), np.array([-2.06, -0.12, 0]), SKY, 2.2),
-            seg(np.array([-2.06, -0.12, 0]), np.array([2.06, -0.12, 0]), SKY, 2.2),
-            seg(np.array([2.06, -0.12, 0]), np.array([2.06, 0.02, 0]), SKY, 2.2))
+            seg(np.array([-bx, 0.02, 0]), np.array([-bx, -0.12, 0]), SKY, 2.2),
+            seg(np.array([-bx, -0.12, 0]), np.array([bx, -0.12, 0]), SKY, 2.2),
+            seg(np.array([bx, -0.12, 0]), np.array([bx, 0.02, 0]), SKY, 2.2))
         five = txt("5 outcomes, not 4", 24, SKY, w=3.2)
         five.move_to(np.array([0, -0.55, 0]))
         self.five = VGroup(brace, five)

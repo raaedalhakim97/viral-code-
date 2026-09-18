@@ -82,8 +82,13 @@ BREATH_BEATS = 32.0
 BREATH_AMT   = 0.05
 EQ_Y   = 3.08
 WORK_Y = 2.30
-NOTE_Y = -3.30
+NOTE_Y = -2.36          # 456px up from the bottom — clear of TikTok's block
 LINE_Y = -2.05
+
+# platform safe zone, 1080x1920: TikTok/Reels eat ~320px off the bottom and
+# ~160px off the right for the action rail. Nothing that has to be READ may
+# sit outside this box.
+SAFE_X, SAFE_BOT = 1.68, -2.58
 
 # ------------------------------------------------------------------ numbers
 PAID = Fraction(40000)
@@ -122,7 +127,7 @@ for _pct, _want in ((5, 21), (10, 11), (20, 6)):
     assert Fraction(1, _s) == _r / (1 + _r)
 
 # ------------------------------------------------------------------ layout
-PITCH, CELL_W, CELL_H = 0.20, 0.185, 0.58
+PITCH, CELL_W, CELL_H = 0.16, 0.136, 0.58
 BAR_Y = 0.00
 HALF = CELL_W / 2
 
@@ -139,10 +144,15 @@ TOP_Y, BOT_Y = BAR_Y + CELL_H / 2 + 0.17, BAR_Y - CELL_H / 2 - 0.17
 LAB_TOP = BAR_Y + CELL_H / 2 + 0.52
 LAB_BOT = BAR_Y - CELL_H / 2 - 0.52
 FVAL_Y = BAR_Y - CELL_H / 2 - 1.10
-ROSE_LAB_X, ROSE_LAB_W = 1.80, 1.28        # keeps 1,904.76 off the right edge
+GOLD_LAB_X, GOLD_LAB_W = -0.60, 1.55
+ROSE_LAB_X, ROSE_LAB_W = 1.15, 1.05        # both clear of the action rail
 LIFT = 0.22                                # rose cell steps out of the bar
-assert FULL_X1 < 2.45
-assert ROSE_LAB_X + ROSE_LAB_W / 2 < 2.48
+assert FULL_X1 <= SAFE_X and FULL_X0 >= -SAFE_X       # bar clears the rail
+assert ROSE_LAB_X + ROSE_LAB_W / 2 <= SAFE_X
+assert GOLD_LAB_X - GOLD_LAB_W / 2 >= -SAFE_X
+assert GOLD_LAB_X + GOLD_LAB_W / 2 < ROSE_LAB_X - ROSE_LAB_W / 2
+assert NOTE_Y - 0.20 >= SAFE_BOT                     # caption clears the CTA block
+assert FVAL_Y - 0.22 > NOTE_Y + 0.20                 # ...and clears the 40,000
 assert BAR_Y + CELL_H / 2 + LIFT < LAB_TOP - 0.16
 
 
@@ -243,8 +253,8 @@ class NetVsGross(Scene):
         if rem > 0.01:
             self.wait(self.T(rem))
 
-    def say(self, s, beats=2, color=WHITE_, size=26):
-        new = txt(s, size, color, bold=False, w=4.5)
+    def say(self, s, beats=2, color=WHITE_, size=25):
+        new = txt(s, size, color, bold=False, w=2 * SAFE_X - 0.15)
         new.move_to(np.array([0, NOTE_Y, 0]))
         if self.note is None:
             self.note = new
@@ -275,14 +285,14 @@ class NetVsGross(Scene):
         sum_.move_to(np.array([0, 1.52, 0]))
 
         bad = txt("38,000", 58, ROSE, w=2.9)
-        bad.move_to(np.array([-0.30, 0.66, 0]))
+        bad.move_to(np.array([-0.42, 0.66, 0]))
         strike = seg(bad.get_left() + np.array([-0.12, 0, 0]),
                      bad.get_right() + np.array([0.12, 0, 0]), ROSE, 4.5)
-        x = cross_at(1.62, 0.66, ROSE, 0.24, 6.0)
+        x = cross_at(1.42, 0.66, ROSE, 0.24, 6.0)
 
-        l1 = txt("this costs you 95.24", 30, WHITE_, w=4.4)
+        l1 = txt("this costs you 95.24", 30, WHITE_, w=2 * SAFE_X - 0.15)
         l1.move_to(np.array([0, -0.55, 0]))
-        l2 = txt("every single invoice", 27, ROSE, w=4.0)
+        l2 = txt("every single invoice", 27, ROSE, w=2 * SAFE_X - 0.40)
         l2.move_to(np.array([0, -1.30, 0]))
 
         self.hookgrp = VGroup(sum_, bad, strike, x, l1, l2)
@@ -314,10 +324,10 @@ class NetVsGross(Scene):
         c3 = txt("38,000", 46, ROSE, w=2.3)
         for m, y in ((c1, 1.15), (c2, 0.42), (c3, -0.48)):
             m.move_to(np.array([0, y, 0]))
-            m.align_to(np.array([1.05, 0, 0]), RIGHT)
-        rule = seg(np.array([-1.25, -0.02, 0]), np.array([1.15, -0.02, 0]),
+            m.align_to(np.array([0.95, 0, 0]), RIGHT)
+        rule = seg(np.array([-1.30, -0.02, 0]), np.array([1.05, -0.02, 0]),
                    GREY, 2.4)
-        x = cross_at(1.72, -0.48, ROSE, 0.21, 5.5)
+        x = cross_at(1.45, -0.48, ROSE, 0.21, 5.5)
         self.sum_blk = VGroup(c1, c2, c3, rule, x)
 
         self.play(FadeIn(c1), run_time=self.T(1.5))
@@ -343,15 +353,15 @@ class NetVsGross(Scene):
         self.play(FadeIn(self.gold, lag_ratio=0.05), run_time=self.T(3))
 
         self.gbr = bracket(GOLD_X0, GOLD_X1, TOP_Y, GOLD, down=True)
-        self.glab = txt("YOUR PRICE", 24, GOLD, w=2.4)
-        self.glab.move_to(np.array([GOLD_MID, LAB_TOP, 0]))
+        self.glab = txt("YOUR PRICE", 24, GOLD, w=GOLD_LAB_W)
+        self.glab.move_to(np.array([GOLD_LAB_X, LAB_TOP, 0]))
         self.play(ShowCreation(self.gbr), FadeIn(self.glab), run_time=self.T(1.5))
         self.set_work("cut it into 20 equal parts", GOLD, 2.5)
 
         self.say("the tax is one more part.", 2.5, ROSE)
         self.rose = cell(PARTS_NET, ROSE, 0.80)
         self.rose.set_stroke(ROSE, 2.6)
-        self.rlab = txt("+ 5%", 22, ROSE, w=1.05)
+        self.rlab = txt("+ 5%", 22, ROSE, w=0.85)
         self.rlab.move_to(np.array([ROSE_LAB_X, LAB_TOP, 0]))
         self.play(FadeIn(self.rose, shift=0.30 * LEFT), run_time=self.T(2))
         self.play(FadeIn(self.rlab), run_time=self.T(1.5))
@@ -377,8 +387,8 @@ class NetVsGross(Scene):
         self.play(Transform(self.rlab, newr), run_time=self.T(1.5))
 
         self.set_work("the other 20 are yours", GOLD, 2.5)
-        newg = txt("38,095.24", 28, GOLD, w=2.4)
-        newg.move_to(np.array([GOLD_MID, LAB_TOP, 0]))
+        newg = txt("38,095.24", 28, GOLD, w=GOLD_LAB_W)
+        newg.move_to(np.array([GOLD_LAB_X, LAB_TOP, 0]))
         self.play(Transform(self.glab, newg), run_time=self.T(1.5))
         self.say("38,095.24 + 1,904.76 = 40,000.00", 2.5, GREEN)
 

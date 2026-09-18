@@ -72,8 +72,14 @@ BREATH_BEATS = 32.0
 BREATH_AMT   = 0.05
 EQ_Y   = 3.08
 WORK_Y = 2.30
-NOTE_Y = -3.30
+NOTE_Y = -2.36          # 456px up from the bottom — clear of TikTok's block
 LINE_Y = -2.05
+
+# platform safe zone, 1080x1920: TikTok/Reels cover ~320px of the bottom
+# and ~160px on the right for the action rail. Nothing that has to be READ
+# may sit outside this box.
+SAFE_X, SAFE_BOT = 1.68, -2.58
+assert NOTE_Y - 0.20 >= SAFE_BOT
 
 # ------------------------------------------------------------------ numbers
 DAYS = 365
@@ -112,8 +118,10 @@ DOTS = [RING_C + RING_R * np.array([np.sin(2 * np.pi * k / N),
                                     np.cos(2 * np.pi * k / N), 0])
         for k in range(N)]
 
-PX0, PX1 = -1.85, 1.85
-PY0, PY1 = -1.90, 0.55
+PX0, PX1 = -1.60, 1.60                   # plot box clears the action rail
+PY0, PY1 = -1.68, 0.62
+assert abs(PX1) <= SAFE_X and PY0 - 0.30 > NOTE_Y + 0.20
+assert RING_C[1] - RING_R - 0.10 > NOTE_Y + 0.20   # ring clears the caption
 
 
 def plot(n, p):
@@ -198,7 +206,7 @@ class BirthdayProblem(Scene):
             self.wait(self.T(rem))
 
     def say(self, s, beats=2, color=WHITE_, size=25):
-        new = txt(s, size, color, bold=False, w=4.5)
+        new = txt(s, size, color, bold=False, w=2 * SAFE_X - 0.15)
         new.move_to(np.array([0, NOTE_Y, 0]))
         if self.note is None:
             self.note = new
@@ -286,7 +294,7 @@ class BirthdayProblem(Scene):
             seg(plot(0, 0.0), plot(0, 1.0), DIM, 2.0))
         half = seg(plot(0, 0.5), plot(N_MAX, 0.5), FAINT, 1.8, 0.9)
         hlab = txt("50%", 16, DIM, bold=False, w=0.7)
-        hlab.move_to(plot(N_MAX, 0.5) + np.array([0.28, 0, 0]))
+        hlab.move_to(plot(N_MAX, 0.5) + np.array([-0.30, 0.20, 0]))
 
         curve = VMobject(stroke_color=GOLD, stroke_width=3.2)
         curve.set_points_smoothly([plot(n, p) for n, p in CURVE])

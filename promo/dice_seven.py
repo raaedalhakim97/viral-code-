@@ -64,8 +64,14 @@ BREATH_BEATS = 32.0
 BREATH_AMT   = 0.05
 EQ_Y   = 3.08
 WORK_Y = 2.30
-NOTE_Y = -3.30
+NOTE_Y = -2.36          # 456px up from the bottom — clear of TikTok's block
 LINE_Y = -2.05
+
+# platform safe zone, 1080x1920: TikTok/Reels cover ~320px of the bottom
+# and ~160px on the right for the action rail. Nothing that has to be READ
+# may sit outside this box.
+SAFE_X, SAFE_BOT = 1.68, -2.58
+assert NOTE_Y - 0.20 >= SAFE_BOT
 
 # ------------------------------------------------------------------ numbers
 ROLLS = list(product(range(1, 7), repeat=2))
@@ -85,8 +91,12 @@ SEVENS = [r for r in ROLLS if sum(r) == 7]
 assert len(SEVENS) == 6
 
 # ------------------------------------------------------------------ layout
-U  = 0.58
-GC = np.array([0.29, -1.04, 0])          # grid+labels centred on (0, -0.75)
+U  = 0.48                                # 7U wide must clear the action rail
+GRID_MID = -0.115                        # midway between work line and caption
+GC = np.array([U / 2, GRID_MID - U / 2, 0])
+_EDGE = 2.5 * U + 0.43 * U               # last cell centre + half its box
+assert GC[0] + _EDGE <= SAFE_X           # right column clears the rail
+assert GRID_MID - _EDGE - U / 2 > NOTE_Y + 0.20   # bottom row clears the caption
 
 
 def cell(i, j):
@@ -193,7 +203,7 @@ class DiceSeven(Scene):
             self.wait(self.T(rem))
 
     def say(self, s, beats=2, color=WHITE_, size=25):
-        new = txt(s, size, color, bold=False, w=4.5)
+        new = txt(s, size, color, bold=False, w=2 * SAFE_X - 0.15)
         new.move_to(np.array([0, NOTE_Y, 0]))
         if self.note is None:
             self.note = new
@@ -294,8 +304,9 @@ class DiceSeven(Scene):
     def stage_hist(self):
         self.play(FadeOut(self.grid), run_time=self.T(1.5))
 
-        pitch, bw, hu = 0.38, 0.27, 0.285
-        base = -1.95
+        pitch, bw, hu = 0.30, 0.22, 0.285
+        base = -1.70
+        assert 5 * pitch + bw / 2 <= SAFE_X and base - 0.34 > NOTE_Y + 0.20
         bars = VGroup()
         caps = VGroup()
         for k, s in enumerate(range(2, 13)):
