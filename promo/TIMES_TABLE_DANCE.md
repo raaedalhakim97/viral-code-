@@ -1,90 +1,102 @@
-# MATH THAT DANCES — the times tables, drawn on a circle
-
-Third in the dancing lane, after `dancing_equation.py` (a 2×2 matrix) and
-`dancing_fourier.py` (epicycles). Different mechanism: no arrows, no
-matrix — 200 dots and one multiplication.
+# times_table_dance — 400 dots, one multiplication, thirty seconds
 
 - **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
 - **Audio:** none. Add a track in the TikTok editor. **No AI voice.**
 
 ---
 
-## The instruction, and it is the whole instruction
+## Almost no words
+
+No banner, no series title, no pinned rule, no running commentary. **One
+line at the start, one at the end**, and between them thirty seconds of
+uninterrupted movement. The figure is the content; anything written over
+it is competing with it.
 
 ```
-put 200 dots round a circle, numbered 0 to 199
+0:00–0:03   the cardioid, already there  ·  "the 2 times table drew this."
+0:03–0:32   the dance. nothing to read.
+0:32–0:37   "Comment a times table and I'll run it"
+0:37–0:40   the eye
+```
+
+The only thing on screen during the dance is a small dim number at the
+top — the current multiplier. It isn't an explanation, it's an
+anticipation device: you start wondering what the next one will look like.
+
+---
+
+## The instruction, never stated on screen
+
+```
+400 dots round a circle, numbered 0 to 399
 join every dot n to dot k·n
 ```
 
-That's it. Nobody draws a curve. For `k = 2` a **cardioid** turns up. For
-`k = 3`, a **nephroid**. And the pattern is absurd:
+`k = 2` gives a cardioid. Push `k` upward and the figure never settles,
+because the k times table draws **k − 1 lobes** and k is always climbing.
+
+---
+
+## Why it reads as dancing and not sliding
+
+`k` is **not** swept at a constant rate. It runs on
 
 ```
-the k times table   →   k − 1 lobes
+k(s) = 2 + s − (A/2π)·sin(2πs)        A = 0.9
+dk/ds = 1 − A·cos(2πs)
 ```
 
-`×2` → 1 lobe. `×3` → 2. `×7` → 6. `×12` → 11.
+Near an integer the speed drops to **0.1** and the shape *holds*. Between
+integers it climbs to **1.9** and the whole thing *whips* through. One
+clean figure every 6 beats — hold, whip, hold — and because `k(s)` hits an
+exact integer at every integer `s`, **every hold lands on a downbeat.**
+
+It is one continuous move from start to finish. Nothing cuts, nothing
+restarts, there is a single `play()` call covering the whole 30 seconds.
+A quarter-turn of drift is layered on top so the figure travels rather
+than pulsing in place.
+
+**Measured on the finished render** (mean frame-to-frame pixel change):
+
+```
+hold  k=3   1.36      whip  k≈3.5   4.45
+hold  k=4   1.22      whip  k≈4.5   4.08
+hold  k=5   1.07      whip  k≈5.5   3.77
+hold  k=6   0.94      whip  k≈6.5   4.01
+```
+
+Roughly 4× the motion mid-whip as at the hold. The rhythm is real, not
+intended.
+
+---
+
+## What 400 points changed, and where it stops
+
+Doubling from 200 makes the low-k figures noticeably silkier — the
+cardioid becomes a solid sweep of lines instead of a visible fan. But
+density cuts both ways: **past about k = 14, four hundred chords stop
+being a figure and become grey mush.** The first cut ran to k = 21 and the
+back half was unwatchable.
+
+Two fixes, both in the code:
+- the sweep **stops at k = 14**, asserted at import
+- stroke opacity **falls as k climbs** (`0.52 · 6/(k+4)`, clamped) so the
+  perceived brightness stays flat instead of saturating into a flat disc
+
+The 400 dots themselves were dropped — the chord endpoints already draw
+the rim, so the dots were 400 redundant `move_to` calls per frame.
 
 ### Verified at import
 
-Not taken on trust from a picture. The envelope of the chord family is
-solved numerically (`F = ∂F/∂θ = 0`), and its **cusps are counted** by
-finding where the envelope is traced at zero speed:
-
 ```
-for every k the video shows, the cusp count is exactly k − 1
-the envelope's inner radius matches (k−1)/(k+1) to 5e-3
-the cusps sit on the unit circle, r = 1
+the envelope of the chord family is solved numerically (F = ∂F/∂θ = 0)
+and its cusps counted, for every k the sweep passes through: always k − 1
+the envelope's inner radius matches (k−1)/(k+1)
+k(s) is strictly increasing, and lands on an integer at every integer s —
+    so the holds cannot drift off the beat
+the sweep is asserted to stop at or below k = 14
 the ring is asserted to fit the platform safe box
 ```
-
-A render fails rather than showing a shape whose lobe count doesn't match
-the rule on screen.
-
----
-
-## Why this one is beat-locked, and why that matters
-
-`k` is driven by a `ValueTracker`, and **every step lands on a downbeat**.
-Between integers the figure smears — hundreds of chords sweeping at once
-— then it **snaps into a clean shape exactly on the count.** That's the
-dance, and it's the reason the video is silent by design: whatever track
-gets dropped on it, the shapes land on the beat.
-
-The march is 8 steps of 2.5 beats, `×5` through `×12`, and the code
-asserts the step divides into quarter-beats — if a caption edit ever
-pushed it off the grid, the snap would drift out of time and the build
-would fail instead.
-
----
-
-## Hook
-
-Per the retention rules used on `net_vs_gross`: **the outcome is frame 1.**
-No title card, no build-up — the finished cardioid is already on screen at
-t=0 under one line:
-
-> **the 2 times table drew this.**
-
-Six words, an image that shouldn't come from a times table, and the
-curiosity gap does the rest. The pinned line at the top is the answer the
-video is walking toward — `the k times table → k − 1 lobes` — which reads
-as nonsense for the first ten seconds and then doesn't.
-
----
-
-## Structure
-
-| Beats | Time | |
-| --- | --- | --- |
-| 0–5 | 0:00 | **the finished cardioid.** *the 2 times table drew this.* |
-| 5–24 | 0:02 | chords clear to 200 bare dots → *join every dot n to dot 2n* → it redraws itself |
-| 24–40 | 0:09 | `×3` — the nephroid. *two lobes.* |
-| 40–56 | 0:16 | `×4` → three, `×5` → four. *always one less than the times table.* |
-| 56–80 | 0:22 | **the dance** — `×5` to `×12`, one integer per 2.5 beats, snapping on the count |
-| 80–88 | 0:32 | *One circle. One times table. That's the whole instruction.* |
-| 88–92 | 0:35 | *Comment a times table and I'll run it* |
-| 92–100 | 0:37 | The eye |
 
 ---
 
@@ -93,22 +105,18 @@ as nonsense for the first ten seconds and then doesn't.
 ```
 The 2 times table drew this.
 
-200 dots round a circle, numbered 0 to 199. Join every dot n to dot 2n.
-That's the entire instruction — nobody draws the curve, it just turns up.
+400 dots round a circle. Join every dot n to dot k·n. That's it — nobody
+draws the curve.
 
-Now the 3 times table. Two lobes.
-The 4? Three. The 5? Four.
-
-The k times table gives you k − 1 lobes. Every time.
-
-One circle. One times table. That's the whole thing.
+Then let k climb.
 
 Comment a times table and I'll run it.
 
-#satisfying #oddlysatisfying #maths #mathtok #timestables #cardioid #fyp
+#satisfying #oddlysatisfying #maths #mathtok #timestables #cardioid
+#visualmath #fyp
 ```
 
-**YouTube title:** `The 2 times table draws a cardioid — and the pattern never breaks`
+**YouTube title:** `400 dots, one times table, thirty seconds`
 
 ---
 
@@ -120,15 +128,17 @@ BPM=150 xvfb-run -a -s "-screen 0 1600x1200x24" manimgl times_table_dance.py Tim
 python3 cinegrade.py videos/TimesTableDance.mp4 times_table_dance.mp4
 ```
 
+Full-res render is ~5 minutes — 400 chords are rebuilt every frame.
+
 ## Changing it
 
-`N` is the dot count and `DANCE` is the march. Raising `K_LAST` widens the
-verified range — the import check recomputes the envelope for every k in
-it, so adding multipliers costs about a second of build time and buys a
-guarantee. `wheel()` sets the gold → rose → sky colour sweep round the
-ring.
+`N` is the dot count, `UNITS` how far k climbs, `BEATS_PER_UNIT` how long
+each shape holds, and `EASE_A` how hard it holds (0 = constant speed, →1 =
+long stillness and a violent whip). `UNITS × BEATS_PER_UNIT` must equal
+the dance length in beats, and the code asserts it — so the holds cannot
+silently fall off the beat.
 
 The chord group carries its own updater, so it is `self.add()`ed directly
 and never introduced through an `AnimationGroup` — that rebuilds a fresh
-`VGroup` of the children and the updater silently never fires. This is the
-same trap that froze the pendulums in `pendulum_wave.py`.
+`VGroup` of the children and the updater silently never fires. Same trap
+that froze the pendulums in `pendulum_wave.py`.

@@ -1,36 +1,43 @@
 """
-times_table_dance — the times tables, drawn on a circle. 40.0s.
+times_table_dance — 400 dots, one multiplication, thirty seconds. 40.0s.
 
     BPM=150 manimgl times_table_dance.py TimesTableDance -w -r 1080x1920
 
 100 beats = 25 bars = 40.000s at 150 BPM.
 
-"MATH THAT DANCES" — the third in the lane after dancing_equation.py (a
-2x2 matrix) and dancing_fourier.py (epicycles). Different mechanism: no
-arrows, no matrix, just 200 dots and one multiplication.
+ALMOST NO WORDS. One line at the top of the video, one at the end, and
+in between thirty seconds of uninterrupted movement. The figure is the
+content; anything written over it is a distraction.
 
-THE INSTRUCTION, and it is the whole instruction:
+THE INSTRUCTION, never stated on screen:
 
-    put 200 dots round a circle, numbered 0 to 199
+    400 dots round a circle, numbered 0 to 399
     join every dot n to dot k*n
-    that's it
 
-k = 2 gives a cardioid. k = 3 gives a nephroid. And the pattern is
-absurdly simple:
+k = 2 gives a cardioid. Push k upward and the figure never stops moving,
+because the k times table draws k - 1 lobes and k is always climbing.
 
-        the k times table  ->  k - 1 lobes
+WHY IT LOOKS LIKE DANCING RATHER THAN SLIDING. k is not swept at a
+constant rate. It runs on
 
-BEAT-LOCKED DANCE. k is driven by a ValueTracker and every step lands on
-a downbeat, so the figure smears while k is between integers and SNAPS
-into a clean shape exactly on the beat. That is the dance, and it is why
-this one is silent by design — whatever track gets dropped on it, the
-shapes land on the count.
+        k(s) = 2 + s - (A / 2pi) * sin(2 pi s)
+
+so dk/ds = 1 - A*cos(2 pi s): near an integer the speed drops to 0.1 and
+the shape HOLDS, between integers it rises to 1.9 and the whole thing
+whips through. One clean figure per bar, nineteen bars, and every hold
+lands on a downbeat. The motion is continuous the whole way through --
+nothing cuts, nothing restarts.
+
+A quarter-turn of drift is layered on top so the figure travels instead
+of pulsing in place.
 
 VERIFIED AT IMPORT
-    the envelope of the chords is computed numerically and its cusps
-    counted, for every k the video shows: the count is always k - 1
-    the envelope's inner radius is checked against (k-1)/(k+1)
-    the ring is asserted to sit inside the platform safe box
+    the envelope of the chord family is solved numerically and its cusps
+    counted for every k the sweep passes through: always exactly k - 1
+    the envelope's inner radius matches (k-1)/(k+1)
+    k(s) is checked to be strictly increasing and to land on an integer
+    at every integer s, so the holds cannot drift off the beat
+    the ring is asserted to fit the platform safe box
 
 manimgl traps, all silent:
     Text -> fill_color=   Circle -> stroke_color=   Dot -> fill_color=
@@ -49,41 +56,52 @@ BPM = float(os.environ.get("BPM", 150.0))
 FPS = 60
 TOTAL = 100
 
-END_HOOK, END_BUILD = 5, 24
-END_THREE, END_RULE = 40, 56
-END_DANCE, END_TAKE, END_SHARE = 80, 88, 92
-
-SERIES = "MATH THAT DANCES"
+END_HOOK, END_DANCE, END_SHARE = 8, 80, 92
 
 WHITE_ = "#F7FAFC"
 GREY   = "#8A94A6"
 DIM    = "#5A6272"
-FAINT  = "#2A2F3A"
 GOLD   = "#EBCB8B"
 SKY    = "#88C0D0"
 ROSE   = "#D08770"
-GREEN  = "#A3BE8C"
 
 FRAME_H = 9.0
 BREATH_BEATS = 32.0
 BREATH_AMT   = 0.05
-EQ_Y   = 3.08
-WORK_Y = 2.30
 NOTE_Y = -2.36
 LINE_Y = -2.05
+READ_Y = 2.62
 
-# platform safe zone, 1080x1920: TikTok/Reels cover ~320px of the bottom
-# and ~160px on the right for the action rail.
 SAFE_X, SAFE_BOT = 1.68, -2.58
 assert NOTE_Y - 0.20 >= SAFE_BOT
 
 # ------------------------------------------------------------------ numbers
-N = 200
-K_FIRST, K_LAST = 2, 12
-DANCE = list(range(5, 13))                # the beat-locked march, 5 -> 12
+N = 400
+K0 = 2                                    # first multiplier
+UNITS = 12                                # ...and it climbs this many
+BEATS_PER_UNIT = 6                        # 2.4s a shape: hold, whip, hold
+# past about k=14 four hundred chords stop being a figure and become grey
+# mush, so the sweep stops there rather than running on into noise
+assert K0 + UNITS <= 14
+EASE_A = 0.9                              # 0 = constant speed, ->1 = big holds
+ROT_TURNS = 0.25                          # gentle drift over the whole dance
+
+assert UNITS * BEATS_PER_UNIT == END_DANCE - END_HOOK
 
 
-def _envelope(k, M=40000):
+def k_of(s):
+    """Climbs by 1 per unit of s, but crawls near integers and whips between."""
+    return K0 + s - (EASE_A / (2 * np.pi)) * np.sin(2 * np.pi * s)
+
+
+_s = np.linspace(0, UNITS, 20001)
+assert np.all(np.diff(k_of(_s)) > 0)                       # never goes backwards
+for _i in range(UNITS + 1):
+    assert abs(k_of(_i) - (K0 + _i)) < 1e-12               # holds land on integers
+assert 0 < 1 - EASE_A < 1                                  # the hold is a hold
+
+
+def _envelope(k, M=60000):
     """Envelope of the chord family, solved as F = dF/dtheta = 0."""
     th = np.linspace(0, 2 * np.pi, M, endpoint=False)
     ax, ay = np.cos(th), np.sin(th)
@@ -102,31 +120,36 @@ def _envelope(k, M=40000):
 
 
 def _lobes(k):
-    """Cusps of the envelope = points where it is traced at zero speed."""
     e = np.diff(_envelope(k), axis=0)
     sp = np.hypot(e[:, 0], e[:, 1])
     low = sp < sp.mean() * 0.05
     return int(np.sum((low.astype(int) - np.roll(low, 1).astype(int)) == 1))
 
 
-for _k in range(K_FIRST, K_LAST + 1):
-    assert _lobes(_k) == _k - 1, (_k, _lobes(_k))          # the on-screen claim
+for _k in range(K0, K0 + UNITS + 1):
+    assert _lobes(_k) == _k - 1, (_k, _lobes(_k))
     _r = np.hypot(*_envelope(_k).T)
     assert abs(_r.min() - (_k - 1) / (_k + 1)) < 5e-3
     assert abs(_r.max() - 1.0) < 5e-3
 
 # ------------------------------------------------------------------ layout
-RING_C = np.array([0.0, 0.05, 0])
-R = 1.55
-assert R <= SAFE_X - 0.08
-assert RING_C[1] - R - 0.12 > NOTE_Y + 0.20        # ring clears the caption
-assert RING_C[1] + R + 0.12 < WORK_Y - 0.16        # ...and the working line
+RING_C = np.array([0.0, 0.15, 0])
+R = 1.62
+assert R <= SAFE_X - 0.05
+assert RING_C[1] - R - 0.10 > NOTE_Y + 0.20
+assert RING_C[1] + R + 0.10 < READ_Y - 0.22
+
+IDX = np.arange(N)
+BASE = 2 * np.pi * IDX / N + np.pi / 2
 
 
-def P(u):
-    """Dot number u (may be fractional while k is mid-step), from the top."""
-    a = 2 * np.pi * u / N + np.pi / 2
-    return RING_C + R * np.array([np.cos(a), np.sin(a), 0])
+def ring_points(mult, phase):
+    """Both ends of all N chords at once."""
+    a = BASE + phase
+    b = 2 * np.pi * (IDX * mult) / N + np.pi / 2 + phase
+    A = RING_C + R * np.stack([np.cos(a), np.sin(a), np.zeros(N)], 1)
+    B = RING_C + R * np.stack([np.cos(b), np.sin(b), np.zeros(N)], 1)
+    return A, B
 
 
 def wheel(n):
@@ -138,7 +161,7 @@ def wheel(n):
 
 
 # ------------------------------------------------------------------ drawing
-def txt(s, size=27, color=WHITE_, bold=True, w=4.3):
+def txt(s, size=27, color=WHITE_, bold=True, w=2 * SAFE_X - 0.15):
     t = Text(s, fill_color=color, font_size=size,
              weight=BOLD if bold else NORMAL)
     if t.get_width() > w:
@@ -172,8 +195,6 @@ class TimesTableDance(Scene):
         self.camera.frame.set_height(FRAME_H)
         self.B = 60.0 / BPM
         self.used = 0.0
-        self.note = None
-        self.work = None
 
         self.clock = ValueTracker(0.0)
         self.clock.add_updater(lambda m, dt: m.increment_value(dt))
@@ -182,37 +203,37 @@ class TimesTableDance(Scene):
             FRAME_H * (1.0 - BREATH_AMT * 0.5 * (1 - np.cos(
                 2 * np.pi * self.clock.get_value() / (BREATH_BEATS * self.B))))))
 
-        self.kt = ValueTracker(float(K_FIRST))
-        self.shown = ValueTracker(float(N))
-        self.build_chords()
-
+        self.st = ValueTracker(0.0)
+        self.build_ring()
         self.hook()
-        self.stage_build()
-        self.stage_three()
-        self.stage_rule()
-        self.stage_dance()
-        self.takeaway("One circle. One times table.",
-                      "That's the whole instruction.")
-        self.share()
+        self.dance()
+        self.close()
         self.signature()
 
     # ------------------------------------------------------------------
-    def build_chords(self):
+    def build_ring(self):
         self.chords = VGroup(*[
-            VMobject(stroke_color=wheel(n), stroke_width=1.15)
+            VMobject(stroke_color=wheel(n), stroke_width=0.95)
             for n in range(N)])
 
         def upd(grp):
-            k = self.kt.get_value()
-            s = self.shown.get_value()
+            s = self.st.get_value()
+            k = k_of(s)
+            phase = 2 * np.pi * ROT_TURNS * (s / UNITS)
+            A, B = ring_points(k, phase)
+            mid = 0.5 * (A + B)
             for n, m in enumerate(grp):
-                m.set_points_as_corners([P(n), P(n * k)])
-                m.set_stroke(opacity=0.62 * float(np.clip(s - n, 0.0, 1.0)))
+                # a straight chord as one quadratic bezier: start, mid, end
+                m.set_points(np.array([A[n], mid[n], B[n]]))
+            # crossings pile up as k climbs; fade the strokes to match or the
+            # figure saturates into a flat grey disc
+            grp.set_stroke(opacity=float(np.clip(0.52 * 6.0 / (k + 4.0),
+                                                 0.13, 0.52)))
 
         self.chords.add_updater(upd)
         upd(self.chords)
-        # the group carries the updater, so it must be added directly —
-        # an AnimationGroup would rebuild it and the updater would never fire
+        # the group carries the updater, so it is added directly — an
+        # AnimationGroup would rebuild it and the updater would never fire
         self.add(self.chords)
 
     # ------------------------------------------------------------------
@@ -229,130 +250,39 @@ class TimesTableDance(Scene):
         if rem > 0.01:
             self.wait(self.T(rem))
 
-    def say(self, s, beats=2, color=WHITE_, size=25):
-        new = txt(s, size, color, bold=False, w=2 * SAFE_X - 0.15)
-        new.move_to(np.array([0, NOTE_Y, 0]))
-        if self.note is None:
-            self.note = new
-            self.play(FadeIn(new), run_time=self.T(beats))
-        else:
-            self.play(FadeOut(self.note, shift=0.10 * UP),
-                      FadeIn(new, shift=0.10 * UP), run_time=self.T(beats))
-            self.note = new
-
-    def set_work(self, s, color, beats=2.5, size=23):
-        new = txt(s, size, color, bold=False, w=4.3)
-        new.move_to(np.array([0, WORK_Y, 0]))
-        if self.work is None:
-            self.work = new
-            self.play(FadeIn(new), run_time=self.T(beats))
-        else:
-            old, self.work = self.work, new
-            self.play(FadeOut(old), FadeIn(new), run_time=self.T(beats))
-            self.work = new
-
     # ------------------------------------------------------------------
     def hook(self):
-        """Frame 1 is the finished shape. The question comes after it."""
-        self.title = txt(SERIES, 21, GOLD, w=3.2)
-        self.title.move_to(np.array([0, 3.62, 0]))
-        self.eq = txt("the k times table  →  k − 1 lobes", 23, GREY,
-                      bold=False, w=4.2)
-        self.eq.move_to(np.array([0, EQ_Y, 0]))
-        self.note = txt("the 2 times table drew this.", 27, WHITE_,
-                        bold=False, w=2 * SAFE_X - 0.15)
-        self.note.move_to(np.array([0, NOTE_Y, 0]))
-        self.add(self.title, self.eq, self.note)
-        self.wait(self.T(END_HOOK))
+        """One line. It leaves before the dance starts and does not come back."""
+        self.read = Integer(K0, font_size=34).set_fill(DIM)
+        self.read.add_updater(lambda m: (
+            m.set_value(int(round(k_of(self.st.get_value())))),
+            m.move_to(np.array([0, READ_Y, 0]))))
+        self.line = txt("the 2 times table drew this.", 27, WHITE_, bold=False)
+        self.line.move_to(np.array([0, NOTE_Y, 0]))
+        self.add(self.read, self.line)
+        self.wait(self.T(6))
+        self.play(FadeOut(self.line), run_time=self.T(2))
 
     # ==================================================================
-    def stage_build(self):
-        self.dots = VGroup(*[Dot(P(n), radius=0.019, fill_color=wheel(n))
-                             for n in range(N)])
-        self.play(self.shown.animate.set_value(0.0),
-                  FadeIn(self.dots), run_time=self.T(2.5))
-        self.say("200 dots. numbered 0 to 199.", 2.5, SKY)
-        self.set_work("join every dot n to dot 2n", GOLD, 2.5)
-        self.play(self.shown.animate.set_value(float(N)),
-                  run_time=self.T(4), rate_func=linear)
-        self.say("that is the entire instruction.", 2.5, GOLD)
-        self.say("nobody drew the curve. it just turns up.", 2.5)
-        self.pad_to(END_BUILD)
-
-    # ==================================================================
-    def stage_three(self):
-        self.say("now the 3 times table.", 2.5, SKY)
-        self.set_work("join every dot n to dot 3n", SKY, 2.5)
-        self.play(self.kt.animate.set_value(3.0),
-                  run_time=self.T(3), rate_func=smooth)
-        self.say("two lobes.", 2.5, SKY)
-        self.say("watch what the 4 does.", 2.5)
-        self.pad_to(END_THREE)
-
-    # ==================================================================
-    def stage_rule(self):
-        self.play(self.kt.animate.set_value(4.0),
-                  run_time=self.T(2.5), rate_func=smooth)
-        self.set_work("4  →  three lobes", GOLD, 2.5)
-        self.play(self.kt.animate.set_value(5.0),
-                  run_time=self.T(2.5), rate_func=smooth)
-        self.set_work("5  →  four lobes", GOLD, 2.5)
-        self.say("always one less than the times table.", 3, GOLD)
-        self.pad_to(END_RULE)
-
-    # ==================================================================
-    def stage_dance(self):
-        """k lands on an integer exactly on the beat — that is the dance."""
-        old, self.work = self.work, None
-        live = VGroup(txt("×", 30, WHITE_, w=0.3),
-                      Integer(DANCE[0], font_size=42).set_fill(GOLD))
-        live[0].move_to(np.array([-0.40, WORK_Y, 0]))
-        live[1].add_updater(lambda m: (
-            m.set_value(int(round(self.kt.get_value()))),
-            m.move_to(np.array([0.10, WORK_Y, 0]))))
-        self.play(FadeOut(old), FadeIn(live[0]), run_time=self.T(1.5))
-        self.add(live)
-        self.live = live
-        self.say("so let it count.", 2.5, GOLD)
-
-        # the march must divide the remaining beats into quarter-beat steps,
-        # or k stops landing on the downbeat and the snap goes out of time
-        step = (END_DANCE - self.used) / len(DANCE)
-        assert abs(step * 4 - round(step * 4)) < 1e-9      # stays on the grid
-        for k in DANCE:
-            self.play(self.kt.animate.set_value(float(k)),
-                      run_time=self.T(step), rate_func=smooth)
-        self.pad_to(END_DANCE)
+    def dance(self):
+        """One continuous move. No cuts, no captions, nothing to read."""
+        self.play(self.st.animate.set_value(float(UNITS)),
+                  run_time=self.T(END_DANCE - self.used), rate_func=linear)
 
     # ------------------------------------------------------------------
-    def takeaway(self, a, b):
+    def close(self):
         self.chords.clear_updaters()
-        keep = (self.clock, self.title, self.eq, self.camera.frame)
-        doomed = [m for m in self.mobjects if m not in keep]
-        for m in doomed:
-            m.clear_updaters()
-        self.play(*[FadeOut(m) for m in doomed], run_time=self.T(2))
-        self.note = None
-        self.l1 = txt(a, 28, WHITE_, w=2 * SAFE_X - 0.15)
-        self.l1.move_to(np.array([0, 0.10, 0]))
-        self.play(FadeIn(self.l1, shift=0.12 * UP), run_time=self.T(2.5),
-                  rate_func=rush_from)
-        self.l2 = txt(b, 26, GOLD, w=2 * SAFE_X - 0.15)
-        self.l2.move_to(np.array([0, -0.62, 0]))
-        self.play(FadeIn(self.l2), run_time=self.T(1.5))
-        self.pad_to(END_TAKE)
-
-    def share(self):
-        s1 = txt("Comment a times table", 27, WHITE_, w=2 * SAFE_X - 0.15)
-        s2 = txt("and I'll run it", 27, GOLD, w=2 * SAFE_X - 0.15)
+        self.read.clear_updaters()
+        s1 = txt("Comment a times table", 27, WHITE_)
+        s2 = txt("and I'll run it", 27, GOLD)
         grp = VGroup(s1, s2).arrange(DOWN, buff=0.20)
         grp.move_to(np.array([0, -0.26, 0]))
-        self.play(FadeOut(self.l1), FadeOut(self.l2), run_time=self.T(1))
+        self.play(FadeOut(self.chords), FadeOut(self.read),
+                  run_time=self.T(2))
         self.play(FadeIn(grp, shift=0.12 * UP), run_time=self.T(1.5),
                   rate_func=rush_from)
         self.pad_to(END_SHARE - 1.5)
-        self.play(FadeOut(grp), FadeOut(self.eq), FadeOut(self.title),
-                  run_time=self.T(1.5))
+        self.play(FadeOut(grp), run_time=self.T(1.5))
 
     def signature(self):
         self.clock.clear_updaters()
