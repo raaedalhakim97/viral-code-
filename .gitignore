@@ -1,0 +1,3 @@
+# scratch audio from tools/voiceover.py — per-cue wavs and the assembled
+# track, all regenerable from the .srt and the piper model
+promo/.vo/
