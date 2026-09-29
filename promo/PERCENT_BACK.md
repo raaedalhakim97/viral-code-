@@ -4,7 +4,9 @@ Sequel to `net_vs_gross.py` — same build, same spine (*percent of
 what?*), different trick.
 
 - **Output:** 1080×1920, 60fps, **40.000000s** — 100 beats = 25 bars at 150 BPM
-- **Audio:** none. Add a track in the TikTok editor. **No AI voice.**
+- **Audio:** ships silent. Voiceover script and `percent_back.srt` are
+  below — the cut is beat-locked to **150 BPM**, so a 150 BPM track lands
+  on every move without nudging.
 
 ---
 
@@ -120,3 +122,45 @@ still fits the safe box.
 about 25px wide and barely readable. They're 1.40 tall now, and the
 returned blocks moved from green to blue so they separate from the gold
 at a glance.
+
+
+---
+
+## Audio pack
+
+The video ships silent because the animation is beat-locked, not because
+it has to stay silent. Two things make adding audio a paste job.
+
+### Music
+
+Everything in the cut lands on a beat at **150 BPM** — 1 beat = 0.4s,
+1 bar = 1.6s, and the whole thing is exactly 25 bars. Drop any 150 BPM
+track on it and the hits land with no nudging. Half time (75) and double
+(300) work too.
+
+### Voiceover
+
+`percent_back.srt` sits next to the mp4, timed to the stage boundaries,
+every line checked to be speakable under 3.2 words/second:
+
+| In | Out | Line |
+| --- | --- | --- |
+| 0:00.0 | 0:02.0 | Every pay cut gets this wrong. |
+| 0:02.0 | 0:05.6 | Take twenty off, put twenty back. You get nine sixty. |
+| 0:05.6 | 0:10.4 | They cut your pay twenty percent. A year later, they restore it. |
+| 0:10.4 | 0:13.6 | But twenty percent of what? |
+| 0:13.6 | 0:19.2 | It came off a thousand. It went back onto eight hundred. |
+| 0:19.2 | 0:24.8 | Cut the thousand into ten blocks. The cut takes two whole blocks. |
+| 0:24.8 | 0:28.4 | The rise only gives back one point six. |
+| 0:28.4 | 0:32.0 | That gap is your forty. You need twenty-five percent. |
+| 0:32.0 | 0:36.8 | Down twenty needs up twenty-five. Down fifty needs up a hundred. |
+
+The voice stops at 36.8s so the eye and the handle play clean.
+
+**Note on OpusClip:** its MCP surface has no voiceover and no music
+generation — the ops are captions, emoji, keyword highlight, trims, text
+overlays, style, social copy and scheduling. Its captions are also built
+from a transcript, and this video has no speech to transcribe, so the
+`.srt` above is what feeds them. Generate the voice in the OpusClip web
+app or any TTS, lay it against these timings, and the captions come from
+the same file.
