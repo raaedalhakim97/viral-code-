@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:03,200
+Roll two dice. Which total should you bet on?
+
+2
+00:00:03,200 --> 00:00:08,000
+The totals run two to twelve. Eleven of them.
+
+3
+00:00:08,000 --> 00:00:11,200
+But dice do not roll totals. They roll pairs.
+
+4
+00:00:11,200 --> 00:00:16,000
+There are thirty-six pairs, and six of them make seven.
+
+5
+00:00:16,000 --> 00:00:20,800
+One and six. Two and five. Three and four, and back again.
+
+6
+00:00:20,800 --> 00:00:25,200
+Twelve needs double six. One pair out of thirty-six.
+
+7
+00:00:25,200 --> 00:00:31,200
+So seven turns up six times as often as twelve.
+
+8
+00:00:31,200 --> 00:00:36,800
+Eleven totals, thirty-six rolls. That is the whole trick.

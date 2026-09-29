@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:03,200
+Four to one. That's one in four, right?
+
+2
+00:00:03,200 --> 00:00:08,000
+No. Odds count the ways to lose against the ways to win.
+
+3
+00:00:08,000 --> 00:00:12,000
+Four ways to lose, one way to win. Five outcomes.
+
+4
+00:00:12,000 --> 00:00:16,800
+One in five. Twenty percent, not twenty-five.
+
+5
+00:00:16,800 --> 00:00:21,600
+Now read a whole betting board that way.
+
+6
+00:00:21,600 --> 00:00:25,200
+Fifty, twenty-five, twenty and ten percent.
+
+7
+00:00:25,200 --> 00:00:32,000
+That adds to a hundred and five. Only one of them can win.
+
+8
+00:00:32,000 --> 00:00:36,800
+Those five extra points are the margin, printed on the board.

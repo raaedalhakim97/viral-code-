@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:03,200
+How many people before two share a birthday?
+
+2
+00:00:03,200 --> 00:00:08,000
+Most people guess about a hundred and eighty.
+
+3
+00:00:08,000 --> 00:00:11,200
+It is twenty-three.
+
+4
+00:00:11,200 --> 00:00:16,800
+Because you solved the wrong problem. You asked about you.
+
+5
+00:00:16,800 --> 00:00:21,200
+Nobody said it had to be you. Any two will do.
+
+6
+00:00:21,200 --> 00:00:25,600
+A room of twenty-three holds two hundred and fifty-three pairs.
+
+7
+00:00:25,600 --> 00:00:31,200
+Every one of those is its own chance to collide.
+
+8
+00:00:31,200 --> 00:00:36,800
+You counted yourself. The room was counting pairs.
