@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:03,200
+Two sine waves drew this.
+
+2
+00:00:03,200 --> 00:00:08,000
+One goes side to side. One goes up and down.
+
+3
+00:00:08,000 --> 00:00:12,000
+The only thing that changes is how fast the second one runs.
+
+4
+00:00:32,000 --> 00:00:36,800
+Comment two numbers and I'll draw them.
