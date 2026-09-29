@@ -133,6 +133,9 @@ def main():
         [FFMPEG, "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24",
          "-s", f"{w}x{h}", "-r", str(fps), "-i", "-",
          "-c:v", "libx264", "-preset", "slow", "-crf", "17",
+         # moov at the FRONT: without this the atom lands after mdat and
+         # phones and web players refuse to start the file
+         "-movflags", "+faststart",
          "-pix_fmt", "yuv420p", a.dst], stdin=subprocess.PIPE)
 
     n = 0
