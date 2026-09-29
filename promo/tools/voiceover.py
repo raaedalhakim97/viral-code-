@@ -84,9 +84,23 @@ def main(name, model):
                     track], check=True)
 
     out = os.path.join(HERE, f"{name}_voiced.mp4")
+    # +faststart or the moov atom lands after mdat and phones refuse to
+    # start the file; stereo because some players mishandle mono AAC
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", mp4, "-i", track,
                     "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
-                    "-shortest", out], check=True)
+                    "-ac", "2", "-ar", "48000", "-shortest",
+                    "-movflags", "+faststart", out], check=True)
+
+    import struct
+    head = open(out, "rb").read(8 * 1024 * 1024)
+    atoms, i = [], 0
+    while i < len(head) - 8 and len(atoms) < 3:
+        size = struct.unpack(">I", head[i:i + 4])[0]
+        if size < 8:
+            break
+        atoms.append(head[i + 4:i + 8].decode("latin1", "replace"))
+        i += size
+    assert atoms[:2] == ["ftyp", "moov"], f"moov not at the front: {atoms}"
     print(out)
 
 
