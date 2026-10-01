@@ -132,7 +132,13 @@ def main():
     enc = subprocess.Popen(
         [FFMPEG, "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24",
          "-s", f"{w}x{h}", "-r", str(fps), "-i", "-",
+         # a SILENT track, not no track. These renders carry no sound, but an
+         # mp4 with zero audio streams is refused outright by a lot of players
+         # and preview panes; a muted stereo track costs ~50 KB and plays
+         # everywhere. Anything laid on later just replaces it.
+         "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
          "-c:v", "libx264", "-preset", "slow", "-crf", "17",
+         "-c:a", "aac", "-b:a", "96k", "-shortest",
          # moov at the FRONT: without this the atom lands after mdat and
          # phones and web players refuse to start the file
          "-movflags", "+faststart",
