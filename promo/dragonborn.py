@@ -33,6 +33,12 @@ WHAT THE RESEARCH SAID
 
 POSING. Add an entry to POSES: joint positions in head units, measured
 from the top of the skull with y running DOWN. Nothing else changes.
+
+ANIMATING. `lerp_pose(a, b, t)` blends two poses, and `dragonborn()`
+takes a blended dict as happily as a name, so a scene can rebuild the
+figure from a clock every frame. See dragonborn_anim.py. `DETAIL` is the
+number of samples each tapered limb is resampled to — dropped for
+animation, where it is paid 60 times a second.
 """
 import numpy as np
 from manimlib import *
@@ -51,6 +57,11 @@ LEATH_DK = "#4A3222"
 FUR      = "#C7B9A1"
 FUR_DK   = "#9C8C73"
 CLOTH    = "#3E4A55"
+# the cloak is scenery behind the limbs, so it sits a stop darker
+# than them, and every limb carries a light edge against it
+CLOAK    = "#26303A"
+CLOAK_DK = "#1A222A"
+LIMB_EDGE = "#66798A"
 SKIN     = "#D9A87C"
 SKIN_DK  = "#A87A52"
 STEEL    = "#C3CDD4"
@@ -73,24 +84,128 @@ TOTAL     = 5.00
 
 POSES = {
     "idle": dict(
-        el=(-0.64, 1.98), hl=(-0.70, 2.74),
-        er=(0.64, 1.98),  hr=(0.70, 2.74),
+        el=(-0.66, 1.98), hl=(-0.76, 2.74),
+        er=(0.66, 1.98),  hr=(0.76, 2.74),
         kl=(-0.27, 3.76), fl=(-0.32, 4.94),
         kr=(0.29, 3.76),  fr=(0.34, 4.94), tilt=0.0),
+    # the elbow sits OUT at shoulder height, not tucked under the hand.
+    # Tucked, the forearm had to be drawn 17% longer than the idle one to
+    # reach, and a rubber forearm is exactly what the check below is for.
     "point": dict(
         el=(-0.60, 2.02), hl=(-0.54, 2.76),
-        er=(0.80, 1.62),  hr=(1.12, 0.78),
+        er=(1.02, 1.53),  hr=(1.12, 0.78),
         kl=(-0.30, 3.78), fl=(-0.40, 4.94),
         kr=(0.30, 3.74),  fr=(0.38, 4.94), tilt=-0.06),
     # the shrug carries most of the comedy, so it is pushed further than
     # feels right on paper: elbows pinned in, forearms swung out, hands
-    # high and open. A subtle shrug reads as "standing still".
+    # high and open. A subtle shrug reads as "standing still". The
+    # forearms end up well under their idle length, which is correct —
+    # swung out toward the camera, they foreshorten.
     "shrug": dict(
-        el=(-0.60, 2.10), hl=(-1.14, 1.92),
-        er=(0.60, 2.10),  hr=(1.14, 1.92),
+        el=(-0.58, 2.01), hl=(-1.14, 1.92),
+        er=(0.58, 2.01),  hr=(1.14, 1.92),
         kl=(-0.28, 3.78), fl=(-0.34, 4.94),
         kr=(0.28, 3.78),  fr=(0.36, 4.94), tilt=0.06),
+    # sword overhead. Right arm lengths are kept at the idle lengths so
+    # the limb does not visibly stretch on the way up: upper 0.675,
+    # fore 0.762 against idle's 0.654 and 0.762.
+    "sword_up": dict(
+        el=(-0.62, 2.00), hl=(-0.40, 2.74),
+        er=(0.86, 0.84),  hr=(0.80, 0.08),
+        kl=(-0.28, 3.76), fl=(-0.33, 4.94),
+        kr=(0.30, 3.76),  fr=(0.35, 4.94), tilt=0.0),
+    # a front-on walk cannot swing the legs sideways, so it marches: the
+    # knee comes UP toward the camera and the thigh foreshortens, which
+    # is what a raised knee actually does from the front.
+    "march_l": dict(
+        el=(-0.62, 1.94), hl=(-0.74, 2.62),
+        er=(0.64, 2.02),  hr=(0.66, 2.82),
+        kl=(-0.31, 3.26), fl=(-0.37, 4.26),
+        kr=(0.29, 3.80),  fr=(0.34, 4.96), tilt=-0.02),
+    "march_r": dict(
+        el=(-0.64, 2.02), hl=(-0.66, 2.82),
+        er=(0.62, 1.94),  hr=(0.74, 2.62),
+        kl=(-0.29, 3.80), fl=(-0.34, 4.96),
+        kr=(0.33, 3.26),  fr=(0.39, 4.26), tilt=0.02),
+    # the deflation. Arms hang dead straight, knees unlock, head drops —
+    # hdrop is the only thing in the rig that moves the helmet DOWN.
+    # the sword droops with him. `sang` is kept to a shallow 31 degrees
+    # and NOT swung down to point at the floor: a 1.62-head blade
+    # rotating past horizontal from a hand this far out puts the point
+    # two units to the right mid-swing, straight through the action rail.
+    # A shallow droop reads as "lowered" next to the shrug's raised
+    # blade, and it still gets the steel off the forearm.
+    "slump": dict(
+        el=(-0.52, 2.04), hl=(-0.50, 2.80),
+        er=(0.58, 2.01),  hr=(0.68, 2.74),
+        kl=(-0.34, 3.72), fl=(-0.32, 4.94),
+        kr=(0.36, 3.72),  fr=(0.34, 4.94),
+        tilt=0.02, hdrop=0.15, sang=0.55),
 }
+
+JOINTS = ("el", "hl", "er", "hr", "kl", "fl", "kr", "fr")
+SCALARS = {"tilt": 0.0, "hdrop": 0.0, "sang": 0.0}
+
+# fill the defaults in once, so every pose carries every key and
+# lerp_pose never has to guess
+for _p in POSES.values():
+    for _k, _v in SCALARS.items():
+        _p.setdefault(_k, _v)
+    assert set(_p) == set(JOINTS) | set(SCALARS), sorted(_p)
+
+# A pose is a drawing instruction, but the limbs are still limbs: no
+# pose may draw one LONGER than the idle pose draws it, because the
+# taper just renders whatever it is handed and an over-long forearm
+# reads as rubber rather than as a reach. This is a one-sided check on
+# purpose — shorter is legal and often required, since a limb swung
+# toward the camera foreshortens: the march's raised thigh and the
+# point's upper arm are both well under their idle lengths and both are
+# correct. It caught a real one: the slump's forearm was drawn 8% long
+# because the hand had been placed further from the shoulder than the
+# arm can reach.
+_SH = {"l": (-SH_HALF * 0.86, SHOULDER + 0.10),
+       "r": (SH_HALF * 0.86, SHOULDER + 0.10)}
+_HP = {"l": (-HIP_HALF * 0.7, HIP), "r": (HIP_HALF * 0.7, HIP)}
+
+
+def _d(a, b):
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+
+
+def _limbs(p):
+    out = {}
+    for k in ("l", "r"):
+        out["upper" + k] = _d(_SH[k], p["e" + k])
+        out["fore" + k] = _d(p["e" + k], p["h" + k])
+        out["thigh" + k] = _d(_HP[k], p["k" + k])
+        out["shin" + k] = _d(p["k" + k], p["f" + k])
+    return out
+
+
+_REF = _limbs(POSES["idle"])
+for _nm, _p in POSES.items():
+    for _part, _len in _limbs(_p).items():
+        _hi = _REF[_part] * 1.05
+        assert _len <= _hi, (_nm, _part, round(_len, 3), round(_hi, 3))
+
+# number of samples a tapered limb is resampled to. 34 for a still
+# plate; an animated scene lowers it, because it pays this 60x a second.
+DETAIL = 34
+
+
+def set_detail(n):
+    global DETAIL
+    DETAIL = n
+
+
+def lerp_pose(a, b, t):
+    """Blend two poses. Joint-space, not pixel-space: limbs swing to
+    their new positions instead of the whole drawing cross-fading."""
+    out = {k: (a[k][0] + (b[k][0] - a[k][0]) * t,
+               a[k][1] + (b[k][1] - a[k][1]) * t) for k in JOINTS}
+    for k in SCALARS:
+        out[k] = a[k] + (b[k] - a[k]) * t
+    return out
 
 
 class Rig:
@@ -106,7 +221,8 @@ class Rig:
         return u * self.h
 
 
-def taper(rig, pts, w0, w1, fill, stroke=None, sw=2.2, n=34):
+def taper(rig, pts, w0, w1, fill, stroke=None, sw=2.2, n=None):
+    n = DETAIL if n is None else n
     path = VMobject()
     path.set_points_smoothly([rig.p(*q) for q in pts])
     samp = [path.point_from_proportion(i / (n - 1)) for i in range(n)]
@@ -150,9 +266,10 @@ def disc(rig, x, y, rx, ry, fill, stroke=None, sw=2.0):
 
 
 # ------------------------------------------------------------------ parts
-def helmet(rig, tilt=0.0):
+def helmet(rig, tilt=0.0, hdrop=0.0):
     g = VGroup()
     t = tilt
+    rig = Rig(rig.h, rig.cx, rig.top - hdrop * rig.h)
     # skull cap
     g.add(shape(rig, [(-0.42 + t, 0.62), (-0.40 + t, 0.26), (-0.22 + t, 0.02),
                       (0.22 + t, 0.02), (0.40 + t, 0.26), (0.42 + t, 0.62)],
@@ -184,15 +301,19 @@ def body(rig, pose):
     g = VGroup()
     t = pose["tilt"]
 
-    # cloak behind
-    g.add(shape(rig, [(-0.58, SHOULDER), (0.58, SHOULDER), (0.84, 3.30),
-                      (0.30, 3.46), (-0.30, 3.46), (-0.84, 3.30)],
-                CLOTH, "#2C363F", 2.2))
+    # Cloak behind. Darker and narrower than it first was: at the legs'
+    # own colour it ate them, and once the figure started MOVING a thigh
+    # that does not read against the cloak stops reading as a leg at all.
+    # It is background, so it is lit like background.
+    g.add(shape(rig, [(-0.54, SHOULDER), (0.54, SHOULDER), (0.72, 3.16),
+                      (0.26, 3.32), (-0.26, 3.32), (-0.72, 3.16)],
+                CLOAK, CLOAK_DK, 2.2))
 
     # legs
     for k, f in (("l", -1), ("r", 1)):
+        # the light edge is what separates the thigh from the cloak
         g.add(taper(rig, [(f * HIP_HALF * 0.7, HIP), pose["k" + k]],
-                    0.40, 0.30, CLOTH, "#2C363F", 2.0))
+                    0.40, 0.30, CLOTH, LIMB_EDGE, 2.0))
         g.add(taper(rig, [pose["k" + k], pose["f" + k]],
                     0.30, 0.26, LEATHER, LEATH_DK, 2.0))
         fx, fy = pose["f" + k]
@@ -224,7 +345,7 @@ def body(rig, pose):
     # arms
     for k, f in (("l", -1), ("r", 1)):
         g.add(taper(rig, [(f * SH_HALF * 0.86, SHOULDER + 0.10),
-                          pose["e" + k]], 0.34, 0.26, LEATHER, LEATH_DK, 2.0))
+                          pose["e" + k]], 0.34, 0.26, LEATHER, "#8A6240", 2.0))
         g.add(taper(rig, [pose["e" + k], pose["h" + k]],
                     0.26, 0.21, IRON, IRON_DK, 2.0))
         hx, hy = pose["h" + k]
@@ -253,25 +374,42 @@ def body(rig, pose):
     return g
 
 
-def sword(rig, hand, up=True):
+def sword(rig, hand, ang=0.0):
     """Pommel below the fist, guard above it, blade beyond. The first
-    pass floated the blade next to an open hand with the hilt nowhere."""
+    pass floated the blade next to an open hand with the hilt nowhere.
+
+    `ang` rotates the whole weapon about the fist, 0 being straight up
+    and positive swinging the tip out to the figure's right. It is a
+    rotation and not a flag because the slump has to LOWER the sword,
+    and a boolean can only cut to it — worse, with the blade upright the
+    slump's own forearm ran straight down the blade and the sword read
+    as floating with no arm attached."""
     g = VGroup()
     hx, hy = hand
-    tipy = hy - 1.62 if up else hy + 0.34
-    g.add(disc(rig, hx, hy + 0.22, 0.075, 0.070, IRON_LT, IRON_DK, 1.6))
-    g.add(taper(rig, [(hx, hy + 0.20), (hx, hy - 0.16)], 0.095, 0.095,
+    c, s = np.cos(ang), np.sin(ang)
+
+    def q(du, dv):
+        """A point du right / dv down of the fist, swung by `ang`."""
+        return (hx + du * c - dv * s, hy + du * s + dv * c)
+
+    tip = -1.62
+    g.add(disc(rig, *q(0, 0.22), 0.075, 0.070, IRON_LT, IRON_DK, 1.6))
+    g.add(taper(rig, [q(0, 0.20), q(0, -0.16)], 0.095, 0.095,
                 LEATH_DK, "#33230F", 1.6))
-    g.add(shape(rig, [(hx - 0.26, hy - 0.16), (hx + 0.26, hy - 0.16),
-                      (hx + 0.23, hy - 0.27), (hx - 0.23, hy - 0.27)],
+    g.add(shape(rig, [q(-0.26, -0.16), q(0.26, -0.16),
+                      q(0.23, -0.27), q(-0.23, -0.27)],
                 IRON_LT, IRON_DK, 1.8, smooth=False))
-    g.add(shape(rig, [(hx - 0.085, hy - 0.27), (hx + 0.085, hy - 0.27),
-                      (hx + 0.07, tipy + 0.20), (hx, tipy),
-                      (hx - 0.07, tipy + 0.20)],
+    g.add(shape(rig, [q(-0.085, -0.27), q(0.085, -0.27),
+                      q(0.07, tip + 0.20), q(0, tip), q(-0.07, tip + 0.20)],
                 STEEL, IRON_DK, 2.0, smooth=False))
     # the fist closes over the grip, so it is drawn after the hilt
-    g.add(disc(rig, hx, hy + 0.04, 0.115, 0.105, SKIN, SKIN_DK, 1.8))
+    g.add(disc(rig, *q(0, 0.04), 0.115, 0.105, SKIN, SKIN_DK, 1.8))
     return g
+
+
+def sword_tip(hand, ang=0.0):
+    """Where the point of the blade ends up, in head units."""
+    return (hand[0] + 1.62 * np.sin(ang), hand[1] - 1.62 * np.cos(ang))
 
 
 def shield(rig, cx, cy, r=0.46):
@@ -282,15 +420,16 @@ def shield(rig, cx, cy, r=0.46):
 
 
 def dragonborn(head, cx, top, pose="idle", with_sword=False, with_shield=True):
+    """`pose` is a POSES key or a blended dict from lerp_pose()."""
     rig = Rig(head, cx, top)
-    p = POSES[pose]
+    p = POSES[pose] if isinstance(pose, str) else pose
     g = VGroup()
     if with_shield:
         g.add(shield(rig, -0.80, CHEST + 0.16, 0.40))
     g.add(body(rig, p))
-    g.add(helmet(rig, p["tilt"]))
+    g.add(helmet(rig, p["tilt"], p["hdrop"]))
     if with_sword:
-        g.add(sword(rig, p["hr"], up=True))
+        g.add(sword(rig, p["hr"], p["sang"]))
     return g
 
 
