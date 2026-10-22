@@ -8,6 +8,7 @@ FluidSynth and the FluidR3 GM soundfont.
 | --- | --- | --- |
 | `scene_smart_lookup.js` | Smart Lookup, 3D rebuild of `promo/smart_lookup/smart_lookup.py` | 95.0s, 2850 frames |
 | `scene_butterfly.js` | The Butterfly Effect: Lorenz attractor in deep space | 40.0s, 1200 frames |
+| `scene_collatz.js` | The Collatz Conjecture: 1..10,000 grown as one coral | 40.0s, 1200 frames |
 | `scene_euler.js` | 8s test: 2,144 points fly into the Euler curve | 8.0s |
 
 All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box.
@@ -46,6 +47,20 @@ outside the platform safe box.
 - The cloud's "NOW: EVERYWHERE" is timed off its measured spread, and the
   build asserts it ends with 25-75% of the points on each wing.
 
+## The Collatz Conjecture: what is checked
+
+`collatz_check.mjs` and the scene's own import-time checks: 27 takes 111
+steps and peaks at 9,232 (step 77); the longest path under 10,000 is 6,171
+at 261 steps; 1..10,000 visit 21,664 distinct numbers, and every one of them
+reaches 1. "Checked by computer up to 2^68" is the published verification,
+quoted, not recomputed.
+
+Drawing, after Edmund Harriss's Collatz coral: each number hangs off
+next(number), bent +0.135 rad if even and -0.255 rad if odd, with a 0.11 rad
+twist about the direction of travel so the tree lives in 3D. Brightness
+rises with depth, because thousands of branches overlap near the root and
+additive glow sums them to white.
+
 ## Music
 
 Original scores, so no licensing and no copyright claims.
@@ -54,6 +69,11 @@ Original scores, so no licensing and no copyright claims.
   (orchestra, clarinet, drums). Top note E5. The clarinet fades in and out
   and the low drum rush swells into each downbeat as smooth volume curves
   applied at mix time.
+- `music/collatz_score.py` sonifies 27's walk: one marimba sixteenth
+  per step, pitch from log2 of the number on an E minor pentatonic scale,
+  so the tune climbs to 9,232 and falls back to 1. The step tempo is
+  derived from the video (111 steps in 12.5s), with a one-sixteenth pickup
+  so the arrival at 1 is a downbeat.
 - `music/smart_lookup_score.py` gives each of the nine sections its own
   tempo so it holds a whole number of bars. Every scene change lands on a
   downbeat, within 0.16s measured. `smart_lookup_mix.py` applies the

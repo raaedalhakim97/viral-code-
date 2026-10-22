@@ -1,0 +1,88 @@
+X:1
+T:The Collatz Conjecture
+C:original score for @observer.collapse
+M:4/4
+L:1/8
+Q:1/16=459
+V:1 name="Clarinet"
+%%MIDI program 71
+%%MIDI control 7 110
+V:2 name="Marimba"
+%%MIDI program 12
+%%MIDI control 7 112
+V:3 name="Horns"
+%%MIDI program 60
+%%MIDI control 7 100
+V:4 name="Strings"
+%%MIDI program 48
+%%MIDI control 7 80
+V:5 name="Ostinato" clef=bass
+%%MIDI program 48
+%%MIDI control 7 76
+V:6 name="Choir"
+%%MIDI program 52
+%%MIDI control 7 86
+V:7 name="Contrabass" clef=bass
+%%MIDI program 43
+%%MIDI control 7 112
+V:8 name="Timpani" clef=bass
+%%MIDI program 47
+%%MIDI control 7 116
+V:9 name="Drums" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 104
+K:C
+V:1
+!mf! E4 G4 | B6 A2 |
+[Q:1/16=533] z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+[Q:1/16=300] z8 |
+[Q:1/16=397] z8 | z8 | z8 | z8 | z8 | z8 |
+[Q:1/16=349] !mf! A,3 C E4 | D8 |]
+V:2
+z8 | z8 |
+z/ !mf! E,/ G,/ E,/ A,/ G,/ E,/ G,/ E,/ A,/ G,/ B,/ A,/ B,/ A,/ D/ | B,/ A,/ B,/ A,/ G,/ B,/ A,/ D/ B,/ A,/ B,/ A,/ D/ B,/ D/ B,/ | A,/ D/ B,/ D/ D/ E/ D/ G/ E/ D/ E/ D/ B,/ A,/ D/ B,/ | D/ B,/ E/ D/ B,/ E/ D/ E/ D/ B,/ E/ D/ E/ D/ G/ E/ | A/ G/ A/ G/ B/ A/ G/ E/ G/ E/ A/ G/ A/ G/ !ff! B/ !mf! A/ | G/ E/ D/ G/ E/ D/ E/ D/ B,/ E/ D/ B,/ A,/ G,/ A,/ G,/ | E,/ D,/ G,/ E,/ A,/ G,/ A,/ G,/ E,/ D,/ B,,/ A,,/ D,/ B,,/ A,,/ G,,/ |
+!ff! E,,8 |
+z8 | z8 | z8 | z8 | z8 | z8 |
+z8 | z8 |]
+V:3
+z8 | z8 |
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+z8 |
+!f! E2 G2 B3 A | G4 E2 C2 | D3 G B4 | A4 ^F2 D2 | A4 E4 | B4 ^F4 |
+z8 | z8 |]
+V:4
+z8 | !mp! [E,G,B,]8 |
+!p! [E,G,B,]8 | !mp! [C,E,G,]8 | !mp! [D,G,B,]8 | !mp! [D,^F,A,]8 | !mp! [E,G,B,]8 | !mp! [C,E,G,]8 | !mp! [D,^F,A,]8 |
+!p! [E,^G,B,]8 |
+!p! [E,G,B,]8 | !mp! [C,E,G,]8 | !mp! [D,G,B,]8 | !mp! [D,^F,A,]8 | !mp! [C,E,A,]8 | !mp! [^D,^F,B,]8 |
+!p! [C,E,A,]8 | !mp! [C,D,G,]8 |]
+V:5
+z8 | z8 |
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+z8 |
+E,, B,, E, B,, E,, B,, E, B,, | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | D, A, D A, D, A, D A, | A,, E, A, E, A,, E, A, E, | B,, ^F, B, F, B,, F, B, F, |
+z8 | z8 |]
+V:6
+z8 | z8 |
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+!f! [E,^G,B,]8 |
+z8 | z8 | !f! [D,G,B,]8 | !f! [D,^F,A,]8 | !f! [C,E,A,]8 | !f! [^D,^F,B,]8 |
+!f! [C,E,A,]8 | !f! [C,D,G,]8 |]
+V:7
+!mf! E,,,8 | !mf! E,,,8 |
+!mf! E,,,8 | !mf! C,,8 | !mf! G,,,8 | !mf! D,,8 | !mf! E,,,8 | !mf! C,,8 | !mf! D,,8 |
+!mf! E,,,8 |
+!mf! E,,,8 | !mf! C,,8 | !mf! G,,,8 | !mf! D,,8 | !mf! A,,,8 | !mf! B,,,8 |
+!mf! A,,,8 | !mf! C,,8 |]
+V:8
+!ff! E,,2 z2 E,, E,, B,,2 | z8 |
+z8 | z8 | z8 | z8 | z7 !ff! E,,/ z/ | z8 | z8 |
+!ff! E,,2 z2 E,, E,, B,,2 |
+!ff! E,,2 z2 E,, E,, B,,2 | z8 | z8 | z8 | !ff! A,,2 z2 A,, A,, E,,2 | z8 |
+!ff! A,,2 z2 A,, A,, E,,2 | z8 |]
+V:9
+z8 | z8 |
+!mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+z8 |
+!mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+z8 | z8 |]
