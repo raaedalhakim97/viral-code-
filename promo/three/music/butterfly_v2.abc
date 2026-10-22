@@ -1,0 +1,75 @@
+X:1
+T:The Butterfly Effect (v2)
+C:original score for @observer.collapse
+M:4/4
+L:1/8
+Q:1/4=76
+V:1 name="Horns"
+%%MIDI program 60
+%%MIDI control 7 104
+V:2 name="Strings"
+%%MIDI program 48
+%%MIDI control 7 84
+V:3 name="Harp"
+%%MIDI program 46
+%%MIDI control 7 78
+V:4 name="Choir"
+%%MIDI program 52
+%%MIDI control 7 92
+V:5 name="Ostinato" clef=bass
+%%MIDI program 48
+%%MIDI control 7 80
+V:6 name="Contrabass" clef=bass
+%%MIDI program 43
+%%MIDI control 7 112
+V:7 name="Timpani" clef=bass
+%%MIDI program 47
+%%MIDI control 7 116
+V:8 name="Clarinet"
+%%MIDI program 71
+%%MIDI control 7 110
+V:9 name="Drums" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 110
+K:Dm
+V:1
+z8 | z8 | z8 | z8 |
+!f! D2 E2 F2 A2 | B4 A2 G2 | A2 c2 e4 |
+!ff! d6 c2 | B6 A2 | G4 z A3 | B4 c4 |
+!fff! d8 | d8 |]
+V:2
+!p! D3 E F2 A2 | G3 F E2 D2 | F3 G A2 B2 | A6 ^c2 |
+!f! D2 C2 B,2 A,2 | B,4 F,4 | A,4 G,4 |
+!f! F8 | F8 | D4 z ^C3 | D4 E4 |
+!ff! ^F8 | ^F8 |]
+V:3
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+!mf! D,/F,/A,/D/ F,/A,/D/F/ A,/D/F/A/ D/F/A/d/ | B,,/D,/F,/B,/ D,/F,/B,/D/ F,/B,/D/F/ B,/D/F/B/ |
+G,,/B,,/D,/G,/ B,,/D,/G,/B,/ z A,,/^C,/ E,/A,/^C/E/ | B,,/D,/F,/B,/ D,/F,/B,/D/ C,/E,/G,/C/ E,/G,/C/E/ |
+D,/^F,/A,/D/ ^F,/A,/D/^F/ A,/D/^F/A/ D2 | z8 |]
+V:4
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+!f! [D,F,A,]8 | [D,F,B,]8 | [D,G,B,]4 z [^C,E,A,]3 | [D,F,B,]4 [E,G,C]4 |
+!ff! [D,^F,A,]8 | [D,^F,A,]8 |]
+V:5
+!pp! D,A,DA, D,A,DA, | D,A,DA, D,A,DA, | !p! B,,F,B,F, B,,F,B,F, | !mf! A,,E,A,E, A,,E,A,E, |
+!f! D,A,DA, D,A,DA, | B,,F,B,F, B,,F,B,F, | F,,C,F,C, C,G,CG, |
+!ff! D,A,DA, D,A,DA, | B,,F,B,F, B,,F,B,F, | G,,D,G,D, z A,,E,A, | B,,F,B,F, C,G,CG, |
+!fff! D,A,DA, D,A,DA, | D,8 |]
+V:6
+!p! D,,8 | D,,8 | B,,,8 | !mf! A,,,8 |
+!f! D,,8 | B,,,8 | F,,4 C,,4 |
+!ff! D,,8 | B,,,8 | G,,,4 z A,,,3 | B,,,4 C,,4 |
+!fff! D,,8 | D,,8 |]
+V:7
+z8 | z8 | z8 | !mf! z6 A,,2 |
+!ff! D,,2 z2 D,,D,, A,,2 | D,,2 z2 D,,D,, A,,2 | D,,2 z2 z2 A,,2 |
+!ff! D,,4 z4 | D,,2 z2 D,,D,, A,,2 | D,,2 z2 z A,,3 | D,,2 z2 A,,2 z2 |
+!fff! D,,2 z2 D,,2 z2 | D,,2 z6 |]
+V:8
+!mf! D3 E F2 A2 | G3 F E2 D2 | F3 G A2 B2 | A6 ^c2 |
+z8 | z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+!mf! D3 E ^F2 A2 |]
+V:9
+!mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | !mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+[C,,F,,]2 z6 |]

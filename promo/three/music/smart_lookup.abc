@@ -1,0 +1,205 @@
+X:1
+T:Smart Lookup
+C:original score for @observer.collapse
+M:4/4
+L:1/8
+Q:1/16=417
+V:1 name="Clarinet"
+%%MIDI program 71
+%%MIDI control 7 110
+V:2 name="Horns"
+%%MIDI program 60
+%%MIDI control 7 104
+V:3 name="Strings"
+%%MIDI program 48
+%%MIDI control 7 80
+V:4 name="Ostinato" clef=bass
+%%MIDI program 48
+%%MIDI control 7 78
+V:5 name="Harp"
+%%MIDI program 46
+%%MIDI control 7 76
+V:6 name="Choir"
+%%MIDI program 52
+%%MIDI control 7 88
+V:7 name="Contrabass" clef=bass
+%%MIDI program 43
+%%MIDI control 7 112
+V:8 name="Timpani" clef=bass
+%%MIDI program 47
+%%MIDI control 7 116
+V:9 name="Drums" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 110
+K:C
+V:1
+% hook
+!p! E4 G4 | B6 A2 |
+% words
+[Q:1/16=400] !mp! E2 G2 B3 A | G4 E2 C2 | D3 G B4 | A4 ^F2 D2 | E8 |
+% universe
+[Q:1/16=387] z8 | z8 | z8 | z8 | z8 |
+% equation
+[Q:1/16=343] z8 | z8 |
+% curve
+[Q:1/16=387] z8 | z8 | z8 | z8 | z8 |
+% points
+[Q:1/16=395] z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+% loop
+[Q:1/16=384] !mp! A,3 C E4 | E4 B,4 | C3 E G4 | G4 D4 | A,3 C E4 | ^D4 ^F4 |
+% stats
+[Q:1/16=400] z8 | z8 | z8 | z8 |
+% outro
+[Q:1/16=450] z8 | z8 | E4 ^G4 |]
+V:2
+% hook
+z8 | z8 |
+% words
+z8 | z8 | z8 | z8 | z8 |
+% universe
+!mf! E2 G2 B3 A | G4 E2 C2 | D3 G B4 | A4 ^F2 D2 | G4 E2 C2 |
+% equation
+!f! A8 | B4 ^d4 |
+% curve
+z8 | z8 | z8 | z8 | z8 |
+% points
+!f! E2 G2 B3 A | G4 E2 C2 | D3 G B4 | A4 ^F2 D2 | E2 G2 B3 A | G4 E2 C2 | A4 ^F2 D2 |
+% loop
+z8 | z8 | z8 | z8 | z8 | z8 |
+% stats
+!ff! E2 G2 B3 A | G4 E2 C2 | D3 G B4 | A4 ^F2 D2 |
+% outro
+!f! G4 E4 | ^G8 | z8 |]
+V:3
+% hook
+z8 | z8 |
+% words
+!mp! G,8 | E,8 | G,8 | ^F,8 | G,8 |
+% universe
+!mf! G,8 | E,8 | G,8 | ^F,8 | E,8 |
+% equation
+!f! E,8 | ^F,8 |
+% curve
+!mp! G,8 | G,8 | E,8 | G,8 | ^F,8 |
+% points
+!f! G,8 | E,8 | G,8 | ^F,8 | G,8 | E,8 | ^F,8 |
+% loop
+!mp! E,8 | G,8 | E,8 | G,8 | E,8 | ^F,8 |
+% stats
+!ff! G,8 | E,8 | G,8 | ^F,8 |
+% outro
+!f! E,8 | ^G,8 | ^G,8 |]
+V:4
+% hook
+z8 | z8 |
+% words
+z8 | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | D, A, D A, D, A, D A, | E,, B,, E, B,, E,, B,, E, B,, |
+% universe
+!mf! E,, B,, E, B,, E,, B,, E, B,, | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | D, A, D A, D, A, D A, | C, G, C G, C, G, C G, |
+% equation
+!f! A,, E, A, E, A,, E, A, E, | B,, ^F, B, F, B,, F, B, F, |
+% curve
+z8 | z8 | z8 | z8 | z8 |
+% points
+!f! E,, B,, E, B,, E,, B,, E, B,, | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | D, A, D A, D, A, D A, | E,, B,, E, B,, E,, B,, E, B,, | C, G, C G, C, G, C G, | D, A, D A, D, A, D A, |
+% loop
+z8 | z8 | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | A,, E, A, E, A,, E, A, E, | B,, ^F, B, F, B,, F, B, F, |
+% stats
+!ff! E,, B,, E, B,, E,, B,, E, B,, | C, G, C G, C, G, C G, | G,, D, G, D, G,, D, G, D, | D, A, D A, D, A, D A, |
+% outro
+z8 | z8 | z8 |]
+V:5
+% hook
+z8 | z8 |
+% words
+z8 | z8 | z8 | ^F,,/ A,,/ D,/ ^F,/ F,/ A,/ D/ ^F/ F/ A/ d/ d/ d/ d/ d/ d/ | z8 |
+% universe
+z8 | z8 | z8 | z8 | z8 |
+% equation
+z8 | z8 |
+% curve
+!mp! E,,/ G,,/ B,,/ E,/ E,/ G,/ B,/ E/ E/ G/ B/ e/ e/ e/ e/ e/ | E,,/ G,,/ B,,/ E,/ E,/ G,/ B,/ E/ E/ G/ B/ e/ e/ e/ e/ e/ | E,,/ G,,/ C,/ E,/ E,/ G,/ C/ E/ E/ G/ c/ e/ e/ e/ e/ e/ | G,,/ B,,/ D,/ G,/ G,/ B,/ D/ G/ G/ B/ d/ d/ d/ d/ d/ d/ | ^F,,/ A,,/ D,/ ^F,/ F,/ A,/ D/ ^F/ F/ A/ d/ d/ d/ d/ d/ d/ |
+% points
+z8 | z8 | z8 | z8 | E,,/ G,,/ B,,/ E,/ E,/ G,/ B,/ E/ E/ G/ B/ e/ e/ e/ e/ e/ | E,,/ G,,/ C,/ E,/ E,/ G,/ C/ E/ E/ G/ c/ e/ e/ e/ e/ e/ | ^F,,/ A,,/ D,/ ^F,/ F,/ A,/ D/ ^F/ F/ A/ d/ d/ d/ d/ d/ d/ |
+% loop
+z8 | z8 | z8 | z8 | z8 | z8 |
+% stats
+z8 | z8 | z8 | z8 |
+% outro
+z8 | z8 | z8 |]
+V:6
+% hook
+z8 | z8 |
+% words
+z8 | z8 | z8 | z8 | z8 |
+% universe
+z8 | z8 | z8 | z8 | z8 |
+% equation
+z8 | z8 |
+% curve
+z8 | z8 | z8 | [D,G,B,]8 | [D,^F,A,]8 |
+% points
+!f! [E,G,B,]8 | [C,E,G,]8 | [D,G,B,]8 | [D,^F,A,]8 | [E,G,B,]8 | [C,E,G,]8 | [D,^F,A,]8 |
+% loop
+z8 | z8 | z8 | z8 | z8 | z8 |
+% stats
+!ff! [E,G,B,]8 | [C,E,G,]8 | [D,G,B,]8 | [D,^F,A,]8 |
+% outro
+!f! [C,E,G,]8 | [E,^G,B,]8 | [E,^G,B,]8 |]
+V:7
+% hook
+!p! E,,,8 | E,,,8 |
+% words
+!mp! E,,,8 | C,,8 | G,,,8 | D,,8 | E,,,8 |
+% universe
+!mf! E,,,8 | C,,8 | G,,,8 | D,,8 | C,,8 |
+% equation
+!f! A,,,8 | B,,,8 |
+% curve
+!mp! E,,,8 | E,,,8 | C,,8 | G,,,8 | D,,8 |
+% points
+!f! E,,,8 | C,,8 | G,,,8 | D,,8 | E,,,8 | C,,8 | D,,8 |
+% loop
+!mp! A,,,8 | E,,,8 | C,,8 | G,,,8 | A,,,8 | B,,,8 |
+% stats
+!ff! E,,,8 | C,,8 | G,,,8 | D,,8 |
+% outro
+!f! C,,8 | E,,,8 | E,,,8 |]
+V:8
+% hook
+!p! E,,2 z2 E,, E,, B,,2 | z8 |
+% words
+z8 | z8 | z8 | z8 | z8 |
+% universe
+!mf! E,,2 z2 E,, E,, B,,2 | z8 | z8 | z8 | z8 |
+% equation
+!f! A,,2 z2 A,, A,, E,,2 | B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ B,,/ |
+% curve
+z8 | z8 | z8 | z8 | z8 |
+% points
+!f! E,,2 z2 E,, E,, B,,2 | z8 | z8 | z8 | z8 | z8 | z8 |
+% loop
+z8 | z8 | z8 | z8 | z8 | z8 |
+% stats
+!ff! E,,2 z2 E,, E,, B,,2 | C,2 z2 C, C, G,,2 | G,,2 z2 G,, G,, D,2 | D,2 z2 D, D, A,,2 |
+% outro
+!f! C,2 z2 C, C, G,,2 | E,,2 z2 E,, E,, B,,2 | z8 |]
+V:9
+% hook
+z8 | z8 |
+% words
+z8 | z8 | z8 | z8 | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+% universe
+!mf! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+% equation
+z8 | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+% curve
+z8 | z8 | z8 | z8 | z8 |
+% points
+!f! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+% loop
+z8 | z8 | z8 | z8 | z8 | z8 |
+% stats
+!ff! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ |
+% outro
+!f! [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ [C,,F,,]/F,,/G,,/F,,/ G,,/F,,/G,,/F,,/ | z8 |]
