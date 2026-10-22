@@ -1,0 +1,165 @@
+X:1
+T:The Collatz Conjecture
+C:original score for @observer.collapse
+M:4/4
+L:1/8
+Q:"Mysterioso" 1/16=459
+%%MIDI gchordoff
+%%MIDI chordname add9 0 4 7 14
+%%MIDI chordname maj7#11 0 4 7 11 18
+%%score 1 2 3 4 5 6 7 8 9 10 11
+V:1 name="Clarinet"
+%%MIDI program 71
+%%MIDI control 7 108
+V:2 name="Horns"
+%%MIDI program 60
+%%MIDI control 7 104
+V:3 name="Violins"
+%%MIDI program 48
+%%MIDI control 7 84
+V:4 name="Violas"
+%%MIDI program 48
+%%MIDI control 7 84
+V:5 name="Cellos" clef=bass
+%%MIDI program 42
+%%MIDI control 7 100
+V:6 name="Cello spiccato" clef=bass
+%%MIDI program 45
+%%MIDI control 7 92
+V:7 name="Contrabass" clef=bass
+%%MIDI program 43
+%%MIDI control 7 104
+V:8 name="Harp"
+%%MIDI program 46
+%%MIDI control 7 80
+V:9 name="Marimba"
+%%MIDI program 12
+%%MIDI control 7 108
+V:10 name="Timpani" clef=bass
+%%MIDI program 47
+%%MIDI control 7 112
+V:11 name="Percussion" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 104
+K:Em
+V:1
+% intro
+!p! !<(! B,3 E E2 !<)! ^F2 | !mf! !tenuto! G3 ^F !>(! E4 |
+% walk
+[Q:"Pulsing: 27 walks" 1/16=533] z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+% one
+[Q:"Arrival" 1/16=300] z8 |
+% coral
+[Q:"Epic" 1/16=397] z8 | z8 | z8 | z8 | z8 | z8 |
+% end
+[Q:"Unresolved" 1/16=349] !mp! B,3 E !tenuto! ^F4 | !>(! G2 !>)! ^F6 |]
+V:2
+% intro
+z8 | z8 |
+% walk
+z8 | z8 | z8 | z8 | !mp! !<(! B,,4 E,4 | !<)! ^F,6 E,2 | E,4 ^D,4 |
+% one
+!ff! !accent! [B,,E,]8 |
+% coral
+!f! !accent! B,, E,2 ^F, !tenuto! G,3 F, | !tenuto! E,3 D, E,2 B,,2 | !accent! D, G,2 A, !tenuto! B,3 A, | !tenuto! ^F,4 E,2 D,2 | !ff! !accent! C3 B, A,2 E,2 | !tenuto! E,4 !>(! ^D,4 |
+% end
+z8 | z8 |]
+V:3
+% intro
+z8 | z8 |
+% walk
+!p! "Em9"[^FB]8 | "Cmaj7"[EB]8 | "Gadd9"[DA]8 | "Dsus4"[DA]4 [DA]4 | "Em9"[^FB]8 | "Cmaj7#11"[^FB]8 | "Bsus4"[EB]4 [^DB]4 |
+% one
+!f! "E"[^GB]8 |
+% coral
+!mf! "Em9"[^FB]8 | "Cmaj7"[EB]8 | "Gadd9"[DA]8 | "D/F#"[DA]8 | "Am7"[Ec]8 | "Bsus4"[EB]4 [^DB]4 |
+% end
+!mp! "Cmaj7#11"[^FB]8 | "Asus2"[EB]8 |]
+V:4
+% intro
+z8 | [G,E]8 |
+% walk
+!p! [G,E]8 | [G,C]8 | [G,B,]8 | [A,G]4 [A,^F]4 | [G,E]8 | [G,E]8 | [B,^F]4 [B,F]4 |
+% one
+!f! [^G,E]8 |
+% coral
+!mf! [G,E]8 | [G,C]8 | [G,B,]8 | [A,^F]8 | [A,G]8 | [B,^F]4 [B,F]4 |
+% end
+!mp! [G,E]8 | [A,E]8 |]
+V:5
+% intro
+!pp! [E,,B,,]8- | [E,,B,,]8 |
+% walk
+!p! [E,,B,,]8 | [C,,G,,]8 | [G,,D,]8 | [D,,A,,]4 [D,,A,,]4 | [E,,B,,]8 | [C,,G,,]8 | [B,,^F,]4 [B,,F,]4 |
+% one
+!f! [E,,B,,]8 |
+% coral
+!f! !accent! B,, E,2 ^F, !tenuto! G,3 F, | !tenuto! E,3 D, E,2 B,,2 | !accent! D, G,2 A, !tenuto! B,3 A, | !tenuto! ^F,4 E,2 D,2 | !ff! !accent! C3 B, A,2 E,2 | !tenuto! E,4 !>(! ^D,4 |
+% end
+!mp! [C,,G,,]8 | [A,,E,]8 |]
+V:6
+% intro
+z8 | z8 |
+% walk
+z8 | !accent! C,, C,, C, !accent! C,, C,, C, !accent! C,, G,, | !accent! G,, G,, G, !accent! G,, G,, G, !accent! G,, D, | !accent! D,, D,, D, !accent! D,, D,, D, !accent! D,, A,, | !accent! E,, E,, E, !accent! E,, E,, E, !accent! E,, B,, | !accent! C,, C,, C, !accent! C,, C,, C, !accent! C,, G,, | !accent! B,, B,, B, !accent! B,, B,, B, !accent! B,, ^F, |
+% one
+z8 |
+% coral
+!accent! !f! E,, E,, E, !accent! E,, E,, E, !accent! E,, B,, | !accent! C,, C,, C, !accent! C,, C,, C, !accent! C,, G,, | !accent! G,, G,, G, !accent! G,, G,, G, !accent! G,, D, | !accent! ^F,, F,, ^F, !accent! F,, F,, F, !accent! F,, ^C, | !accent! A,, A,, A, !accent! A,, A,, A, !accent! A,, E, | !accent! B,, B,, B, !accent! B,, B,, B, !accent! B,, ^F, |
+% end
+z8 | z8 |]
+V:7
+% intro
+z8 | E,,,8 |
+% walk
+E,,,8 | C,,8 | G,,,8 | D,,8 | E,,,8 | C,,8 | B,,,8 |
+% one
+E,,,8 |
+% coral
+E,,,8 | C,,8 | G,,,8 | ^F,,,8 | A,,,8 | B,,,8 |
+% end
+C,,8 | A,,,8 |]
+V:8
+% intro
+z8 | z8 |
+% walk
+z8 | z8 | z8 | z8 | !mp! E, G, E ^F B E, G, E | C, G, E ^F B C, G, E | B, E ^F B B, E F B |
+% one
+z8 |
+% coral
+E, G, E ^F B E, G, E | C, G, C E B C, G, C | G, B, D A G, B, D A | ^F, A, D ^F A F, A, D | A, E G c A, E G c | B, E ^F B B, E F B |
+% end
+z8 | z8 |]
+V:9
+% intro
+z8 | z8 |
+% walk
+z/ !mf! E,/ G,/ E,/ A,/ G,/ E,/ G,/ E,/ A,/ G,/ B,/ A,/ B,/ A,/ D/ | B,/ A,/ B,/ A,/ G,/ B,/ A,/ D/ B,/ A,/ B,/ A,/ D/ B,/ D/ B,/ | A,/ D/ B,/ D/ D/ E/ D/ G/ E/ D/ E/ D/ B,/ A,/ D/ B,/ | D/ B,/ E/ D/ B,/ E/ D/ E/ D/ B,/ E/ D/ E/ D/ G/ E/ | A/ G/ A/ G/ B/ A/ G/ E/ G/ E/ A/ G/ A/ G/ !ff! !accent! B/ !mf! A/ | G/ E/ D/ G/ E/ D/ E/ D/ B,/ E/ D/ B,/ A,/ G,/ A,/ G,/ | E,/ D,/ G,/ E,/ A,/ G,/ A,/ G,/ E,/ D,/ B,,/ A,,/ D,/ B,,/ A,,/ G,,/ |
+% one
+!ff! E,,8 |
+% coral
+z8 | z8 | z8 | z8 | z8 | z8 |
+% end
+z8 | z8 |]
+V:10
+% intro
+z8 | z8 |
+% walk
+z8 | z8 | z8 | z8 | z7 !ff! E,,/ z/ | z8 | z4 !p! !<(! E,,/ E,,/ E,,/ E,,/ E,,/ E,,/ E,,/ !<)! E,,/ |
+% one
+!ff! !accent! E,,2 z2 !mf! E,, E,, B,,2 |
+% coral
+!ff! !accent! E,,2 z2 !mf! E,, E,, B,,2 | z8 | z8 | z8 | !ff! !accent! E,,2 z2 !mf! E,, E,, B,,2 | z8 |
+% end
+!ff! !accent! E,,2 z2 !mf! E,, E,, B,,2 | z8 |]
+V:11
+% intro
+!p! [C,,^C,]2 z6 | z8 |
+% walk
+z8 | z8 | z8 | z8 | z8 | z8 | z8 |
+% one
+!ff! [C,,^C,]2 z6 |
+% coral
+!ff! [C,,^C,]2 z6 | !mp! B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !ff! [C,,^C,]2 z6 | !mp! B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ |
+% end
+!ff! [C,,^C,]2 z6 | z8 |]

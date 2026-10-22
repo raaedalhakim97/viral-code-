@@ -2,7 +2,8 @@
 
 Real 3D, rendered headlessly in Chromium frame by frame, encoded with ffmpeg.
 Everything here is free: three.js, Playwright's Chromium, ffmpeg, abc2midi,
-FluidSynth and the FluidR3 GM soundfont.
+FluidSynth, and for the v3 scores the VSCO 2 Community Edition orchestral
+samples (CC0, real recordings).
 
 | Scene | Output | Length |
 | --- | --- | --- |
@@ -78,6 +79,29 @@ Original scores, so no licensing and no copyright claims.
   tempo so it holds a whole number of bars. Every scene change lands on a
   downbeat, within 0.16s measured. `smart_lookup_mix.py` applies the
   envelopes.
+
+### v3: real orchestral samples (Collatz)
+
+`music/v3/` replaces the 2008 FluidR3 soundfont with VSCO 2 Community Edition
+recordings, played by a small sampler in `produce_v3.py`. It picks the nearest
+sampled pitch, the velocity layer and the round-robin, and trims leading
+silence so attacks land on time. The score is rewritten with colour harmony
+(add9, maj7(#11), sus4 -> 3), one developed motif, low horns in unison with
+cellos, and a 3+3+2 spiccato ostinato. Production adds sub-bass drops,
+reversed cymbals, filtered risers, a low-passed saw pad, sidechain pumping
+and convolution reverb.
+
+Get the samples with a sparse clone (about 840 MB of the 3 GB library):
+
+```bash
+git clone --filter=blob:none --no-checkout --depth 1 https://github.com/sgossner/VSCO-2-CE.git vsco
+# then sparse-checkout the folders listed at the top of produce_v3.py's INST table
+```
+
+**Check the pitch before trusting the names.** `check_pitch.py` measured
+that VSCO names most instruments with middle C = C3, so every one but the harp
+sounds an octave above its file name. The first v3 render trusted the names
+and played the strings and horns an octave too high.
 
 ```bash
 python3 butterfly_score.py && for s in orch clar drums; do
