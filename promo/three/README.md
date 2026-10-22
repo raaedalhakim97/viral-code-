@@ -80,7 +80,7 @@ Original scores, so no licensing and no copyright claims.
   downbeat, within 0.16s measured. `smart_lookup_mix.py` applies the
   envelopes.
 
-### v3: real orchestral samples (Collatz)
+### v3: real orchestral samples (Collatz, Butterfly Effect)
 
 `music/v3/` replaces the 2008 FluidR3 soundfont with VSCO 2 Community Edition
 recordings, played by a small sampler in `produce_v3.py`. It picks the nearest
@@ -97,6 +97,12 @@ Get the samples with a sparse clone (about 840 MB of the 3 GB library):
 git clone --filter=blob:none --no-checkout --depth 1 https://github.com/sgossner/VSCO-2-CE.git vsco
 # then sparse-checkout the folders listed at the top of produce_v3.py's INST table
 ```
+
+`score_butterfly_v3.py` / `produce_bf3.py` do the same for The Butterfly
+Effect on its original grid (76 BPM, so every hit stays where it was):
+clarinet and violas in unison for the two points, then low horns climbing
+against falling cellos at the split. The clarinet fade and the soft drum
+rush are volume curves applied in the mixer, not velocity steps.
 
 **Check the pitch before trusting the names.** `check_pitch.py` measured
 that VSCO names most instruments with middle C = C3, so every one but the harp

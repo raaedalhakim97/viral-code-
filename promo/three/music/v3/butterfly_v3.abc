@@ -1,0 +1,111 @@
+X:1
+T:The Butterfly Effect
+C:original score for @observer.collapse
+M:4/4
+L:1/8
+Q:"Together" 1/4=76
+%%MIDI gchordoff
+%%MIDI chordname add9 0 4 7 14
+%%MIDI chordname m(add9) 0 3 7 14
+%%MIDI chordname 7sus4 0 5 7 10
+%%score 1 2 3 4 5 6 7 8 9 10 11
+V:1 name="Clarinet"
+%%MIDI program 71
+%%MIDI control 7 108
+V:2 name="Violas"
+%%MIDI program 41
+%%MIDI control 7 90
+V:3 name="Violins"
+%%MIDI program 40
+%%MIDI control 7 84
+V:4 name="Horns"
+%%MIDI program 60
+%%MIDI control 7 104
+V:5 name="Cellos" clef=bass
+%%MIDI program 42
+%%MIDI control 7 100
+V:6 name="Cello spiccato" clef=bass
+%%MIDI program 45
+%%MIDI control 7 92
+V:7 name="Contrabass" clef=bass
+%%MIDI program 43
+%%MIDI control 7 104
+V:8 name="Harp"
+%%MIDI program 46
+%%MIDI control 7 80
+V:9 name="Timpani" clef=bass
+%%MIDI program 47
+%%MIDI control 7 112
+V:10 name="Percussion" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 104
+V:11 name="Drum rush" clef=bass
+%%MIDI channel 10
+%%MIDI control 7 96
+K:Dm
+V:1
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+!p! !<(! D3 E F2 !<)! A2 | !tenuto! G3 F E2 D2 | !mp! F3 G A2 B2 | !mf! !tenuto! A6 !accent! ^c2 |
+"^The split" z8 | z8 | z8 |
+"^The cloud" z8 | z8 | z8 | z8 |
+"^The butterfly" z8 | !mp! D3 E !>(! ^F4 |]
+V:2
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+!p! !<(! D3 E F2 !<)! A2 | !tenuto! G3 F E2 D2 | !mp! F3 G A2 B2 | !mf! !tenuto! A6 !accent! ^c2 |
+!mp! [F,D]8 | [B,D]8 | [A,C]4 [G,C]4 |
+[F,D]8 | [B,D]8 | [G,D]4 [A,D]4 | [B,D]4 [G,C]4 |
+[A,E]8 | [A,E]8 |]
+V:3
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z8 |
+!p! "Dm(add9)"[EA]8 | "Bbmaj7"[FA]8 | "F"[FA]4 [EG]4 |
+!mf! "Dm(add9)"[EA]8 | "Bbmaj7"[FA]8 | "Gm7"[FB]4 [EG]4 | "Bbmaj7"[FA]4 [EG]4 |
+"D(add9)"[^FA]8 | "D(add9)"[^FA]8 |]
+V:4
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z8 |
+!f! !accent! D,2 E,2 F,2 A,2 | !tenuto! B,4 A,2 G,2 | A,2 C2 !tenuto! D4 |
+!ff! !accent! D,2 F, !tenuto! A,3 G, F, | !tenuto! F,3 E, D,2 C,2 | !tenuto! B,4 z !ff! !accent! A,3 | !tenuto! D4 !<(! C4 |
+!fff! !<)! D8 | !>(! D8 |]
+V:5
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+!pp! [D,,A,,]8 | [D,,A,,]8 | [B,,F,]8 | [A,,E,]8 |
+!f! !accent! D,2 C,2 B,,2 A,,2 | !tenuto! B,,4 F,,4 | A,,4 !tenuto! G,,4 |
+!ff! !accent! D,,2 F,, !tenuto! A,,3 G,, F,, | !tenuto! F,,3 E,, D,,2 C,,2 | !tenuto! B,,4 z !ff! !accent! A,,3 | !tenuto! D,4 !<(! C,4 |
+!fff! !<)! D,8 | !>(! [D,,A,,]8 |]
+V:6
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z8 |
+!accent! !f! D,, D,, D, !accent! D,, D,, D, !accent! D,, A,, | !accent! B,, B,, B, !accent! B,, B,, B, !accent! B,, F, | !accent! F,, F,, F, !accent! F,, F,, F, !accent! F,, C, |
+!accent! D,, D,, D, !accent! D,, D,, D, !accent! D,, A,, | !accent! B,, B,, B, !accent! B,, B,, B, !accent! B,, F, | !accent! G,, G,, G, !accent! G,, z A,, !accent! A,, A,, | !accent! B,, B,, B, !accent! B,, B,, B, !accent! B,, F, |
+!accent! D,, D,, D, !accent! D,, D,, D, !accent! D,, A,, | z8 |]
+V:7
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+!p! D,,8 | D,,8 | B,,,8 | A,,8 |
+!f! D,,8 | B,,,8 | F,,4 C,,4 |
+D,,8 | B,,,8 | G,,4 A,,4 | B,,,4 C,,4 |
+D,,8 | D,,8 |]
+V:8
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z8 |
+z8 | z8 | z8 |
+!mf! D,, F, D E A D, F d | B,, B, D F A B, B d | G,, G, D F B G, G d | B,, B, D F A B, B d |
+D,, A, E ^F A D, A e | z8 |]
+V:9
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z4 !p! !<(! A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ !<)! A,,/ |
+!ff! !accent! D,,2 z2 !mf! D,, D,, A,,2 | z8 | z8 |
+!ff! !accent! D,,2 z2 !mf! D,, D,, A,,2 | z8 | !f! G,,2 z3 !ff! !accent! A,,3 | !mf! !<(! A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ A,,/ !<)! A,,/ |
+!ff! !accent! D,,2 z2 !mf! D,, D,, A,,2 | z8 |]
+V:10
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+z8 | z8 | z8 | z8 |
+!ff! [C,,^C,]2 z6 | z8 | z8 |
+!ff! [C,,^C,]2 z6 | z8 | z5 !ff! C,,3 | z8 |
+!ff! [C,,^C,]2 z6 | z8 |]
+V:11
+% bars 1-4 together | 5-7 split | 8-11 cloud | 12-13 butterfly
+!mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ |
+!mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ |
+!mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | !mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ |
+!mp! =B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ B,,,/ | z8 |]
