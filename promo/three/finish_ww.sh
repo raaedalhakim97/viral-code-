@@ -24,13 +24,13 @@ ffmpeg -v error -y -i ${MASTER:-ww_master_fixed.mp4} -i $A/ww_music_m.wav -filte
  [tail][head]xfade=transition=fade:duration=$X:offset=0[seam]; [body][seam]concat=n=2:v=1:a=0,$GRAIN[v];
  [1:a]atrim=start=$T0:duration=$L,asetpts=PTS-STARTPTS,asplit=3[p][q][r];
  [p]atrim=0:$X,asetpts=PTS-STARTPTS[ah]; [q]atrim=$X:$B,asetpts=PTS-STARTPTS[ab]; [r]atrim=$B:$L,asetpts=PTS-STARTPTS[at];
- [at][ah]acrossfade=d=$X:c1=qsin:c2=qsin[as]; [ab][as]concat=n=2:v=0:a=1[aout]" \
+ [at]afade=t=out:d=$X:curve=qsin[at2]; [ah]afade=t=in:d=$X:curve=qsin[ah2]; [at2][ah2]amix=inputs=2:normalize=0[as]; [ab][as]concat=n=2:v=0:a=1[aout]" \
  -map "[v]" -map "[aout]" $ENC $AAC $OUT/smart_lookup_part2_hero_loop_30s.mp4
 
 # 3. 15 s vertical teaser: frames 3840-4740 (64-79 s) rendered in portrait, with the VO mix
 if [ -f ww_teaser_video.mp4 ]; then
 ffmpeg -v error -y -i ww_teaser_video.mp4 -ss 64 -t 15 -i $A/ww_mix_m.wav \
- -vf "$GRAIN" -af "afade=t=in:d=0.25,afade=t=out:st=14.6:d=0.4" $ENC -map 0:v -map 1:a $AAC -shortest $OUT/smart_lookup_part2_teaser_15s_vertical.mp4
+ -vf "$GRAIN" -af "afade=t=in:d=0.25,afade=t=out:st=14.6:d=0.4,alimiter=limit=0.708:attack=1:release=60:level=false" $ENC -map 0:v -map 1:a $AAC -shortest $OUT/smart_lookup_part2_teaser_15s_vertical.mp4
 fi
 for f in $OUT/*.mp4; do
  printf "%-60s %6.2f MB  " $f $(echo "$(stat -c%s $f)/1048576" | bc -l)
