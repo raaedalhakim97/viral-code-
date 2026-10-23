@@ -14,7 +14,7 @@ const [sceneFile, outFile, w = '1080', h = '1920', fStart = '0', fEnd = ''] = pr
 const STILLS = process.env.STILLS ? process.env.STILLS.split(',').map(Number) : null;   // seconds -> PNGs
 const W = +w, H = +h;
 const root = path.dirname(new URL(import.meta.url).pathname);
-const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html' };
+const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html', '.svg': 'image/svg+xml', '.png': 'image/png' };
 
 const html = `<!doctype html><meta charset=utf-8>
 <style>html,body{margin:0;background:#000}canvas{display:block}</style>
@@ -33,11 +33,12 @@ const W=${W}, H=${H};
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true});
 renderer.setPixelRatio(1); renderer.setSize(W,H,false);
-const s = mod.build(THREE, W, H);
+const s = mod.buildAsync ? await mod.buildAsync(THREE, W, H) : mod.build(THREE, W, H);   // async: scenes that load assets
+if (s.shadows) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
 const composer = new EffectComposer(renderer);
 composer.setSize(W,H);
 composer.addPass(new RenderPass(s.scene, s.camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(W,H), 0.5, 0.4, 0.25);
+const bloom = new UnrealBloomPass(new THREE.Vector2(W,H), 0.5, s.bloomRadius ?? 0.4, s.bloomThreshold ?? 0.25);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 window.__info = { fps: mod.FPS, duration: mod.DURATION };

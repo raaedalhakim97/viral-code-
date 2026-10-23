@@ -11,8 +11,11 @@ samples (CC0, real recordings).
 | `scene_butterfly.js` | The Butterfly Effect: Lorenz attractor in deep space | 40.0s, 1200 frames |
 | `scene_collatz.js` | The Collatz Conjecture: 1..10,000 grown as one coral | 40.0s, 1200 frames |
 | `scene_euler.js` | 8s test: 2,144 points fly into the Euler curve | 8.0s |
+| `scene_weighted_wave.js` | Smart Lookup Part II: The Weighted Wave | 95.0s, 5700 frames |
 
-All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box.
+All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box,
+except Part II: 1920x1080 at 60fps, with a portrait mode (pass 1080 1920) for
+the vertical teaser.
 
 ## Render
 
@@ -61,6 +64,49 @@ next(number), bent +0.135 rad if even and -0.255 rad if odd, with a 0.11 rad
 twist about the direction of travel so the tree lives in 3D. Brightness
 rises with depth, because thousands of branches overlap near the root and
 additive glow sums them to white.
+
+## Smart Lookup Part II: The Weighted Wave
+
+Each of 67 words has 32 weights θ, and each weight drives one wave:
+ψ(x) = Σ θ_k sin(2π f_k x + φ_k), with x the position round the closed Euler
+curve and f_k = k (whole numbers, so ψ is periodic on the loop). A word sits at
+the argmax of |ψ|. Training is real gradient descent on L = -ψ(x_target)² on
+the unit sphere, 8 steps, one per on-screen pulse. 67 x 32 = 2,144, Part I's
+point count.
+
+`weighted_wave_math.mjs` holds all of it and is imported by both the scene and
+`weighted_wave_check.mjs`, so what is checked is exactly what is drawn:
+
+- 30/67 words in their slot before training, 67/67 after (words per step:
+  30 36 42 55 61 64 65 67 67). The slot is the word's own 32 points, ±16; a
+  32-wave peak cannot be placed finer than that, and the worst trained peak
+  lands 5.2 points off.
+- WATER: 27/32 of its waves push the same way at its peak before, 32/32 after,
+  and the peak grows 1.51x. Every step lowers the loss for every word.
+- The interference beat is two real sinusoids (6 and 7 cycles): the envelope
+  reaches 1.99 where they add and 0.02 where they cancel.
+
+The bloom is |ψ| at WATER's peak. It is never on a linear ramp, never covers the
+frame, and is gone within 3 s. `tex/make_tex.py` typesets the equations
+(latex + dvisvgm). The scene's HUD throws if any item would fall off the frame.
+
+```bash
+node weighted_wave_check.mjs                     # every claim, before rendering
+./run_ww.sh                                      # 1920x1080 60fps master, 3 parallel chunks
+./run_teaser.sh                                  # 64-79 s in portrait for the 15 s teaser
+cd music/part2 && python3 vo.py && python3 sound_ww.py <vsco path>
+python3 master.py ww_mix.wav ww_mix_m.wav && python3 master.py ww_music.wav ww_music_m.wav && cd ../..
+A=music/part2 MASTER=ww_master_video.mp4 ./finish_ww.sh   # master, no-VO, 30 s loop, 15 s teaser
+```
+
+Sound (`music/part2/sound_ww.py`): voiceover by Piper (offline, en-us-ryan-high);
+a 45 Hz bed that matches at both ends for the loop; 32 ticks at 440 + 35k Hz
+as the bars rise; two glides that start a fifth apart (260/390 Hz), pass
+through a minor third and meet in unison at 0:44; 8 bass pulses on the 8
+gradient steps; two seconds of near-silence, then one piano C6 on the bloom;
+C major at the reveal. `check_sync.py` measures the level jump at every cue.
+Instruments are VSCO 2 CE (CC0); the upright piano is by Simon Dalzell, via
+Versilian Studios. Its files are named by sample index: MIDI key = 21 + 2 x NNN.
 
 ## Music
 

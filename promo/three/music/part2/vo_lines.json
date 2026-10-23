@@ -1,0 +1,155 @@
+[
+ {
+  "i": 0,
+  "t0": 0.0,
+  "dur": 4.75,
+  "tempo": 1.029,
+  "room": 4.75,
+  "file": "vo/l00_raw.wav",
+  "text": "In Part One, we placed two thousand, one hundred and forty-four points on a curve."
+ },
+ {
+  "i": 1,
+  "t0": 5.0,
+  "dur": 1.8397732426303854,
+  "tempo": 1.0,
+  "room": 3.75,
+  "file": "vo/l01_raw.wav",
+  "text": "But a point doesn't move on its own."
+ },
+ {
+  "i": 2,
+  "t0": 9.0,
+  "dur": 2.6031292517006803,
+  "tempo": 1.0,
+  "room": 3.75,
+  "file": "vo/l02_raw.wav",
+  "text": "Something has to move it. Something has to weight it."
+ },
+ {
+  "i": 3,
+  "t0": 13.0,
+  "dur": 2.0360997732426305,
+  "tempo": 1.0,
+  "room": 4.75,
+  "file": "vo/l03_raw.wav",
+  "text": "This is the weight. We call it theta."
+ },
+ {
+  "i": 4,
+  "t0": 18.0,
+  "dur": 3.56562358276644,
+  "tempo": 1.0,
+  "room": 6.75,
+  "file": "vo/l04_raw.wav",
+  "text": "Every word has thirty-two weights. Every weight is a wave."
+ },
+ {
+  "i": 5,
+  "t0": 25.0,
+  "dur": 3.4414512471655327,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l05_raw.wav",
+  "text": "On its own, a wave is flat. It carries no meaning."
+ },
+ {
+  "i": 6,
+  "t0": 31.0,
+  "dur": 3.7088888888888887,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l06_raw.wav",
+  "text": "Two waves meet. They add. They subtract. They interfere."
+ },
+ {
+  "i": 7,
+  "t0": 37.0,
+  "dur": 1.4234920634920636,
+  "tempo": 1.0,
+  "room": 4.75,
+  "file": "vo/l07_raw.wav",
+  "text": "This is superposition."
+ },
+ {
+  "i": 8,
+  "t0": 42.0,
+  "dur": 2.854421768707483,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l08_raw.wav",
+  "text": "Thirty-two waves, stacked, become one word."
+ },
+ {
+  "i": 9,
+  "t0": 48.0,
+  "dur": 2.4942403628117913,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l09_raw.wav",
+  "text": "The peak of that stack tells us where the word lives."
+ },
+ {
+  "i": 10,
+  "t0": 54.0,
+  "dur": 2.9770521541950115,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l10_raw.wav",
+  "text": "But the peaks are wrong. The word sits in the wrong place."
+ },
+ {
+  "i": 11,
+  "t0": 60.0,
+  "dur": 3.482267573696145,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l11_raw.wav",
+  "text": "So we adjust theta. Wave by wave. Weight by weight."
+ },
+ {
+  "i": 12,
+  "t0": 66.0,
+  "dur": 2.314875283446712,
+  "tempo": 1.0,
+  "room": 6.75,
+  "file": "vo/l12_raw.wav",
+  "text": "Watch the bloom. The waves converge."
+ },
+ {
+  "i": 13,
+  "t0": 73.0,
+  "dur": 1.7976417233560091,
+  "tempo": 1.0,
+  "room": 6.75,
+  "file": "vo/l13_raw.wav",
+  "text": "The peak lands where it belongs."
+ },
+ {
+  "i": 14,
+  "t0": 80.0,
+  "dur": 2.0536961451247167,
+  "tempo": 1.0,
+  "room": 5.75,
+  "file": "vo/l14_raw.wav",
+  "text": "This is what training actually does."
+ },
+ {
+  "i": 15,
+  "t0": 86.0,
+  "dur": 2.96,
+  "tempo": 1.0,
+  "room": 3.05,
+  "file": "vo/l15_raw.wav",
+  "text": "Not magic. Not understanding. Geometry."
+ },
+ {
+  "i": 16,
+  "t0": 89.3,
+  "dur": 4.445079365079365,
+  "tempo": 1.0,
+  "room": 5.45,
+  "file": "vo/l16_raw.wav",
+  "text": "And in Part Three, we ask: what happens when the waves learn to teach each other?"
+ }
+]
