@@ -12,6 +12,7 @@ samples (CC0, real recordings).
 | `scene_collatz.js` | The Collatz Conjecture: 1..10,000 grown as one coral | 40.0s, 1200 frames |
 | `scene_euler.js` | 8s test: 2,144 points fly into the Euler curve | 8.0s |
 | `scene_weighted_wave.js` | Smart Lookup Part II: The Weighted Wave | 95.0s, 5700 frames |
+| `scene_elise.js` | The Shape of Für Elise: every note drawn as a spinning vector | 62.0s, 3720 frames |
 
 All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box,
 except Part II: 1920x1080 at 60fps, with a portrait mode (pass 1080 1920) for
@@ -107,6 +108,34 @@ gradient steps; two seconds of near-silence, then one piano C6 on the bloom;
 C major at the reveal. `check_sync.py` measures the level jump at every cue.
 Instruments are VSCO 2 CE (CC0); the upright piano is by Simon Dalzell, via
 Versilian Studios. Its files are named by sample index: MIDI key = 21 + 2 x NNN.
+
+## The Shape of Für Elise
+
+A note is a spinning vector: y = A e^(-t/τ) sin(2πft) is the shadow of an arrow
+of length A e^(-t/τ) turning f times a second. `music/elise/arrange.py` writes
+the arrangement (Beethoven's notes, public domain; solo piano, then strings and
+cello, full orchestra, solo piano again) as `elise.abc` and as
+`elise_score.json`, and that one note list drives both the audio and the
+picture, so every arrow appears on the frame its note sounds.
+
+- Real notes spin far too fast to see, so every frequency is divided by 110.
+  All pitch ratios stay exact, and the screen says so.
+- Chords: each note of the chord is one axis, so the chord is a point moving in
+  3D, (sin 2πf₁t, sin 2πf₂t, sin 2πf₃t). Whole-number ratios close into a knot;
+  equal temperament almost does, and the drift on screen is the real one.
+- Instruments: `harmonics.py` measures the overtone strengths of a recorded A3
+  (220 Hz) for piano, violin, cello and horn. Those numbers are the lengths of
+  each instrument's 12-vector chain. The violin's fundamental measures at 3%:
+  violins radiate poorly that low, and the 660 Hz third harmonic confirms the
+  note is A3.
+- Every note's entrance flashes and lets off lit smoke in its colour. Both are
+  computed from (note, t), so frames stay independent and render in parallel.
+
+```bash
+cd music/elise && python3 arrange.py && python3 harmonics.py <vsco> && cp elise_score.json harmonics.json ../..
+python3 elise_audio.py <vsco> elise_score.json elise_mix.wav   # real samples, score offset 2.5 s
+cd ../.. && (cd tex_elise && python3 make_tex.py) && ./run_elise.sh
+```
 
 ## Music
 

@@ -1,0 +1,63 @@
+X:1
+T:Fur Elise - The Shape of Fur Elise (arr.)
+C:L. van Beethoven, arr. for this video
+M:3/8
+L:1/16
+Q:3/8=55
+K:Am
+%%score {RH LH} STR VC HN
+V:RH name="Piano"
+V:LH name="Piano LH" clef=bass
+V:STR name="Strings"
+V:VC name="Cello" clef=bass
+V:HN name="Horn"
+[V:RH] %%MIDI program 0
+e^d | "^Solo piano" e^de B=dc | A2 zCEA | B2 zE^GB | c2 zEe^d | e^de B=dc | A2 zCEA |
+B2 zEcB | A2 z2e^d | e^de B=dc | A2 zCEA | B2 zE^GB | c2 zEe^d |
+e^de B=dc | A2 zCEA | B2 zEcB | A2 zBcd | e3 Gfe | d3 Fed |
+c3 Edc | B2 zEe^d | "^Strings + cello" e^de B=dc | A2 zCEA | B2 zE^GB | c2 zEe^d |
+e^de B=dc | A2 zCEA | B2 zEcB | A2 z2e^d | [Q:3/8=48] "^Full orchestra" e^de B=dc | A2 zCEA |
+B2 zE^GB | c2 zEe^d | e^de B=dc | A2 zCEA | B2 zEcB | A2 zBcd |
+e3 Gfe | d3 Fed | c3 Edc | B2 zEe^d | [Q:3/8=52] "^Solo piano" e^de B=dc | A2 zCEA |
+B2 zE^GB | c2 zEe^d | e^de B=dc | A2 zCEA | B2 zEcB | A6 |
+[A,CEA]6 |]
+[V:LH] %%MIDI program 0
+z2 | z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 | z6 | A,,E,A, z3 |
+E,,E,^G, z3 | A,,E,A, z3 | z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 |
+z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 | C,G,C z3 | G,,G,B, z3 |
+A,,E,A, z3 | E,,E,^G, z3 | z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 |
+z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 | z6 | A,,E,A, z3 |
+E,,E,^G, z3 | A,,E,A, z3 | z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 |
+C,G,C z3 | G,,G,B, z3 | A,,E,A, z3 | E,,E,^G, z3 | z6 | A,,E,A, z3 |
+E,,E,^G, z3 | A,,E,A, z3 | z6 | A,,E,A, z3 | E,,E,^G, z3 | A,,E,A, z3 |
+[A,,,A,,]6 |]
+[V:STR] %%MIDI program 48
+z2 | z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | [^G,B,E]6 | [A,CE]6 | [^G,B,E]6 | [A,CE]6 |
+[^G,B,E]6 | [A,CE]6 | [^G,B,E]6 | [A,CE]6 | [^G,B,E]6 | [A,CE]6 |
+[^G,B,E]6 | [A,CE]6 | [^G,B,E]6 | [A,CE]6 | [^G,B,E]6 | [A,CE]6 |
+[G,CE]6 | [G,B,D]6 | [A,CE]6 | [^G,B,E]6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 |]
+[V:VC] %%MIDI program 42
+z2 | z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | E,,6 | A,,6 | E,,6 | A,,6 |
+E,,6 | A,,6 | E,,6 | A,,6 | E,,6 | A,,6 |
+E,,6 | A,,6 | E,,6 | A,,6 | E,,6 | A,,6 |
+C,6 | G,,6 | A,,6 | E,,6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 |]
+[V:HN] %%MIDI program 60
+z2 | z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | [E,B,]6 | [A,E]6 |
+[E,B,]6 | [A,E]6 | [E,B,]6 | [A,E]6 | [E,B,]6 | [A,E]6 |
+[C,G,]6 | [G,,D,]6 | [A,E]6 | [E,B,]6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 | z6 |
+z6 |]

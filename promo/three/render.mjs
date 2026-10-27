@@ -14,7 +14,7 @@ const [sceneFile, outFile, w = '1080', h = '1920', fStart = '0', fEnd = ''] = pr
 const STILLS = process.env.STILLS ? process.env.STILLS.split(',').map(Number) : null;   // seconds -> PNGs
 const W = +w, H = +h;
 const root = path.dirname(new URL(import.meta.url).pathname);
-const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html', '.svg': 'image/svg+xml', '.png': 'image/png' };
+const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json' };
 
 const html = `<!doctype html><meta charset=utf-8>
 <style>html,body{margin:0;background:#000}canvas{display:block}</style>

@@ -1,0 +1,70 @@
+"""Render elise_score.json with real recorded instruments (VSCO 2 CE, CC0; upright piano by Simon Dalzell).
+The score is offset by T0 = 2.5 s: the video writes its first equation before the first E sounds.
+usage: python3 elise_audio.py <vsco path> <score.json> <out.wav>"""
+import glob, json, os, re, sys
+import numpy as np, soundfile as sf
+from scipy.signal import fftconvolve, butter, sosfilt
+
+LIB, SCORE, OUT = sys.argv[1:4]
+SR = 48000; T0 = 2.5; DUR = 62.0; N = int(DUR * SR); t = np.arange(N) / SR
+PC = {"C": 0, "C#": 1, "D": 2, "D#": 3, "E": 4, "F": 5, "F#": 6, "G": 7, "G#": 8, "A": 9, "A#": 10, "B": 11}
+_cache = {}
+def load(p):
+    if p not in _cache:
+        x, sr = sf.read(p, always_2d=True, dtype="float32"); x = x[:, :2] if x.shape[1] > 1 else np.repeat(x, 2, 1)
+        env = np.abs(x).max(1); s0 = max(0, int(np.argmax(env > env.max() * 0.008)) - int(0.003 * sr)); _cache[p] = (x[s0:], sr)
+    return _cache[p]
+def index(folder, fix):                     # VSCO names these an octave low: file "A2" sounds A3 (measured)
+    out = {}
+    for p in glob.glob(os.path.join(LIB, folder, "*.wav")):
+        m = re.search(r"_([A-G]#?)(-?\d)_v(\d)", os.path.basename(p))
+        if m: out.setdefault(12 * (int(m.group(2)) + 1) + PC[m.group(1)] + fix, []).append((int(m.group(3)), p))
+    return out
+def piano(dyn):                             # Player_dynN_rr1_NNN.wav is MIDI 21 + 2*NNN
+    return {21 + 2 * int(re.search(r"_(\d{3})\.wav", p).group(1)): [(1, p)] for p in glob.glob(os.path.join(LIB, f"Keys/Upright Piano/Player_dyn{dyn}_rr1_*.wav"))}
+INST = {"RH": piano(2), "LH": piano(2), "STR": index("Strings/Violin Section/susVib", 12),
+        "VC": index("Strings/Cello Section/susvib", 12), "HN": index("Brass/F Horn/sus", 12)}
+VIOLA = index("Strings/Viola Section/susvib", 12)
+def play(idx, note, dur, vel=2, attack=0.004, release=0.5):
+    src = min(idx, key=lambda s: abs(s - note)); p = min(idx[src], key=lambda vp: abs(vp[0] - vel))[1]; x, sr = load(p)
+    ratio = 2 ** ((note - src) / 12) * sr / SR
+    n = int((dur + release) * SR); pos = np.arange(n) * ratio; pos = pos[pos < len(x) - 1]
+    i0 = pos.astype(int); fr = (pos - i0)[:, None]; y = x[i0] * (1 - fr) + x[i0 + 1] * fr
+    tt = np.arange(len(y)) / SR; env = np.minimum(1, tt / attack) * np.where(tt < dur, 1, np.clip(1 - (tt - dur) / release, 0, 1))
+    return y * env[:, None]
+bus = {k: np.zeros((N, 2)) for k in ("piano", "strings", "low", "horn")}
+def place(b, y, t0, gain, pan=0.0):
+    a = int(t0 * SR); e = min(N, a + len(y))
+    if a >= N: return
+    lg, rg = np.cos((pan + 1) * np.pi / 4) * 1.414, np.sin((pan + 1) * np.pi / 4) * 1.414
+    bus[b][a:e, 0] += y[: e - a, 0] * gain * lg; bus[b][a:e, 1] += y[: e - a, 1] * gain * rg
+
+score = json.load(open(SCORE)); EV = score["events"]
+for i, e in enumerate(EV):
+    v, m, t0, d = e["voice"], e["midi"], e["t"] + T0, e["dur"]
+    if v in ("RH", "LH"):
+        nxt = next((o["t"] for o in EV[i + 1:] if o["midi"] == m and o["voice"] == v), 1e9) + T0
+        ring = min(nxt - t0, d + 0.9)                                     # the pedal: notes ring past their length
+        g = 0.55 if v == "RH" else 0.42
+        place("piano", play(INST[v], m, ring, release=0.25), t0, g, -0.15 if v == "LH" else 0.12)
+    elif v == "STR":                                                      # violins on top, violas below
+        idx = INST["STR"] if m >= 59 else VIOLA
+        place("strings", play(idx, m, d + 0.05, vel=1, attack=0.18, release=0.45), t0, 0.34, -0.4 + 0.08 * (m - 56))
+    elif v == "VC":
+        place("low", play(INST["VC"], m, d + 0.05, vel=2, attack=0.12, release=0.5), t0, 0.68, 0.2)
+    elif v == "HN":
+        place("horn", play(INST["HN"], m, d + 0.05, vel=1, attack=0.15, release=0.5), t0, 0.42, 0.3)
+# orchestra swells with the sections (smooth curves, never steps)
+sm = lambda x: (lambda y: y * y * (3 - 2 * y))(np.clip(x, 0, 1))
+secs = {s["name"] + str(i): s["t"] + T0 for i, s in enumerate(score["sections"])}
+orch = 0.75 + 0.85 * sm((t - (33.41 - 0.5)) / 2.5) * (1 - sm((t - 47.4) / 1.4))
+for b in ("strings", "low", "horn"): bus[b] *= orch[:, None]
+dry = bus["piano"] + bus["strings"] + bus["low"] + bus["horn"]
+L = int(2.6 * SR); tt = np.arange(L) / SR; rng = np.random.default_rng(5)
+ir = rng.standard_normal((L, 2)) * np.exp(-6.9 * tt / 2.6)[:, None]
+ir = sosfilt(butter(2, 6000, fs=SR, output="sos"), ir, axis=0); ir[: int(0.018 * SR)] = 0; ir /= np.sqrt((ir ** 2).sum(0))
+wet = np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in (0, 1)], 1)
+mix = dry + 0.3 * wet
+mix *= (1 - sm((t - 60.8) / 1.2))[:, None]
+sf.write(OUT, (mix / np.abs(mix).max() * 0.89).astype(np.float32), SR, subtype="PCM_24")
+print("wrote", OUT, f"{DUR}s")
