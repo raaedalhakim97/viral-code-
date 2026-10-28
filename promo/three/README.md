@@ -13,6 +13,7 @@ samples (CC0, real recordings).
 | `scene_euler.js` | 8s test: 2,144 points fly into the Euler curve | 8.0s |
 | `scene_weighted_wave.js` | Smart Lookup Part II: The Weighted Wave | 95.0s, 5700 frames |
 | `scene_elise.js` | The Shape of Für Elise: every note drawn as a spinning vector | 62.0s, 3720 frames |
+| `scene_elise2.js` | The Shape of Für Elise II: the second part and the chord part | 55.7s, 3342 frames |
 
 All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box,
 except Part II: 1920x1080 at 60fps, with a portrait mode (pass 1080 1920) for
@@ -136,6 +137,24 @@ cd music/elise && python3 arrange.py && python3 harmonics.py <vsco> && cp elise_
 python3 elise_audio.py <vsco> elise_score.json elise_mix.wav   # real samples, score offset 2.5 s
 cd ../.. && (cd tex_elise && python3 make_tex.py) && ./run_elise.sh
 ```
+
+### II: the second part and the chord part
+
+`music/elise/arrange3.py` takes the F major second part (bars 23-38) straight into
+the D minor chord part (bars 59-82), without the theme in between. The notes are
+transcribed from the Breitkopf & Härtel 1888 edition (public domain; Mutopia
+Project LilyPond source), checked bar by bar against the edition's MIDI. The
+orchestra (strings, cello, horns, soft bass drum) follows Beethoven's harmony.
+`elise3_audio.py` renders it; the score JSON also carries every bar line, so the
+scene's beat flashes land on them.
+
+`scene_elise2.js` is one continuous world: a big x-y plane is "now" and travels
+forward in time, the piano's spirals trail behind it, and the camera glides
+between flat 2D and 3D without a cut. A chord is one point moving in 3D (one note
+per axis): face-on it is a flat Lissajous figure, and turning to 3D shows the
+third note as depth. The chord part's repeated low A is a vector at the centre;
+every strike sends a ring across the plane. At the end the camera swings to the
+side and the whole piece is one ribbon.
 
 ## Music
 

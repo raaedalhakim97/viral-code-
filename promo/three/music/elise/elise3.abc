@@ -1,0 +1,63 @@
+X:1
+T:Für Elise: the second part and the chord part (arr.)
+C:L. van Beethoven, arr. for this video
+M:3/8
+L:1/16
+Q:3/8=50
+K:Am
+%%score {RH LH} STR VC HN
+V:RH name="Piano"
+V:LH name="Piano LH" clef=bass
+V:STR name="Strings"
+V:VC name="Cello" clef=bass
+V:HN name="Horn"
+[V:RH] %%MIDI program 0
+[Ec][Fc][EGc] | "^Second part (F major)" {FA}c4 f3/2e/2 | e2 d2 _b3/2a/2 | agfedc | _B2 A2 {_B}A/2G/2A/2_B/2 | c4 d^d |
+e3 efA | c4 d3/2B/2 | c/2g/2G/2g/2 A/2g/2B/2g/2 c/2g/2d/2g/2 | e/2g/2c'/2b/2 a/2g/2f/2e/2 d/2g/2f/2d/2 | c/2g/2G/2g/2 A/2g/2B/2g/2 c/2g/2d/2g/2 |
+e/2g/2c'/2b/2 a/2g/2f/2e/2 d/2g/2f/2d/2 | e/2f/2e/2^d/2 e/2B/2e/2^d/2 e/2B/2e/2^d/2 | e3 Be^d | e3 Be^d | e^de^de^d |
+e^de B=dc | [Q:3/8=54] "^The chord part (D minor)" A2 z4 | [EG_B^c]6 | [FAd]4 [^ce][df] | [^Gdf]4 [^Gdf]2 |
+[Ac=e]6 | [Fd]4 [Ec][DB] | [C^FA]4 [CA]2 | [CA]2 [Ec]2 [DB]2 | [CA]6 |
+[EG_B^c]6 | [FAd]4 [^ce][df] | [df]4 [df]2 | [df]6 | [G_e]4 [Fd][_Ec] |
+[DF_B]4 [DFA]2 | [DF^G]4 [DF^G]2 | [CE=A]4 z2 | [EB]2 z4 | [Q:3/8=50] "^The sweep" (3A,CE (3Ace (3dcB |
+(3Ace (3ac'e' (3d'c'b | (3ac'e' (3a'c''e'' (3d''c''b' | (3_b'a'^g' (3=g'^f'=f' (3e'^d'=d' | (3^c'=c'b (3_ba^g (3=g^f=f | [Q:3/8=46] "^Ending" e^de B=dc |
+A6 | [A,CEA]6 |]
+[V:LH] %%MIDI program 0
+[_B,C][A,C][G,_B,C] | F,A,CA,CA, | F,_B,D_B,D_B, | F,E[F,G,_B,]E[F,G,_B,]E | F,A,CA,CA, | F,A,CA,CA, |
+E,A,CA,[D,D]F, | G,EG,EG,F | [CE]2 z[FG][EG][DFG] | [CE]2 [F,A,]2 [G,B,]2 | C2 z[FG][EG][DFG] |
+[CE]2 [F,A,]2 [G,B,]2 | [^G,B,]2 z4 | z6 | z6 | z6 |
+z6 | A,,A,,A,,A,,A,,A,, | A,,A,,A,,A,,A,,A,, | A,,A,,A,,A,,A,,A,, | A,,A,,A,,A,,A,,A,, |
+A,,A,,A,,A,,A,,A,, | [D,,A,,][D,,A,,][D,,A,,][D,,A,,][D,,A,,][D,,A,,] | [^D,,A,,][^D,,A,,][^D,,A,,][^D,,A,,][^D,,A,,][^D,,A,,] | [E,,A,,][E,,A,,][E,,A,,][E,,A,,][E,,^G,,][E,,^G,,] | [A,,,A,,]A,,A,,A,,A,,A,, |
+A,,A,,A,,A,,A,,A,, | A,,A,,A,,A,,A,,A,, | A,,A,,A,,A,,A,,A,, | _B,,_B,,_B,,_B,,_B,,_B,, | _B,,_B,,_B,,_B,,_B,,_B,, |
+_B,,_B,,_B,,_B,,_B,,_B,, | =B,,=B,,=B,,=B,,=B,,=B,, | C,4 z2 | [E,^G,]2 z4 | A,,,2 z2 [A,CE]2 |
+[A,CE]2 z2 [A,CE]2 | [A,CE]2 z2 [A,CE]2 | [A,CE]2 z4 | z6 | z6 |
+A,,E,A, z3 | [A,,,A,,]6 |]
+[V:STR] %%MIDI program 48
+z3 | [F,A,C]6 | [F,_B,D]6 | [G,_B,E]6 | [F,A,C]6 | [F,A,C]6 |
+[A,CE]6 | [G,_B,E]6 | [G,CE]6 | [G,B,D]6 | [G,CE]6 |
+[G,B,D]6 | [^G,B,E]6 | [^G,B,E]6 | [^G,B,E]6 | z6 |
+z6 | z6 | [E,G,_B,]6 | [F,A,D]6 | [^G,DF]6 |
+[A,CE]6 | [F,A,D]6 | [^F,A,C]6 | [A,CE]6 | [A,CE]6 |
+[E,G,_B,]6 | [F,A,D]6 | [F,A,D]6 | [F,A,D]6 | [G,_B,_E]6 |
+[D,F,_B,]6 | [D,F,^G,]6 | [A,CE]4 z2 | [^G,B,E]2 z4 | [A,CE]6 |
+[A,CE]6 | [A,CE]6 | z6 | z6 | z6 |
+z6 | z6 |]
+[V:VC] %%MIDI program 42
+z3 | F,,6 | _B,,6 | C,6 | F,,6 | F,,6 |
+A,,6 | C,6 | C,6 | G,,6 | C,6 |
+G,,6 | E,,6 | E,,6 | E,,6 | z6 |
+z6 | z6 | A,,6 | A,,6 | A,,6 |
+A,,6 | D,,6 | ^D,,6 | E,,6 | A,,6 |
+A,,6 | A,,6 | A,,6 | A,,6 | _B,,6 |
+_B,,6 | =B,,6 | C,4 z2 | E,,2 z4 | A,,6 |
+A,,6 | A,,6 | z6 | z6 | z6 |
+z6 | z6 |]
+[V:HN] %%MIDI program 60
+z3 | z6 | z6 | z6 | z6 | [F,C]6 |
+[A,E]6 | [E,_B,]6 | [C,G,]6 | [G,,D,]6 | [C,G,]6 |
+[G,,D,]6 | [E,B,]6 | z6 | z6 | z6 |
+z6 | z6 | [E,A,]6 | [F,A,]6 | z6 |
+[E,A,]6 | z6 | z6 | z6 | z6 |
+[E,A,]6 | [F,A,]6 | [F,A,]6 | [F,A,]6 | [G,_B,]6 |
+[F,_B,]6 | z6 | z6 | z6 | z6 |
+z6 | z6 | z6 | z6 | z6 |
+z6 | z6 |]
