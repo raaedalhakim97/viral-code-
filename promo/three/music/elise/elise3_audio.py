@@ -80,7 +80,15 @@ orch = (0.8 + 0.6 * sm((t - (B0 + 3 * BAR)) / (4 * BAR)) * (1 - sm((t - (B0 + 11
 for b in ("strings", "low", "horn"): bus[b] *= orch[:, None]
 # the piano and the orchestra are reverberated separately, so the orchestra can be turned down
 # without moving the piano: the output is scaled exactly as the full-orchestra mix would be
-ORCH = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
+# orchestra gain: a number, or "musical": about -10 dB under the melody, lifting to about -8 dB
+# for the cascade and the heaviest chords of the chord part, always on smooth curves
+ARG = sys.argv[4] if len(sys.argv) > 4 else "1.0"
+if ARG == "musical":
+    bt = [b + T0 for b in score["bars"]]
+    swell = lambda a, b, fi, fo: sm((t - a) / fi) * (1 - sm((t - (b - fo)) / fo))
+    ORCH = (0.31 + 0.09 * swell(bt[7], bt[11], 1.2, 1.0) + 0.09 * swell(bt[25], bt[30], 1.0, 1.5))[:, None]
+else:
+    ORCH = float(ARG)
 piano = bus["piano"]; orch_dry = bus["strings"] + bus["low"] + bus["horn"] + bus["drum"]
 L = int(2.6 * SR); tt = np.arange(L) / SR; rng = np.random.default_rng(5)
 ir = rng.standard_normal((L, 2)) * np.exp(-6.9 * tt / 2.6)[:, None]
@@ -91,5 +99,5 @@ p_mix, o_mix = verb(piano) * fade, verb(orch_dry) * fade
 ref = 0.89 / np.abs(p_mix + o_mix).max()                       # the full-orchestra mix's scale
 mix = (p_mix + ORCH * o_mix) * ref
 sf.write(OUT, mix.astype(np.float32), SR, subtype="PCM_24")
-print("orchestra x", ORCH)
+print("orchestra gain:", ARG)
 print("wrote", OUT, f"{DUR}s")
