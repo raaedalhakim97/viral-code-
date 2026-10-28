@@ -78,12 +78,18 @@ BAR, CBAR = 60 / 50, 60 / 54
 orch = (0.8 + 0.6 * sm((t - (B0 + 3 * BAR)) / (4 * BAR)) * (1 - sm((t - (B0 + 11 * BAR)) / (1.5 * BAR)))
         + 0.55 * sm((t - C0) / (8 * CBAR)) * (1 - sm((t - (W0 - 2 * CBAR)) / (3 * CBAR))))
 for b in ("strings", "low", "horn"): bus[b] *= orch[:, None]
-dry = bus["piano"] + bus["strings"] + bus["low"] + bus["horn"] + bus["drum"]
+# the piano and the orchestra are reverberated separately, so the orchestra can be turned down
+# without moving the piano: the output is scaled exactly as the full-orchestra mix would be
+ORCH = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
+piano = bus["piano"]; orch_dry = bus["strings"] + bus["low"] + bus["horn"] + bus["drum"]
 L = int(2.6 * SR); tt = np.arange(L) / SR; rng = np.random.default_rng(5)
 ir = rng.standard_normal((L, 2)) * np.exp(-6.9 * tt / 2.6)[:, None]
 ir = sosfilt(butter(2, 6000, fs=SR, output="sos"), ir, axis=0); ir[: int(0.018 * SR)] = 0; ir /= np.sqrt((ir ** 2).sum(0))
-wet = np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in (0, 1)], 1)
-mix = dry + 0.3 * wet
-mix *= (1 - sm((t - (DUR - 1.2)) / 1.2))[:, None]
-sf.write(OUT, (mix / np.abs(mix).max() * 0.89).astype(np.float32), SR, subtype="PCM_24")
+verb = lambda x: x + 0.3 * np.stack([fftconvolve(x[:, c], ir[:, c])[:N] for c in (0, 1)], 1)
+fade = (1 - sm((t - (DUR - 1.2)) / 1.2))[:, None]
+p_mix, o_mix = verb(piano) * fade, verb(orch_dry) * fade
+ref = 0.89 / np.abs(p_mix + o_mix).max()                       # the full-orchestra mix's scale
+mix = (p_mix + ORCH * o_mix) * ref
+sf.write(OUT, mix.astype(np.float32), SR, subtype="PCM_24")
+print("orchestra x", ORCH)
 print("wrote", OUT, f"{DUR}s")
