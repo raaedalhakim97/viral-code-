@@ -14,6 +14,7 @@ samples (CC0, real recordings).
 | `scene_weighted_wave.js` | Smart Lookup Part II: The Weighted Wave | 95.0s, 5700 frames |
 | `scene_elise.js` | The Shape of Für Elise: every note drawn as a spinning vector | 62.0s, 3720 frames |
 | `scene_elise2.js` | The Shape of Für Elise II: the second part and the chord part | 55.7s, 3342 frames |
+| `scene_elise3.js` | The Shape of Für Elise III: the complete piece, five stations | 147.0s, 4410 frames at 30fps |
 
 All are 1080x1920 at 30fps, laid out for the TikTok / Reels / Shorts safe box,
 except Part II: 1920x1080 at 60fps, with a portrait mode (pass 1080 1920) for
@@ -155,6 +156,17 @@ per axis): face-on it is a flat Lissajous figure, and turning to 3D shows the
 third note as depth. The chord part's repeated low A is a vector at the centre;
 every strike sends a ring across the plane. At the end the camera swings to the
 side and the whole piece is one ribbon.
+
+### III: the complete piece
+
+`music/elise/arrange4.py` writes the whole bagatelle from the 1888 edition: the
+theme with both repeats (including the hand-crossing of bars 12-14), the F major
+part, the theme's return, the chord part with the sweep and the fall, the theme a
+last time, and Beethoven's own ending on a single A. `scene_elise3.js` puts each
+part on its own station: five stations on a ring, each facing outward. While a
+part plays the camera stays with its station; at every seam it lifts off, flies
+along the ring and lands on the next one, and at the end it rises over the ring
+to show all five. Rendered at 30 fps so the 2.5-minute film fits one ~30 MB file.
 
 ## Music
 
