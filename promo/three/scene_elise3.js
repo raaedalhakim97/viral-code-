@@ -456,8 +456,10 @@ export function build(THREE, W, H, svg, score) {
       const spans = [[0, S2 + 0.3], [S2 - 1.9, S3 + 0.6], [S3 - 1.4, S4 + 0.4], [S4 - 1.6, S5 + 0.7], [S5 - 1.3, 999]][i];
       return Math.max(win(t, spans[0], spans[1], 0.6, 0.6), reveal * 0.85);
     });
-    stations.forEach((st, i) => { drawGrid(G[i], t, i === 0 ? 0.1 : [0, S2 - 1.5, S3 - 1.0, S4 - 1.2, S5 - 1.0][i], 0.25 + 0.75 * kSt[i], i === stationAt(t) ? pulse : 0);
-      stLabels[i].material.opacity = 0.15 + 0.6 * reveal; });
+    // each part alone: a station exists only while its part plays (and during the flights to and from it, and the reveal)
+    stations.forEach((st, i) => { st.g.visible = kSt[i] > 0.003; if (!st.g.visible) return;
+      drawGrid(G[i], t, i === 0 ? 0.1 : [0, S2 - 1.5, S3 - 1.0, S4 - 1.2, S5 - 1.0][i], i === 2 ? 0.85 * reveal : kSt[i], i === stationAt(t) ? pulse : 0);   // III is a corridor: no plane
+      stLabels[i].material.opacity = 0.75 * reveal; });
     drawRig(rig1, t, win(t, 2.0, S2 + 0.3, 0.5, 0.6), 0, S2);
     drawRig(rig5, t, win(t, S5 - 0.3, 999, 0.5, 1), S5, 999);
     const zk2 = win(t, bI(iS2 + 4) - 0.4, bI(iS2 + 7) - 0.6, 0.9, 0.6);
@@ -471,7 +473,8 @@ export function build(THREE, W, H, svg, score) {
     const cam = camAt(t);
     camera.position.copy(cam.pos); camera.lookAt(cam.look);
     drawEntrances(t, kSt);
-    cTmp.copy(C(COL.ink)).multiplyScalar(0.08 + 0.12 * (flying ? 1 : 0) + 0.25 * reveal);
+    const ringK = (flying ? 0.2 * Math.sin(Math.PI * flying.u) : 0) + 0.25 * reveal; ringLine.visible = ringK > 0.003;
+    cTmp.copy(C(COL.ink)).multiplyScalar(ringK);
     setLine(ringLine, (u) => v3.set(CENTER.x + R * Math.sin(2 * Math.PI * u), RING_Y, CENTER.z + R * Math.cos(2 * Math.PI * u)), () => cTmp);
     if (flying) { const a = (flying.a + ease(flying.u)) / NST * Math.PI * 2; runner.position.set(CENTER.x + R * Math.sin(a), RING_Y, CENTER.z + R * Math.cos(a));
       runner.material.opacity = Math.sin(Math.PI * flying.u); } else runner.material.opacity = 0;
