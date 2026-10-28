@@ -164,14 +164,15 @@ export function build(THREE, W, H, svg, score) {
       setLine(l, (u) => onX ? v3.set(v, (-0.1 + 0.2 * u) * d, 0) : v3.set((-0.1 + 0.2 * u) * d, v, 0), () => cTmp); });
     lblX.material.opacity = lblY.material.opacity = ease((t - 1.6) / 0.6) * k;
     // the depth axis is only worth naming while a chord's third note is drawn as depth
-    const zk = win(t, M.B1 + 3.4, M.trill, 0.8, 0.6) + win(t, M.C64, M.sweep, 0.8, 0.8);
+    // only in the 3D shots of the knot; face-on the depth axis points straight at the camera
+    const zk = win(t, M.climb - 0.4, M.casc - 0.6, 0.9, 0.6) + win(t, M.C64 + 0.6, M.C68 - 0.3, 0.9, 0.4) + win(t, M.C68 + 2.8, M.sweep - 0.5, 0.9, 0.6);
     cTmp.copy(C(COL.STR)).multiplyScalar(0.55 * zk);
     setLine(zAxis, (u) => v3.set(0, 0, -3.2 + 6.4 * u), () => cTmp);
     lblZ.position.set(0.15, 0.25, 3.5); lblZ.material.opacity = 0.9 * zk;
   }
 
   // ------------------------------------------------------------ piano spirals: the history behind the plane
-  const LANE_Y = -2.55;                                       // the keyboard lane along the bottom of the plane
+  const LANE_Y = -3.0;                                       // the keyboard lane along the bottom of the plane
   const pitchX = (m) => (m - 64) * 0.17;
   const RAD = { RH: 0.2, LH: 0.27 };
   const spirals = NOTES.filter((e) => e.voice === 'RH' || e.voice === 'LH').map((e) => {
@@ -197,8 +198,9 @@ export function build(THREE, W, H, svg, score) {
   }
 
   // ------------------------------------------------------------ the chord: one point moving in 3D, drawn on the plane
-  const knotG = new THREE.Group(); plane.add(knotG);
-  const RK = 2.5, PH = [0, Math.PI / 2, Math.PI / 4], SPAN = 3.0;
+  const KNOT_Y = 0.7;                                      // the knot lives above the keyboard lane, never on it
+  const knotG = new THREE.Group(); knotG.position.y = KNOT_Y; plane.add(knotG);
+  const RK = 2.3, PH = [0, Math.PI / 2, Math.PI / 4], SPAN = 3.0;
   const knotOf = (notes, s, out = new THREE.Vector3()) => out.set(...notes.map((m, i) => RK * Math.sin(2 * Math.PI * fvis(m) * s + PH[i])));
   const KN = [0, 1].map(() => ({ full: fatLine(900, 1.5, knotG), trail: fatLine(200, 3.6, knotG), pen: dot(knotG, 0.32),
     vec: arrow(knotG, 2.6), comp: [0, 1, 2].map(() => fatLine(2, 2.0, knotG)) }));
@@ -321,7 +323,7 @@ export function build(THREE, W, H, svg, score) {
       return { kind: 'lane', p: new THREE.Vector3(pitchX(e.midi) + RAD[e.voice], LANE_Y, z), puffs: e.voice === 'RH' ? 3 : 4 };
     }
     if (e.voice === 'STR') { const ch = CHORDS.find((c) => Math.abs(c.t - e.t) < 1e-3 && c.notes[0] === e.midi); if (!ch) return null;
-      return { kind: 'knot', p: knotOf(ch.notes, e.t).add(v3.set(0, 0, z)), puffs: 6, big: inC(e.t) }; }
+      return { kind: 'knot', p: knotOf(ch.notes, e.t).add(v3.set(0, KNOT_Y, z)), puffs: 6, big: inC(e.t) }; }
     if (e.voice === 'LH' && inC(e.t) && PEDAL_STRIKES.includes(e) && LH_C.indexOf(e) % 6 === 0) return { kind: 'pedal', p: new THREE.Vector3(0, 0, z), puffs: 2 };
     return null;
   }
@@ -335,9 +337,9 @@ export function build(THREE, W, H, svg, score) {
       if (age < FLASH_LIFE && fi < flashPool.length) {
         const f = flashPool[fi++], a = ease(age / 0.04) * Math.exp(-age / 0.22);
         f.visible = true; f.position.copy(B.kind === 'rig' ? rigTipAt(t).add(v3.set(0, 0, t * ZS)) : B.p);
-        const big = B.kind === 'knot' ? (B.big ? 3.2 : 2.2) : B.kind === 'pedal' ? 1.8 : 1;
+        const big = B.kind === 'knot' ? (B.big ? 2.4 : 2.0) : B.kind === 'pedal' ? 1.8 : 1;
         f.scale.setScalar(1.1 * big * (1 + 1.0 * age));
-        f.material.color.copy(c).lerp(C(COL.ink), 0.45).multiplyScalar(a * (B.kind === 'knot' ? 1.6 : 1));
+        f.material.color.copy(c).lerp(C(COL.ink), 0.45).multiplyScalar(a * (B.kind === 'knot' ? 1.25 : 1));
       }
       for (let w = 0; w < B.puffs && si < smokePool.length; w++) {
         const sp = smokePool[si++], r1 = hash(e.i, w), r2 = hash(e.i, w + 17), r3 = hash(e.i, w + 41);
@@ -391,23 +393,25 @@ export function build(THREE, W, H, svg, score) {
   const face = (dz, fov = 35, lx = 0, ly = 0) => P(lx, ly, dz, lx, ly, 0, fov);
   const orbit = (ang, r, y, ldz = -2, fov = 35) => P(r * Math.sin(ang), y, r * Math.cos(ang), 0, 0, ldz, fov);
   const sweepX = (t) => { const act = active(t, ['RH']).sort((a, b) => b.t - a.t); return act.length ? pitchX(act[0].midi) : 2; };
-  // [start, blend-in seconds, pose(t)]
+  // [start, blend-in seconds, pose(t)]. Each shot has one subject; between shots the camera turns to a new
+  // angle (slow, eased) and then holds, drifting only slightly.
+  const drift = (t, t0, amt = 0.035) => amt * (t - t0);
   const SHOTS = [
-    [0.0, 0.1, (t) => face(17 - 2.0 * easeIO(t / 3))],                                                     // the grid draws itself
-    [M.B1, 1.4, (t) => face(14.2 - 1.2 * ease((t - M.B1) / 3.6), 35, 0, -0.2)],                          // 2D: the chord as a flat figure
-    [M.climb - 0.9, 1.9, (t) => orbit(0.95 + 0.07 * (t - M.climb), 13.0, 3.6, -1.5)],                   // turn: the third note is depth
-    [M.casc, 1.2, (t) => orbit(1.25 + 0.42 * (t - M.casc), 10.2 - 0.25 * (t - M.casc), 2.4 + 0.6 * Math.sin(0.9 * (t - M.casc)), -1.0)], // the cascade: circle in
-    [M.trill - 0.5, 1.2, (t) => face(13.6 + 0.3 * ease((t - M.trill) / 4))],                             // back to 2D for the trill
+    [0.0, 0.1, (t) => face(17 - 2.0 * easeIO(t / 3))],                                                   // the grid draws itself
+    [M.B1, 1.4, (t) => face(14.0 - 0.9 * ease((t - M.B1) / 4.0), 35, 0, 0.5)],                           // 2D: the chord, flat
+    [M.climb - 1.1, 2.3, (t) => orbit(0.95 + drift(t, M.climb), 13.6, 3.4, -1.2)],                       // turn: the third note is depth
+    [M.casc - 0.5, 2.0, (t) => P(-8.2 + drift(t, M.casc, 0.25), 0.4, 4.2, 0.8, LANE_Y + 0.5, -6.5)],     // turn to the lane: the cascade
+    [M.trill - 0.7, 1.7, (t) => face(13.8)],                                                              // 2D: the trill
     [M.lead, 0.9, (t) => face(15.5)],
-    [M.C, 1.15, (t) => { const a = easeIO((t - M.C) / 1.15); return face(9.5 + 13 * a, 54 - 24 * a); }], // dolly-zoom into the chord part
-    [M.C60 + 0.5, 1.2, (t) => face(21.5 - 4.5 * ease((t - M.C60) / 4.0), 30)],
-    [M.C64, 1.6, (t) => P(12.5, 1.6 + 0.4 * Math.sin(0.5 * (t - M.C64)), 4.5, 0, -0.4, -5.0)],         // 3D side: the bass walks D, D♯, E
-    [M.C68, 0.7, (t) => face(9.2 + 0.8 * ease((t - M.C68) / 2.2), 35)],                                   // punch in: the chord explodes
-    [M.C68 + 2.2, 1.4, (t) => P(0.6, 10.5, 6.0, 0, 0, -3.5)],                                             // high above
-    [M.C72, 1.8, (t) => orbit(-0.7 - 0.12 * (t - M.C72), 17 + 1.0 * (t - M.C72), 5.0, -4)],              // wide, pulling back
-    [M.sweep, 1.2, (t) => { const x = sweepX(t); return P(x * 0.8 - 3.5, 1.2 + 0.18 * (x + 4), 7.0, x * 0.9, LANE_Y + 1.2, -2.5); }], // crane with the sweep
-    [M.end - 0.4, 1.3, (t) => face(14.5)],                                                                 // 2D: home
-    [M.chord, 3.8, (t) => { const a = easeIO((t - M.chord) / 4.8); return P(4 + 17 * a, 1.5 + 6.5 * a, 12 - 20 * a, 0, -1.5, -6 - 30 * a, 35 + 15 * a); }], // from the side: the whole piece as one ribbon
+    [M.C, 1.15, (t) => { const a = easeIO((t - M.C) / 1.15); return face(9.5 + 13 * a, 54 - 24 * a, 0, 0.3); }], // dolly-zoom into the chord part
+    [M.C60 + 0.5, 1.2, (t) => face(21.5 - 4.5 * ease((t - M.C60) / 4.0), 30, 0, 0.3)],
+    [M.C64 - 0.4, 2.3, (t) => P(10.8 - drift(t, M.C64, 0.12), 2.4, 7.8, 0, 0.5, -1.2)],                  // turn to the side: the knot in depth
+    [M.C68 - 0.2, 1.0, (t) => face(10.6 + 0.6 * ease((t - M.C68) / 2.0), 35, 0, 0.4)],                    // punch in: the chord explodes
+    [M.C68 + 2.0, 2.0, (t) => P(-9.8 + drift(t, M.C68, 0.1), 5.2, 8.2, 0, 0.4, -1.0)],                   // turn to the other side, higher
+    [M.C72 - 0.2, 2.2, (t) => P(1.5, 12.5 + drift(t, M.C72, 0.25), 7.5, 0, 0.3, -1.8)],                  // turn to look down on it
+    [M.sweep - 0.4, 1.6, (t) => { const x = sweepX(t); return P(x * 0.8 - 4.2, 0.8 + 0.2 * (x + 4), 7.0, x * 0.9, LANE_Y + 1.0, -2.5); }], // crane with the sweep
+    [M.end - 0.5, 1.4, (t) => face(14.5)],                                                                 // 2D: home
+    [M.chord, 3.8, (t) => { const a = easeIO((t - M.chord) / 4.8); return P(4 + 17 * a, 1.5 + 6.5 * a, 12 - 20 * a, 0, -1.5, -6 - 30 * a, 35 + 15 * a); }], // the whole piece, side-on
   ];
   const tmpA = { pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 35 };
   function camAt(t) {
@@ -420,11 +424,14 @@ export function build(THREE, W, H, svg, score) {
   function update(t) {
     drawPlane(t);
     const finale = ease((t - M.chord) / 3.5);
-    drawSpirals(t, 5.5 + 60 * finale, 1 - 0.45 * finale);
+    // one subject per shot: the spirals lead in the cascade, the sweep and the finale; the knot everywhere else
+    const spF = 0.2 + 0.8 * Math.max(win(t, M.casc - 0.5, M.trill - 0.3, 1.0, 0.9), win(t, M.sweep - 0.4, M.end, 1.0, 0.9), ease((t - M.chord) / 2.0));
+    const knF = Math.max(win(t, M.B1 - 0.2, M.casc, 0.3, 1.0), 0.12 * win(t, M.casc, M.trill, 0.5, 0.5), win(t, M.C60 - 0.2, M.sweep, 0.3, 1.0));
+    drawSpirals(t, 5.5 + 60 * finale, spF * (1 - 0.45 * finale));
     scene.fog.density = 0.05 - 0.04 * finale;
-    drawKnot(t, Math.max(win(t, M.B1 - 0.2, M.trill + 0.4, 0.3, 0.6), win(t, M.C60 - 0.2, M.sweep + 1.5, 0.3, 1.0)));
+    drawKnot(t, knF);
     drawRig(t, Math.max(win(t, M.trill - 0.3, M.C + 0.2, 0.5, 0.5), win(t, M.end - 0.3, 99, 0.5, 1)));
-    drawPedal(t, win(t, M.C - 0.1, M.end, 0.3, 0.8));
+    drawPedal(t, win(t, M.C - 0.1, M.sweep + 0.4, 0.3, 0.9));
     drawEntrances(t);
     const cam = camAt(t), z = t * ZS;
     camera.position.set(cam.pos.x, cam.pos.y, z + cam.pos.z); camera.lookAt(cam.look.x, cam.look.y, z + cam.look.z);
