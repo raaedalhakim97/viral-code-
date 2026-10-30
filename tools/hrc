@@ -1,0 +1,4 @@
+#!/bin/bash
+# hrc: compress a large file or command output with Headroom before reading it (see tools/hrc.py)
+VENV="${HEADROOM_VENV:-$HOME/.headroom-venv}"
+exec "$VENV/bin/python" -I "$(dirname "$0")/hrc.py" "$@"
